@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
@@ -22,7 +23,7 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand();
+    	setDefaultCommand(new Drive());
     }
     
     public void ArcadeDrive(double moveValue, double rotateValue){
