@@ -17,12 +17,12 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	
 	//Motor PWM
-	public static int PWM_DRIVE_RIGHT_1 = 1;
-	public static int PWM_DRIVE_RIGHT_2	= 2;
-	public static int PWM_DRIVE_RIGHT_3	= 3;
-	public static int PWM_DRIVE_LEFT_1 = 4;
-	public static int PWM_DRIVE_LEFT_2 = 5;
-	public static int PWM_DRIVE_LEFT_3 = 6;
+	public static int PWM_DRIVE_RIGHT_1 = 0;
+	public static int PWM_DRIVE_RIGHT_2	= 1;
+	public static int PWM_DRIVE_RIGHT_3	= 2;
+	public static int PWM_DRIVE_LEFT_1 = 3;
+	public static int PWM_DRIVE_LEFT_2 = 4;
+	public static int PWM_DRIVE_LEFT_3 = 5;
 	
 	
 }

@@ -5,7 +5,6 @@ import org.usfirst.frc.team1305.robot.TripleTalon;
 import org.usfirst.frc.team1305.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -31,7 +30,7 @@ public class Drivetrain extends Subsystem {
     }
     
     public void ArcadeDrive(double moveValue, double rotateValue){
-    	drive.arcadeDrive(-moveValue, -rotateValue);
+    	drive.arcadeDrive(moveValue, rotateValue);
     }
 }
 
