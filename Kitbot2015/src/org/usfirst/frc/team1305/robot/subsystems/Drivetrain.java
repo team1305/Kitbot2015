@@ -5,6 +5,7 @@ import org.usfirst.frc.team1305.robot.TripleTalon;
 import org.usfirst.frc.team1305.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
