@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.TripleTalon;
 import org.usfirst.frc.team1305.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -14,11 +15,14 @@ public class Drivetrain extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private Talon mL1 = new Talon(RobotMap.PWM_Drive_Back_Left);
-	private Talon mL2 = new Talon(RobotMap.PWM_Drive_Front_Left);
-	private Talon mR1 = new Talon(RobotMap.PWM_Drive_Back_Right);
-	private Talon mR2 = new Talon(RobotMap.PWM_Drive_Front_Right);
-	private RobotDrive drive = new RobotDrive(mL1, mL2, mR1, mR2);
+	private TripleTalon mL = new TripleTalon(RobotMap.PWM_DRIVE_LEFT_1,
+											RobotMap.PWM_DRIVE_LEFT_2,
+											RobotMap.PWM_DRIVE_LEFT_3);
+	private TripleTalon mR = new TripleTalon(RobotMap.PWM_DRIVE_RIGHT_1,
+											RobotMap.PWM_DRIVE_RIGHT_2,
+											RobotMap.PWM_DRIVE_RIGHT_3);
+	
+	private RobotDrive drive = new RobotDrive(mL, mR);
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
