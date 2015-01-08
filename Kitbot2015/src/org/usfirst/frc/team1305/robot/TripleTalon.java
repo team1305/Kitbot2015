@@ -30,9 +30,9 @@ public class TripleTalon implements SpeedController {
 
 	@Override
 	public void set(double speed, byte syncGroup) {
-		t1.set(speed, syncGroup);
-		t2.set(speed, syncGroup);
-		t3.set(speed, syncGroup);
+//		t1.set(speed, syncGroup);
+//		t2.set(speed, syncGroup);
+//		t3.set(speed, syncGroup);
 	}
 
 	@Override

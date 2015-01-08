@@ -25,7 +25,7 @@ public class PowerdistributionPanel extends Subsystem {
 	private double motor5;
 	private double motor6;
 	
-	private PowerDistributionPanel PDP = new PowerDistributionPanel();
+	private PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -34,16 +34,16 @@ public class PowerdistributionPanel extends Subsystem {
     }
     @SuppressWarnings("deprecation")
 	public void PowerMatric(){
-    	double PDPtemp = PDP.getTemperature();
-    	double PDPeneg = PDP.getTotalEnergy();
-    	double PDPpow  = PDP.getTotalPower();
-    	double PDPvolt = PDP.getVoltage();
-    	double motor1  = PDP.getCurrent(0);
-    	double motor2  = PDP.getCurrent(1);
-    	double motor3  = PDP.getCurrent(2);
-    	double motor4  = PDP.getCurrent(3);
-    	double motor5  = PDP.getCurrent(14);
-    	double motor6  = PDP.getCurrent(15);
+    	double PDPtemp = pdp.getTemperature();
+    	double PDPeneg = pdp.getTotalEnergy();
+    	double PDPpow  = pdp.getTotalPower();
+    	double PDPvolt = pdp.getVoltage();
+    	double motor1  = pdp.getCurrent(0);
+    	double motor2  = pdp.getCurrent(1);
+    	double motor3  = pdp.getCurrent(2);
+    	double motor4  = pdp.getCurrent(3);
+    	double motor5  = pdp.getCurrent(14);
+    	double motor6  = pdp.getCurrent(15);
     	SmartDashboard.putDouble("PDP Temp. :", PDPtemp);
     	SmartDashboard.putDouble("PDP Total Energy :", PDPeneg);
     	SmartDashboard.putDouble("PDP Total Power :", PDPpow);

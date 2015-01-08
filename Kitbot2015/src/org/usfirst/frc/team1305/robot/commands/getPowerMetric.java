@@ -13,7 +13,6 @@ public class getPowerMetric extends Command {
 
     public getPowerMetric() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.PDP);
     }
 
     // Called just before this Command runs the first time
