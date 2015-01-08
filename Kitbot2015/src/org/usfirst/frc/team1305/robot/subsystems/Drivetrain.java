@@ -42,12 +42,14 @@ public class Drivetrain extends Subsystem {
     	if (isHighGear == false){
     		isHighGear = true;
     		SmartDashboard.putString("Gear Status:", "High");
+    		drive.arcadeDrive(0.0, 0.0);
     		Leftshifter.set(true);
     		Rightshifter.set(true);
     	}
     	else{
     		isHighGear = false;
     		SmartDashboard.putString("Gear Status:", "Low");
+    		drive.arcadeDrive(0.0, 0.0);
     		Leftshifter.set(false);
     		Rightshifter.set(false);
     	}
