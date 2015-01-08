@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1305.robot;
 
+import org.usfirst.frc.team1305.robot.commands.ToggleShifter;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -10,10 +14,20 @@ public class OI {
 	public static final int AXIS_YL = 1;
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
+    
+    public static final int Right_Bumper = 11;
 
 
 	private final Joystick driveStick = new Joystick(1);
 	
+    Button shift = new JoystickButton(driveStick, Right_Bumper);
+    
+    
+	public OI(){
+		
+		shift.whenPressed(new ToggleShifter());
+		
+	}
 	public double getDriveXL(){     
         SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
         return driveStick.getRawAxis(AXIS_XL);
@@ -31,8 +45,9 @@ public class OI {
         return driveStick.getRawAxis(AXIS_YR);
     }
 	
-
-
+    
+    
+    
 
 
 }

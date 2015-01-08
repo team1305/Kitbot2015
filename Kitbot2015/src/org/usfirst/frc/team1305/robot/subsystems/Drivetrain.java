@@ -23,6 +23,9 @@ public class Drivetrain extends Subsystem {
 											RobotMap.PWM_DRIVE_RIGHT_3);
 	
 	private RobotDrive drive = new RobotDrive(mL, mR);
+	
+	private Solenoid Leftshifter = new Solenoid(0);
+	private Solenoid Rightshifter = new Solenoid(1);
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
