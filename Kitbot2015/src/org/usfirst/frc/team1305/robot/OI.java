@@ -15,7 +15,7 @@ public class OI {
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
     
-    public static final int Right_Bumper = 11;
+    public static final int Right_Bumper = 6;
 
 
 	private final Joystick driveStick = new Joystick(1);
