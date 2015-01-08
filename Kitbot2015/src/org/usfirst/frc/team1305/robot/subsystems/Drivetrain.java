@@ -7,6 +7,7 @@ import org.usfirst.frc.team1305.robot.commands.Drive;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Drivetrain extends Subsystem {
 	
 	private Solenoid Leftshifter = new Solenoid(0);
 	private Solenoid Rightshifter = new Solenoid(1);
+	private boolean isHighGear = false;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -35,6 +37,21 @@ public class Drivetrain extends Subsystem {
     
     public void ArcadeDrive(double moveValue, double rotateValue){
     	drive.arcadeDrive(moveValue, rotateValue);
+    }
+    public void SwitchGear(){
+    	if (isHighGear == false){
+    		isHighGear = true;
+    		SmartDashboard.putString("Gear Status:", "High");
+    		Leftshifter.set(true);
+    		Rightshifter.set(true);
+    	}
+    	else{
+    		isHighGear = false;
+    		SmartDashboard.putString("Gear Status:", "Low");
+    		Leftshifter.set(false);
+    		Rightshifter.set(false);
+    	}
+    		
     }
 }
 
