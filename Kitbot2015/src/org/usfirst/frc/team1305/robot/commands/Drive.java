@@ -22,7 +22,7 @@ public class Drive extends Command {
     protected void execute() {
     	double XL = Robot.oi.getDriveXL();
     	double YL = Robot.oi.getDriveYL();
-		Robot.drivetrain.ArcadeDrive(YL, XL);
+		Robot.drivetrain.ArcadeDrive(YL*2, XL*2);
     }
 
     // Make this return true when this Command no longer needs to run execute()

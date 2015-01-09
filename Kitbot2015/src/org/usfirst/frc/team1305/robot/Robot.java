@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team1305.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team1305.robot.subsystems.PowerdistributionPanel;
 
 /**
  * The VM is configured to automatically run this class, and to call the
