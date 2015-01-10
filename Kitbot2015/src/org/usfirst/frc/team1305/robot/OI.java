@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.ToggleShifter;
-import org.usfirst.team1305.robot2014.commands.ToggleSmoothing;
+import org.usfirst.frc.team1305.robot.commands.ToggleSmoothing;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

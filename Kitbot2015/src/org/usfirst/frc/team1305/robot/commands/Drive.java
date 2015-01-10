@@ -2,7 +2,7 @@ package org.usfirst.frc.team1305.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team1305.robot.Robot;
-import org.team1305.robot2014.commands.ToggleSmoothing;
+import org.usfirst.frc.team1305.robot.commands.ToggleSmoothing;
 
 /**
  *
