@@ -2,15 +2,17 @@ package org.usfirst.frc.team1305.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team1305.robot.Robot;
+import org.team1305.robot2014.commands.ToggleSmoothing;
 
 /**
  *
  */
 public class Drive extends Command {
+	private boolean isSmoothing = true;
 
     public Drive() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        // eg. requires(Drive);
     	requires(Robot.drivetrain);
     }
 
@@ -22,7 +24,7 @@ public class Drive extends Command {
     protected void execute() {
     	double XL = Robot.oi.getDriveXL();
     	double YL = Robot.oi.getDriveYL();
-		Robot.drivetrain.ArcadeDrive(YL*2, XL*2);
+		Robot.drivetrain.ArcadeDrive(YL, XL);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,4 +40,8 @@ public class Drive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
+	public static void toggleSmoothing() {
+		
+	}
 }
