@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class PowerdistributionPanel extends Subsystem {
+public class PowerPanel extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -32,8 +32,7 @@ public class PowerdistributionPanel extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new getPowerMetric());
     }
-    @SuppressWarnings("deprecation")
-	public void PowerMatric(){
+	public void powerMetric(){
     	double PDPtemp = pdp.getTemperature();
     	double PDPeneg = pdp.getTotalEnergy();
     	double PDPpow  = pdp.getTotalPower();
@@ -44,16 +43,15 @@ public class PowerdistributionPanel extends Subsystem {
     	double motor4  = pdp.getCurrent(3);
     	double motor5  = pdp.getCurrent(14);
     	double motor6  = pdp.getCurrent(15);
-    	SmartDashboard.putDouble("PDP Temp. :", PDPtemp);
-    	SmartDashboard.putDouble("PDP Total Energy :", PDPeneg);
-    	SmartDashboard.putDouble("PDP Total Power :", PDPpow);
-    	SmartDashboard.putDouble("PDP Voltage :", PDPvolt);
-    	SmartDashboard.putDouble("Motor1", motor1);
-    	SmartDashboard.putDouble("Motor2", motor2);
-    	SmartDashboard.putDouble("Motor3", motor3);
-    	SmartDashboard.putDouble("Motor4", motor4);
-    	SmartDashboard.putDouble("Motor5", motor5);
-    	SmartDashboard.putDouble("Motor6", motor6);
+    	SmartDashboard.putNumber ("PDP Temp. :", PDPtemp);
+    	SmartDashboard.putNumber("PDP Total Energy :", PDPeneg);
+    	SmartDashboard.putNumber("PDP Total Power :", PDPpow);
+    	SmartDashboard.putNumber("PDP Voltage :", PDPvolt);
+    	SmartDashboard.putNumber("Motor1", motor1);
+    	SmartDashboard.putNumber("Motor2", motor2);
+    	SmartDashboard.putNumber("Motor3", motor3);
+    	SmartDashboard.putNumber("Motor4", motor4);
+    	SmartDashboard.putNumber("Motor5", motor5);
+    	SmartDashboard.putNumber("Motor6", motor6);
     			}
 }
-
