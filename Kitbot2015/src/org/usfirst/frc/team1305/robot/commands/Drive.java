@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1305.robot.commands;
 
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team1305.robot.Robot;
 
 /**
@@ -8,6 +11,9 @@ import org.usfirst.frc.team1305.robot.Robot;
  */
 public class Drive extends Command {
 
+	private int s = 0;
+	private double v = 0;
+	
     public Drive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
