@@ -54,4 +54,7 @@ public class PowerPanel extends Subsystem {
     	SmartDashboard.putNumber("Motor5", motor5);
     	SmartDashboard.putNumber("Motor6", motor6);
     			}
+	public void ClearSticky(){
+		pdp.clearStickyFaults();
+	}
 }
