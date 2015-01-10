@@ -28,8 +28,28 @@ public class Drive extends Command {
     protected void execute() {
     	double XL = Robot.oi.getDriveXL();
     	double YL = Robot.oi.getDriveYL();
-		Robot.drivetrain.ArcadeDrive(YL*2, XL*2);
-    }
+    	if (s == 3){
+    		if(v/YL < 0){
+    			Robot.drivetrain.ArcadeDrive(0, 0);
+    			
+    			v = YL;
+    			s = 0;
+    			SmartDashboard.putString("Safey Buffer :", "Engaged");
+    			SmartDashboard.putNumber("Safey Buffer count :", s);
+    		}else{
+    			Robot.drivetrain.ArcadeDrive(YL, XL);
+    			v = YL;
+    			s = 0;
+    			SmartDashboard.putString("Safey Buffer :", "DisEngaged");
+    			SmartDashboard.putNumber("Safey Buffer count :", s);
+    		}
+    	}else{
+    		Robot.drivetrain.ArcadeDrive(YL, XL);
+    		s = s + 1;
+    		SmartDashboard.putString("Safey Buffer :", "DisEngaged");
+			SmartDashboard.putNumber("Safey Buffer count :", s);
+    	}
+	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
