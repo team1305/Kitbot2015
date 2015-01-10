@@ -29,22 +29,22 @@ public class Accelerometer extends Subsystem {
     	setDefaultCommand(new AccelerometerDefaultCommand());
     }
     
-    public double getX(){
+    public double getAccelX(){
     	return a.getX();
     }
     
-    public double getY(){
+    public double getAccelY(){
     	return a.getY();
     }
     
-    public double getZ(){
+    public double getAccelZ(){
     	return a.getZ();
     }
-    public double getAngle(){
+    public double getGyroAngle(){
     	return g.getAngle();
     }
     
-    public double getRate(){
+    public double getGyroRate(){
     	return g.getRate();
     }
     
