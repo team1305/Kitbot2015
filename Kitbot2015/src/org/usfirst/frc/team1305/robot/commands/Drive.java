@@ -15,6 +15,7 @@ public class Drive extends Command {
 
 	private int s = 0;
 	private double v = 0;
+	private int p = 0;
 	
     public Drive() {
         // Use requires() here to declare subsystem dependencies
@@ -33,25 +34,33 @@ public class Drive extends Command {
 
     	if (s == 3){
     		if(v/YL < 0){
-    			Robot.drivetrain.ArcadeDrive(0, 0);
-    			
-    			v = YL;
-    			s = 0;
-    			SmartDashboard.putString("Safey Buffer :", "Engaged");
-    			SmartDashboard.putNumber("Safey Buffer count :", s);
+    			if(p < 3){    			
+	    			Robot.drivetrain.ArcadeDrive(0, 0);
+	    			p = p + 1;
+	    			SmartDashboard.putString("Safey Buffer :", "Engaged");
+	    			SmartDashboard.putNumber("Safey Buffer count :", s);
+    			}else{
+		    		p = 0;
+		    		v = YL;
+		    		s = 0;
+		    		SmartDashboard.putString("Safey Buffer :", "Engaged");
+		    		SmartDashboard.putNumber("Safey Buffer count :", s);
+    			}
     		}else{
-    			Robot.drivetrain.ArcadeDrive(YL, XL);
-    			v = YL;
-    			s = 0;
-    			SmartDashboard.putString("Safey Buffer :", "DisEngaged");
-    			SmartDashboard.putNumber("Safey Buffer count :", s);
+				Robot.drivetrain.ArcadeDrive(YL, XL);
+				v = YL;
+				s = 0;
+				SmartDashboard.putString("Safey Buffer :", "DisEngaged");
+				SmartDashboard.putNumber("Safey Buffer count :", s);
     		}
     	}else{
     		Robot.drivetrain.ArcadeDrive(YL, XL);
     		s = s + 1;
     		SmartDashboard.putString("Safey Buffer :", "DisEngaged");
 			SmartDashboard.putNumber("Safey Buffer count :", s);
+			
     	}
+
 	}
 
     // Make this return true when this Command no longer needs to run execute()
