@@ -18,12 +18,12 @@ public class OI {
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
     
-    public static final int Right_Bumper = 6;
+    public static final int Top_button_Shift = 6;
 
 
 	private final Joystick driveStick = new Joystick(1);
 	
-    Button shift = new JoystickButton(driveStick, Right_Bumper);
+    Button shift = new JoystickButton(driveStick, Top_button_Shift);
     
     
 	public OI(){
