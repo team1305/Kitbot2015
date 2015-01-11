@@ -35,9 +35,14 @@ public class Drivetrain extends Subsystem {
     	setDefaultCommand(new Drive());
     }
     
-    public void ArcadeDrive(double moveValue, double rotateValue){
+    public void arcadeDrive(double moveValue, double rotateValue){
     	drive.arcadeDrive(moveValue, rotateValue);
     }
+    
+    public void tankDrive(double leftValue, double rightValue){
+    	drive.tankDrive(leftValue, rightValue);
+    }
+    
     public void SwitchGear(){
     	if (isHighGear == false){
     		isHighGear = true;
