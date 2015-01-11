@@ -16,6 +16,23 @@ import edu.wpi.first.wpilibj.command.Command;
  * For those of you studying Calculus, this borrows concepts from first-order
  * differentials
  * 
+ * Algorithm is as follows: 
+ * 1. Take the current stick position and compare it to the previous stick 
+ * 	position.
+ * 2. By taking the difference in time between these two measurements into 
+ * 	account, we can find the slope of the stick position with respect to time, 
+ * 	which, as you have learned in Grade 11 physics, is the velocity of the 
+ * 	stick.
+ * 3. Compare this velocity to some previously-defined max stick-velocity.
+ * 4a. If we are under the max stick velocity, pass the new stick position 
+ * 	values along normally.
+ * 4b. If we are exceeding the max stick velocity, then change the new stick 
+ * 	position to be the maximum that would be possible under the maximum stick 
+ * 	velocity. This part applies concepts of first-order differential equations, 
+ * 	where ds/dt is replaced with our maximum stick-velocity
+ * 5. The corrected stick values are passed along to the motor controllers and 
+ * 	remembered for the next iteration of the loop.
+ * 
  * @author Paul Belanger
  */
 public class SmoothDrive extends Command {
