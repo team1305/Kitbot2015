@@ -2,7 +2,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.TripleTalon;
-import org.usfirst.frc.team1305.robot.commands.Drive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;

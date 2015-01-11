@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.Robot;

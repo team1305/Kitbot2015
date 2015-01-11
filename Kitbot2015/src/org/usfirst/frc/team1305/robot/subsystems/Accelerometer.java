@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.commands.AccelerometerDefaultCommand;
+import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Gyro;

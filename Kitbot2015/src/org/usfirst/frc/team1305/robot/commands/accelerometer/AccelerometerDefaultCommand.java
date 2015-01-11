@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.accelerometer;
 
 import org.usfirst.frc.team1305.robot.Robot;
 

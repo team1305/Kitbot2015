@@ -1,11 +1,13 @@
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 
 /**
  *
  * @author Root 1
  */
-public class ToggleSmoothing extends CommandBase {
+public class ToggleSmoothing extends Command {
     
     public ToggleSmoothing() {
         Object Drive = null;
