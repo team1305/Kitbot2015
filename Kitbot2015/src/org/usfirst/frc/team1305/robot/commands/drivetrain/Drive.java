@@ -1,11 +1,10 @@
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.Robot;
-import org.usfirst.frc.team1305.robot.commands.ToggleSmoothing;
 
 /**
  *
@@ -35,7 +34,7 @@ public class Drive extends Command {
     	if (s == 3){
     		if(v/YL < 0){
     			if(p < 3){    			
-	    			Robot.drivetrain.ArcadeDrive(0, 0);
+	    			Robot.drivetrain.arcadeDrive(0, 0);
 	    			p = p + 1;
 	    			SmartDashboard.putString("Safey Buffer :", "Engaged");
 	    			SmartDashboard.putNumber("Safey Buffer count :", s);
@@ -47,14 +46,14 @@ public class Drive extends Command {
 		    		SmartDashboard.putNumber("Safey Buffer count :", s);
     			}
     		}else{
-				Robot.drivetrain.ArcadeDrive(YL, XL);
+				Robot.drivetrain.arcadeDrive(YL, XL);
 				v = YL;
 				s = 0;
 				SmartDashboard.putString("Safey Buffer :", "DisEngaged");
 				SmartDashboard.putNumber("Safey Buffer count :", s);
     		}
     	}else{
-    		Robot.drivetrain.ArcadeDrive(YL, XL);
+    		Robot.drivetrain.arcadeDrive(YL, XL);
     		s = s + 1;
     		SmartDashboard.putString("Safey Buffer :", "DisEngaged");
 			SmartDashboard.putNumber("Safey Buffer count :", s);

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.accelerometer;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -22,11 +22,11 @@ public class AccelerometerDefaultCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Accel X", Robot.accelerometer.getX());
-    	SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getY());
-    	SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getZ());
-    	SmartDashboard.putNumber("Yaw Rate:", Robot.accelerometer.getRate());
-    	SmartDashboard.putNumber("Angle:", Robot.accelerometer.getAngle());
+    	SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
+    	SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
+    	SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
+    	SmartDashboard.putNumber("Gyro Yaw Rate:", Robot.accelerometer.getGyroRate());
+    	SmartDashboard.putNumber("Gyro Angle:", Robot.accelerometer.getGyroAngle());
     	
     }
 

@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.commands.getPowerMetric;
+import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;

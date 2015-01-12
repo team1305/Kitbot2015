@@ -15,7 +15,6 @@ public class TripleTalon implements SpeedController {
 		t3 = new Talon(portC);
 	}
 
-	@Override
 	public void pidWrite(double output) {
 		t1.pidWrite(output);
 		t2.pidWrite(output);
@@ -23,19 +22,16 @@ public class TripleTalon implements SpeedController {
 
 	}
 
-	@Override
 	public double get() {
 		return	t1.get();
 	}
 
-	@Override
 	public void set(double speed, byte syncGroup) {
 		t1.set(speed, syncGroup);
 		t2.set(speed, syncGroup);
 		t3.set(speed, syncGroup);
 	}
 
-	@Override
 	public void set(double speed) {
 		t1.set(speed);
 		t2.set(speed);
@@ -43,7 +39,6 @@ public class TripleTalon implements SpeedController {
 
 	}
 
-	@Override
 	public void disable() {
 		t1.disable();
 		t2.disable();

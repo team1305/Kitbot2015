@@ -1,18 +1,21 @@
-
-package org.usfirst.frc.team1305.robot.commands;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.Robot;
+import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class ToggleShifter extends Command {
+	
 
-    public ExampleCommand() {
+    public ToggleShifter() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+        // eg. requires(chassis);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
@@ -21,11 +24,14 @@ public class ExampleCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    }
+    	Robot.drivetrain.SwitchGear();
+    		
+    	}
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

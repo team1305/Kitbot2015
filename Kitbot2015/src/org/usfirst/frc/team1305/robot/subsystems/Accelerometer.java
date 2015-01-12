@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.commands.AccelerometerDefaultCommand;
+import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Gyro;
@@ -29,22 +29,22 @@ public class Accelerometer extends Subsystem {
     	setDefaultCommand(new AccelerometerDefaultCommand());
     }
     
-    public double getX(){
+    public double getAccelX(){
     	return a.getX();
     }
     
-    public double getY(){
+    public double getAccelY(){
     	return a.getY();
     }
     
-    public double getZ(){
+    public double getAccelZ(){
     	return a.getZ();
     }
-    public double getAngle(){
+    public double getGyroAngle(){
     	return g.getAngle();
     }
     
-    public double getRate(){
+    public double getGyroRate(){
     	return g.getRate();
     }
     

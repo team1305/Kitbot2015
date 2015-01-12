@@ -16,6 +16,10 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
+	//Axis and button layouts
+	public static int AXIS_DRIVETRAIN_MOVE = OI.AXIS_YL;
+	public static int AXIS_DRIVETRAIN_ROTATE = OI.AXIS_XL;
+	
 	//Motor PWM
 	public static int PWM_DRIVE_RIGHT_1 = 0;
 	public static int PWM_DRIVE_RIGHT_2	= 1;
