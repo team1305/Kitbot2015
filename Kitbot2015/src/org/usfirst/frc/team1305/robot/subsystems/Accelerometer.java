@@ -17,7 +17,7 @@ public class Accelerometer extends Subsystem {
     
     public Accelerometer(){
     	//sensitivity from the gyro datasheet
-    	g.setSensitivity(0.007);
+    	g.setSensitivity(0.0062);
     	//find the zero voltage
     	g.initGyro();
     	
