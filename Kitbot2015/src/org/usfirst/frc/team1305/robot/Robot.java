@@ -11,6 +11,7 @@ import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
 import org.usfirst.frc.team1305.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final PowerPanel powerPanel = new PowerPanel();
 	public static final Accelerometer accelerometer = new Accelerometer();
+	public static final Arm arm = new Arm();
 
     Command autonomousCommand;
 
