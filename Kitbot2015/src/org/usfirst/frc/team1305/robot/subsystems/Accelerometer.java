@@ -47,6 +47,11 @@ public class Accelerometer extends Subsystem {
     public double getGyroRate(){
     	return g.getRate();
     }
+    public void ResetCircal(){
+    	if(g.getAngle()/360 == 1 || g.getAngle()/360 == -1){
+    		g.reset();
+    	}
+    }
     
 }
 
