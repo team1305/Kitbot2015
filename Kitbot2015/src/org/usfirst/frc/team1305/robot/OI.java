@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1305.robot;
 
+import org.usfirst.frc.team1305.robot.commands.accelerometer.LeftTurnIncrament;
+import org.usfirst.frc.team1305.robot.commands.accelerometer.RightTurnIncrament;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleSmoothing;
 
@@ -31,8 +33,8 @@ public class OI {
 	public OI(){
 		
 	//	shift.whenPressed(new ToggleShifter());
-		TurnLeft.whenReleased(Robot.accelerometer.Turncount -- );
-		TurnRight.whenReleased(Robot.accelerometer.Turncount ++ );
+		TurnLeft.whenReleased(new LeftTurnIncrament());
+		TurnRight.whenReleased(new RightTurnIncrament());
 		
 	}
 	

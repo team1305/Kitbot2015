@@ -22,7 +22,7 @@ public class Accelerometer extends Subsystem {
     
     public Accelerometer(){
     	//sensitivity from the gyro datasheet
-    	g.setSensitivity(0.0062);
+    	g.setSensitivity(0.0068);
     	//find the zero voltage
     	g.initGyro();
     	
@@ -56,21 +56,26 @@ public class Accelerometer extends Subsystem {
     	AMV = (int)Math.round(g.getAngle());
     	if(Turncount >= 1){
     		while(AMV % 90 < 88 ){
-    			Robot.drivetrain.arcadeDrive(0, 0.5);
+    			AMV = (int)Math.round(g.getAngle());
+    			Robot.drivetrain.arcadeDrive(0, 0.4);
+    			AMV = (int)Math.round(g.getAngle());
     		}
-    		Turncount --;
-    		Snapturn();
+    		Turncount = Turncount - 1;
     	}
-    	else if (Turncount <= -1) {
+    	else if (Turncount < 0) {
 			while(AMV % 90 > 2){
-				Robot.drivetrain.arcadeDrive(0, 0.5);
+				AMV = (int)Math.round(g.getAngle());
+				Robot.drivetrain.arcadeDrive(0, -0.4);
+				AMV = (int)Math.round(g.getAngle());
 			}
-			Turncount ++;
-			Snapturn();
+			Turncount = Turncount + 1;
     	}
-    	else
-    		Snapturn();
     }
-    
+    public void LTV(){
+    	Turncount = Turncount - 1;
+    }
+    public void RTV(){
+    	Turncount = Turncount + 1;
+    }
 }
 

@@ -33,7 +33,7 @@ public class Drive extends Command {
 
     	if (s == 3){
     		if(v/YL < 0){
-    			if(p < 3){    			
+    			if(p < 4){    			
 	    			Robot.drivetrain.arcadeDrive(0, 0);
 	    			p = p + 1;
 	    			SmartDashboard.putString("Safey Buffer :", "Engaged");
