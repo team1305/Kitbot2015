@@ -19,16 +19,20 @@ public class OI {
     public static final int AXIS_YR = 3;
     
     //public static final int Top_button_Shift = 3;
-
+    public static final int Left_Turn = 4;
+    public static final int Right_Turn = 5;
 
 	private final Joystick driveStick = new Joystick(1);
 	
    // Button shift = new JoystickButton(driveStick, Top_button_Shift);
-    
+    Button TurnLeft = new JoystickButton(driveStick, Left_Turn);
+    Button TurnRight = new JoystickButton(driveStick, Right_Turn);
     
 	public OI(){
 		
 	//	shift.whenPressed(new ToggleShifter());
+		TurnLeft.whenReleased(Robot.accelerometer.Turncount -- );
+		TurnRight.whenReleased(Robot.accelerometer.Turncount ++ );
 		
 	}
 	
