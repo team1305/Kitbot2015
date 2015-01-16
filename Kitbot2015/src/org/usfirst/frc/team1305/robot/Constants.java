@@ -7,6 +7,6 @@ package org.usfirst.frc.team1305.robot;
  */
 public class Constants {
 	//for SmoothDrive, units %/s
-	public static final double DRIVESMOOTHING_MAX_RATE = 0.5;
+	public static final double DRIVESMOOTHING_MAX_RATE = 23.0;
 
 }
