@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1305.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,7 +28,9 @@ public class Robot extends IterativeRobot {
 	public static final PowerPanel powerPanel = new PowerPanel();
 	public static final Accelerometer accelerometer = new Accelerometer();
 	//public static final Arm arm = new Arm();
-
+	
+	CameraServer server;
+	
     Command autonomousCommand;
 
     /**
@@ -36,7 +39,10 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-
+		server = CameraServer.getInstance();
+        server.setQuality(50);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        server.startAutomaticCapture("cam0");
         // instantiate the command used for the autonomous period
     }
 	
