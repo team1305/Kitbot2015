@@ -43,6 +43,7 @@ public class Robot extends IterativeRobot {
         server.setQuality(50);
         //the camera name (ex "cam0") can be found through the roborio web interface
         server.startAutomaticCapture("cam0");
+        server.startAutomaticCapture("cam1");
         // instantiate the command used for the autonomous period
     }
 	
