@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.TripleTalon;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.Drive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -32,7 +33,7 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new Drive());
+    	setDefaultCommand(new SmoothDrive());
     }
     
     public void arcadeDrive(double moveValue, double rotateValue){
