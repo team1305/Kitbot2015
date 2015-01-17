@@ -11,5 +11,10 @@ public class Constants {
 	
 	//for Gyroscope subsystem
 	public static final double GYRO_YAW_RATE = 0.003; // unit v/*C/second
+	
+	//for PacmanDrive
+	public static final double PACMAN_P = 0.0;
+	public static final double PACMAN_I = 0.0;
+	public static final double PACMAN_D = 0.0;
 
 }

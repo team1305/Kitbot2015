@@ -28,8 +28,8 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double XL = Robot.oi.getDriveXL();
-    	double YL = Robot.oi.getDriveYL();
+    	double XL = Robot.oi.getDriveX();
+    	double YL = Robot.oi.getDriveY();
 
     	if (s == 3){
     		if(v/YL < 0){
