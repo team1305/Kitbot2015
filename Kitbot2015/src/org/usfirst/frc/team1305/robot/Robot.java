@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
 	//public static final Arm arm = new Arm();
 	
 	CameraServer server;
+	CameraServer server2;
 	
     Command autonomousCommand;
 
@@ -40,10 +41,12 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
 		server = CameraServer.getInstance();
-        server.setQuality(50);
+		server2 = CameraServer.getInstance();
+        server.setQuality(80);
+        server2.setQuality(80);
         //the camera name (ex "cam0") can be found through the roborio web interface
         server.startAutomaticCapture("cam0");
-        server.startAutomaticCapture("cam1");
+        server2.startAutomaticCapture("cam1");
         // instantiate the command used for the autonomous period
     }
 	
