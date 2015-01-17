@@ -21,13 +21,13 @@ public class RobotMap {
 	public static int AXIS_DRIVETRAIN_ROTATE = OI.AXIS_XL;
 	
 	//Motor PWM
-	public static int PWM_DRIVE_RIGHT_1 = 0;
-	public static int PWM_DRIVE_RIGHT_2	= 1;
-	public static int PWM_DRIVE_RIGHT_3	= 2;
-	public static int PWM_DRIVE_LEFT_1 = 3;
-	public static int PWM_DRIVE_LEFT_2 = 4;
-	public static int PWM_DRIVE_LEFT_3 = 5;
+	public static final int PWM_DRIVE_RIGHT_1 = 0;
+	public static final int PWM_DRIVE_RIGHT_2	= 1;
+	public static final int PWM_DRIVE_RIGHT_3	= 2;
+	public static final int PWM_DRIVE_LEFT_1 = 3;
+	public static final int PWM_DRIVE_LEFT_2 = 4;
+	public static final int PWM_DRIVE_LEFT_3 = 5;
 	
-	public static int ANALOG_VEX_POT_SHOULDER = 0;
-	public static int ANALOG_VEX_POT_ELBOW = 1;
+	//Analog Ports
+	public static final int ANALOG_GYRO_RATE = 0;
 }

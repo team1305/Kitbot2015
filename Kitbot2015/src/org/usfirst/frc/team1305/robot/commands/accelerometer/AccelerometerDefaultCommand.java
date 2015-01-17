@@ -25,9 +25,6 @@ public class AccelerometerDefaultCommand extends Command {
     	SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
     	SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
     	SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
-    	SmartDashboard.putNumber("Gyro Yaw Rate:", Robot.accelerometer.getGyroRate());
-    	SmartDashboard.putNumber("Gyro Angle:", Robot.accelerometer.getGyroAngle());
-    	Robot.accelerometer.Snapturn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
