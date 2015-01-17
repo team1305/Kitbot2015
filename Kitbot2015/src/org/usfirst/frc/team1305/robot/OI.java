@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1305.robot;
 
-import org.usfirst.frc.team1305.robot.commands.accelerometer.LeftTurnIncrament;
-import org.usfirst.frc.team1305.robot.commands.accelerometer.RightTurnIncrament;
+
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleSmoothing;
 
@@ -27,14 +26,10 @@ public class OI {
 	private final Joystick driveStick = new Joystick(1);
 	
    // Button shift = new JoystickButton(driveStick, Top_button_Shift);
-    Button TurnLeft = new JoystickButton(driveStick, Left_Turn);
-    Button TurnRight = new JoystickButton(driveStick, Right_Turn);
     
 	public OI(){
 		
 	//	shift.whenPressed(new ToggleShifter());
-		TurnLeft.whenReleased(new LeftTurnIncrament());
-		TurnRight.whenReleased(new RightTurnIncrament());
 		
 	}
 	
