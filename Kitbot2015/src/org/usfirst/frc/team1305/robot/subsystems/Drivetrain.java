@@ -26,8 +26,7 @@ public class Drivetrain extends Subsystem {
 	
 	private RobotDrive drive = new RobotDrive(mL, mR);
 	
-	private Solenoid Leftshifter = new Solenoid(0);
-	private Solenoid Rightshifter = new Solenoid(1);
+	private Solenoid Shifter = new Solenoid(1);
 	private boolean isHighGear = false;
 
     public void initDefaultCommand() {
@@ -49,15 +48,13 @@ public class Drivetrain extends Subsystem {
     		isHighGear = true;
     		SmartDashboard.putString("Gear Status:", "High");
     		drive.arcadeDrive(0.0, 0.0);
-    		Leftshifter.set(true);
-    		Rightshifter.set(true);
+    		Shifter.set(true);
     	}
     	else{
     		isHighGear = false;
     		SmartDashboard.putString("Gear Status:", "Low");
     		drive.arcadeDrive(0.0, 0.0);
-    		Leftshifter.set(false);
-    		Rightshifter.set(false);
+    		Shifter.set(false);
     	}
     		
     }

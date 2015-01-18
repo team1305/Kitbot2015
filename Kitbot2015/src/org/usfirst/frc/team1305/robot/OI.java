@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot;
 
 
+import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleSmoothing;
 
@@ -19,17 +20,17 @@ public class OI {
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
     
-    //public static final int Top_button_Shift = 3;
+    public static final int Top_button_Shift = 3;
     public static final int Left_Turn = 4;
     public static final int Right_Turn = 5;
 
 	private final Joystick driveStick = new Joystick(1);
 	
-   // Button shift = new JoystickButton(driveStick, Top_button_Shift);
+    Button shift = new JoystickButton(driveStick, Top_button_Shift);
     
 	public OI(){
 		
-	//	shift.whenPressed(new ToggleShifter());
+		shift.whenPressed(new ToggleClaw());
 		
 	}
 	
