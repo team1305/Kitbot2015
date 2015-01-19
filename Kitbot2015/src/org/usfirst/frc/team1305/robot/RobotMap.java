@@ -28,6 +28,6 @@ public class RobotMap {
 	public static int PWM_DRIVE_LEFT_2 = 4;
 	public static int PWM_DRIVE_LEFT_3 = 5;
 	
-	public static int ANALOG_VEX_POT_SHOULDER = 0;
-	public static int ANALOG_VEX_POT_ELBOW = 1;
+	public static int ANALOG_VEX_POT_SHOULDER = 1;
+	public static int ANALOG_VEX_POT_ELBOW = 2;
 }
