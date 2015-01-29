@@ -14,6 +14,9 @@ public class ArmDefaultCommand extends Command {
 	double shoulderPotCalc;
 	double elbowPotCalc;
 	boolean isElbow;
+	int desiredArmPreset;
+	String newClawDirectionRequest;
+	String prevClawDirectionRequest;
 	
 	//double elbowVoltageYIntercept = 0.065;
 	//double shoulderVoltageYIntercept = -.019;
@@ -24,6 +27,16 @@ public class ArmDefaultCommand extends Command {
 	double shoulderVoltageYIntercept = 0.15;
 	double elbowVoltageSlope = -0.21;
 	double shoulderVoltageSlope = 0.21;
+	String SDTAG_WHAT_ANGLE = "What angle do you want";
+	String SDTAG_IS_ELBOW = "Elbow?";
+	String SDTAG_SHOULDER_POT_CALC = "Shoulder Pot Calc";
+	String SDTAG_SHOULDER_POT_ACT = "Shoulder Pot Actual";
+	String SDTAG_ELBOW_POT_CALC = "Elbow Pot Calc";
+	String SDTAG_ELBOW_POT_ACT = "Elbow Pot Actual";
+	String SDTAG_GOTO_ARM_PRESET = "Go to Arm Position (1 - 4)";
+	String SDTAG_CLAW_UP_DOWN_IN_OUT = "Send claw UP, DOWN, IN or OUT";
+	
+	
 	
     public ArmDefaultCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -35,23 +48,51 @@ public class ArmDefaultCommand extends Command {
     protected void initialize() {
     	isElbow = true;
     	desiredAngle = 45;
-    	SmartDashboard.putNumber("What angle do you want", desiredAngle);
-    	SmartDashboard.putBoolean("Elbow?", isElbow);
+    	desiredArmPreset = 1;
+    	newClawDirectionRequest = "UPDOWN";
+    	SmartDashboard.putNumber(SDTAG_WHAT_ANGLE, desiredAngle);
+    	SmartDashboard.putBoolean(SDTAG_IS_ELBOW, isElbow);
+    	//SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, 1);
+    	SmartDashboard.putString(SDTAG_CLAW_UP_DOWN_IN_OUT, clawDirection);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	desiredAngle = SmartDashboard.getNumber("What angle do you want");
-    	isElbow = SmartDashboard.getBoolean("Elbow?");
+    	desiredAngle = SmartDashboard.getNumber(SDTAG_WHAT_ANGLE);
+    	isElbow = SmartDashboard.getBoolean(SDTAG_IS_ELBOW);
+    	desiredArmPreset = (int) SmartDashboard.getNumber(SDTAG_GOTO_ARM_PRESET);
+    	newClawDirectionRequest = SmartDashboard.getString(SDTAG_CLAW_UP_DOWN_IN_OUT);
     	
-    	SmartDashboard.putNumber("Shoulder Pot Calc", getShoulderPotCalc(desiredAngle));
-    	SmartDashboard.putNumber("Shoulder Pot Actual", Robot.arm.getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot Calc", getElbowPotCalc(desiredAngle));
-    	SmartDashboard.putNumber("Elbow Pot Actual", Robot.arm.getElbowPot());
+    	if (newClawDirectionRequest != prevClawDirectionRequest)
+    	{
+    		//user wants us to do something (use in lieu of joystick for now)
+    		if (newClawDirectionRequest == "UP")
+    		{
+    			Robot.arm.MoveArmUpDown(1);
+    		}
+    		else if (newClawDirectionRequest == "DOWN")
+    		{
+    			Robot.arm.MoveArmUpDown(-1);
+    		}
+    		else if (newClawDirectionRequest == "IN")
+    		{
+    			Robot.arm.MoveArmInOut(-1);
+    		}
+    		else if (newClawDirectionRequest == "OUT")
+    		{
+    			Robot.arm.MoveArmInOut(1);
+    		}
+    	}
+    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_CALC, calcShoulderPot(desiredAngle));
+    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_ACT, Robot.arm.getShoulderPot());
+    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_CALC, calcElbowPot(desiredAngle));
+    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_ACT, Robot.arm.getElbowPot());
+
+    	SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, Robot.arm.getElbowPot());
     }
 
-    private double getShoulderPotCalc(double targetAngle){
+    private double calcShoulderPot(double targetAngle){
     	//check if targetAngle == 0 so can put breakpoint
     	//on "return targetAngle" without breakpoint firing before
     	//we've even set the angle
@@ -65,7 +106,7 @@ public class ArmDefaultCommand extends Command {
     	}
     }
     
-    private double getElbowPotCalc(double targetAngle){
+    private double calcElbowPot(double targetAngle){
     	if (isElbow & targetAngle!= 0.0)
     	{
     		//y = mx + b
