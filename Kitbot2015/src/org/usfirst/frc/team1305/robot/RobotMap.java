@@ -34,6 +34,9 @@ public class RobotMap {
 	public static int ANALOG_VEX_POT_SHOULDER = 1;
 	public static int ANALOG_VEX_POT_ELBOW = 2;
 	
+	public static int ANALOG_POT_ELBOW = 8;
+	public static int ANALOG_POT_SHOULDER = 7;
+	
 	public static int CAN_DEVICE_LIFT = 3;
 	public static int CAN_DEVICE_RIGHT_FORK = 4;
 	public static int CAN_DEVICE_LEFT_FORK = 5;

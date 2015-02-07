@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+//import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  *
@@ -15,8 +17,8 @@ public class Arm extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private AnalogPotentiometer potShoulder = new AnalogPotentiometer(RobotMap.ANALOG_VEX_POT_SHOULDER);
-	private AnalogPotentiometer potElbow = new AnalogPotentiometer(RobotMap.ANALOG_VEX_POT_ELBOW);
+	private AnalogPotentiometer potShoulder = new AnalogPotentiometer(RobotMap.ANALOG_POT_SHOULDER);
+	private AnalogPotentiometer potElbow = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
 	
 	private int newXClawPosition, prevXClawPosition;
 	private int newYClawPosition, prevYClawPosition;
@@ -38,7 +40,7 @@ public class Arm extends Subsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ArmDefaultCommand());
+        setDefaultCommand(new MoveShoulderCommand());
     }
     
     public double getShoulderPot(){
@@ -67,10 +69,12 @@ public class Arm extends Subsystem {
     
     public void MoveShoulder(double yAxis){
     	ShoulderMotor.set(yAxis);
+    	//SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
     }
     
     public void MoveElbow(double yAxis){
     	ElbowMotor.set(yAxis);
+    	//SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
     }
     
     public void MoveWrist(double yAxis){
