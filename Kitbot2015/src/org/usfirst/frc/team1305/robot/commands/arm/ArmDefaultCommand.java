@@ -53,43 +53,43 @@ public class ArmDefaultCommand extends Command {
     	SmartDashboard.putNumber(SDTAG_WHAT_ANGLE, desiredAngle);
     	SmartDashboard.putBoolean(SDTAG_IS_ELBOW, isElbow);
     	//SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, 1);
-    	SmartDashboard.putString(SDTAG_CLAW_UP_DOWN_IN_OUT, clawDirection);
+    	SmartDashboard.putString(SDTAG_CLAW_UP_DOWN_IN_OUT, newClawDirectionRequest);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	desiredAngle = SmartDashboard.getNumber(SDTAG_WHAT_ANGLE);
-    	isElbow = SmartDashboard.getBoolean(SDTAG_IS_ELBOW);
-    	desiredArmPreset = (int) SmartDashboard.getNumber(SDTAG_GOTO_ARM_PRESET);
-    	newClawDirectionRequest = SmartDashboard.getString(SDTAG_CLAW_UP_DOWN_IN_OUT);
-    	
-    	if (newClawDirectionRequest != prevClawDirectionRequest)
-    	{
-    		//user wants us to do something (use in lieu of joystick for now)
-    		if (newClawDirectionRequest == "UP")
-    		{
-    			Robot.arm.MoveArmUpDown(1);
-    		}
-    		else if (newClawDirectionRequest == "DOWN")
-    		{
-    			Robot.arm.MoveArmUpDown(-1);
-    		}
-    		else if (newClawDirectionRequest == "IN")
-    		{
-    			Robot.arm.MoveArmInOut(-1);
-    		}
-    		else if (newClawDirectionRequest == "OUT")
-    		{
-    			Robot.arm.MoveArmInOut(1);
-    		}
-    	}
-    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_CALC, calcShoulderPot(desiredAngle));
-    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_ACT, Robot.arm.getShoulderPot());
-    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_CALC, calcElbowPot(desiredAngle));
-    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_ACT, Robot.arm.getElbowPot());
-
-    	SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, Robot.arm.getElbowPot());
+//    	desiredAngle = SmartDashboard.getNumber(SDTAG_WHAT_ANGLE);
+//    	isElbow = SmartDashboard.getBoolean(SDTAG_IS_ELBOW);
+//    	desiredArmPreset = (int) SmartDashboard.getNumber(SDTAG_GOTO_ARM_PRESET);
+//    	newClawDirectionRequest = SmartDashboard.getString(SDTAG_CLAW_UP_DOWN_IN_OUT);
+//    	
+//    	if (newClawDirectionRequest != prevClawDirectionRequest)
+//    	{
+//    		//user wants us to do something (use in lieu of joystick for now)
+//    		if (newClawDirectionRequest == "UP")
+//    		{
+//    			Robot.arm.MoveArmUpDown(1);
+//    		}
+//    		else if (newClawDirectionRequest == "DOWN")
+//    		{
+//    			Robot.arm.MoveArmUpDown(-1);
+//    		}
+//    		else if (newClawDirectionRequest == "IN")
+//    		{
+//    			Robot.arm.MoveArmInOut(-1);
+//    		}
+//    		else if (newClawDirectionRequest == "OUT")
+//    		{
+//    			Robot.arm.MoveArmInOut(1);
+//    		}
+//    	}
+//    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_CALC, calcShoulderPot(desiredAngle));
+//    	SmartDashboard.putNumber(SDTAG_SHOULDER_POT_ACT, Robot.arm.getShoulderPot());
+//    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_CALC, calcElbowPot(desiredAngle));
+//    	SmartDashboard.putNumber(SDTAG_ELBOW_POT_ACT, Robot.arm.getElbowPot());
+//
+//    	SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, Robot.arm.getElbowPot());
     }
 
     private double calcShoulderPot(double targetAngle){

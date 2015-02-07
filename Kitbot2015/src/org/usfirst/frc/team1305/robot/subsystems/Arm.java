@@ -6,6 +6,7 @@ import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CANTalon;
 
 /**
  *
@@ -22,7 +23,10 @@ public class Arm extends Subsystem {
 	private int X_AXIS_MAX = 30, X_AXIS_MIN = 0, Y_AXIS_MIN = -14, Y_AXIS_MAX = 30;
 	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 	private double hypot;
-	private double BICEP_LENGTH = 10, FOREARM_LEN = 7;
+	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
+	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
+	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
+	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
 	
 	public Arm(){
 		
@@ -49,11 +53,11 @@ public class Arm extends Subsystem {
     {
     	newXClawPosition = prevXClawPosition + xAxisDir * X_AXIS_FACTOR;
     	if (newXClawPosition > X_AXIS_MAX) {newXClawPosition = X_AXIS_MAX;}
-    		else if (newXClawPosition < X_AXIS_MAX) {newXClawPosition = X_AXIS_MIN;}
+    		else if (newXClawPosition < X_AXIS_MIN) {newXClawPosition = X_AXIS_MIN;}
     	
     	newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
     	if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
-    		else if (newYClawPosition < Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MIN;}
+    		else if (newYClawPosition < Y_AXIS_MIN) {newXClawPosition = Y_AXIS_MIN;}
     	
     	hypot = Math.sqrt(newXClawPosition * newXClawPosition + newYClawPosition * newYClawPosition);
     	
@@ -61,7 +65,19 @@ public class Arm extends Subsystem {
     	CalcShoulderPot(newXClawPosition, newYClawPosition, hypot);
     }
     
-    public void MoveArmUpDOwn(int yAxisDir)
+    public void MoveShoulder(double yAxis){
+    	ShoulderMotor.set(yAxis);
+    }
+    
+    public void MoveElbow(double yAxis){
+    	ElbowMotor.set(yAxis);
+    }
+    
+    public void MoveWrist(double yAxis){
+    	WristMotor.set(yAxis);
+    }
+    
+    public void MoveArmUpDown(int yAxisDir)
     {
     	//newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
     	//if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
@@ -100,18 +116,18 @@ public class Arm extends Subsystem {
     	
     }
     
- // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
-    
- // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+// // Make this return true when this Command no longer needs to run execute()
+//    protected boolean isFinished() {
+//        return false;
+//    }
+//    
+// // Called once after isFinished returns true
+//    protected void end() {
+//    }
+//
+//    // Called when another command which requires one or more of the same
+//    // subsystems is scheduled to run
+//    protected void interrupted() {
+//    }
 }
 
