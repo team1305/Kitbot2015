@@ -30,20 +30,25 @@ public class Claw extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new ToggleClaw());
+    	//setDefaultCommand();
     }
-    public void ToggleIGrab(){
+    public  void ToggleIGrab(){
     	if (IsOpen == false){
     		IsOpen = true;
-    		SmartDashboard.putString("Claw Staus :", "Open!");
-    		ClawAct.set(IsOpen);
-    	}
-    	else{
+    		SmartDashboard.putString("Claw Status :", "Open!");
+    		ClawAct.set(true);
+    		
+    	} else {
     		IsOpen = false;
     		SmartDashboard.putString("Claw Status :", "Close!");
-    		ClawAct.set(IsOpen);
+    		ClawAct.set(false);
     	}
     }
+    public void Clawangler(double move){
+    	ClawAngleControl.Set(move);
+    	
+    }
+    
     
 }
 
