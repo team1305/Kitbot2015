@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
 import org.usfirst.frc.team1305.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
+import org.usfirst.frc.team1305.robot.subsystems.Drivebase;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 //import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
@@ -26,7 +27,7 @@ import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Drivebase Drivetrain = new Drivebase();
 	public static final PowerPanel powerPanel = new PowerPanel();
 	public static final Accelerometer accelerometer = new Accelerometer();
 	//public static final Gyroscope gyroscope = new Gyroscope();
