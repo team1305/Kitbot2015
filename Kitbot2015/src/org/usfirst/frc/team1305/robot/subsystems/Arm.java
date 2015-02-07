@@ -8,7 +8,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-//import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  *
@@ -69,12 +69,12 @@ public class Arm extends Subsystem {
     
     public void MoveShoulder(double yAxis){
     	ShoulderMotor.set(yAxis);
-    	//SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
     }
     
     public void MoveElbow(double yAxis){
     	ElbowMotor.set(yAxis);
-    	//SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
+    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
     }
     
     public void MoveWrist(double yAxis){

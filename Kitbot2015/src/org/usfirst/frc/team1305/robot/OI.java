@@ -20,8 +20,12 @@ public class OI {
 	public static final int DRIVE_AXIS_YL = 1;
 	public static final int DRIVE_AXIS_XR = 2;
     public static final int DRIVE_AXIS_YR = 3;
+    
     public static final int ARM_AXIS_YR = 1;
     public static final int STACKER_AXIS_YL = 3;
+    
+    //public static final int ARM_AXIS_YR = 3;
+    //public static final int STACKER_AXIS_YL = 1;
     
     public static final int Top_button_Shift = 6;
     public static final int SHOULDER_BLUE = 3;
@@ -43,8 +47,8 @@ public class OI {
     
 	public OI(){
 		
-		claw.whenPressed(new ToggleShifter());
 		//shift.whenPressed(new ToggleShifter());
+		claw.whenPressed(new ToggleShifter());
 		elbowButton.whenPressed(new MoveElbowCommand());
 		shoulderButton.whenPressed(new MoveShoulderCommand());
 		wristButton.whenPressed(new MoveWristCommand());

@@ -39,7 +39,7 @@ public class MoveElbowCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	//Robot.arm.MoveElbow(0);
+    	Robot.arm.MoveElbow(0);
     }
 
     // Called when another command which requires one or more of the same

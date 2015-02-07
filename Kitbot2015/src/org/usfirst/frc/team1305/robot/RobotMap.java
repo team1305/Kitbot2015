@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1305.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -32,8 +34,8 @@ public class RobotMap {
 	public static int ANALOG_VEX_POT_SHOULDER = 1;
 	public static int ANALOG_VEX_POT_ELBOW = 2;
 	
-	public static int ANALOG_POT_ELBOW = 8;
-	public static int ANALOG_POT_SHOULDER = 7;
+	public static int ANALOG_POT_ELBOW = 2;
+	public static int ANALOG_POT_SHOULDER = 1;
 	
 	public static int CAN_DEVICE_LIFT = 3;
 	public static int CAN_DEVICE_RIGHT_FORK = 4;
