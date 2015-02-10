@@ -32,7 +32,10 @@ public class Gyroscope extends Subsystem implements PIDSource {
 	public double getRate(){
 		return gyro.getRate();
 	}
-	
+	/**
+	 * Get the angle of the gyroscope, constrained to the range [0, 360]
+	 * @return the measured angle of the gyro.
+	 */
 	public double getAngle(){
 		//if the value is greater than 360, subtract 360 until the value lies in the primary zone.
 		int angle = (int) gyro.getAngle();
