@@ -26,6 +26,10 @@ public class Arm extends Subsystem {
 	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 	private double hypot;
 	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
+	private double MIN_SHOULDER_POT = 0.12;
+	private double MAX_SHOULDER_POT = 0.465;
+	private double MIN_WRIST_POT = 0.1;
+	private double MAX_WRIST_POT = 0.5;
 	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
@@ -34,7 +38,8 @@ public class Arm extends Subsystem {
 	private double ElbowAngleToPotRatio = 180;
 	
 	public Arm(){
-		
+		//SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
+		//SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
 	}
 	
 	// Called just before this Command runs the first time
@@ -81,14 +86,36 @@ public class Arm extends Subsystem {
     }
     
     public void MoveShoulder(double yAxis){
-    	ShoulderMotor.set(yAxis);
+    	//min extension 0.08, max extension 0.47
     	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());   
+    	if(getShoulderPot() <= MIN_SHOULDER_POT){
+    		ShoulderMotor.set(-Math.abs(yAxis)/4);
+    	}
+    	else if(getShoulderPot() >= MAX_SHOULDER_POT){
+    		ShoulderMotor.set(Math.abs(yAxis)/4);
+    	}
+    	else{
+    	ShoulderMotor.set(yAxis);
+    	}
     }
     
     public void MoveElbow(double yAxis){
+    	//min 0.13 max 0.5
     	ElbowMotor.set(yAxis);
+    	if(getElbowPot() <= MIN_WRIST_POT){
+    		ElbowMotor.set(-Math.abs(yAxis)/4);
+    	}
+    	else if(getElbowPot() >= MAX_WRIST_POT){
+    		ElbowMotor.set(Math.abs(yAxis)/4);
+    	}
+    	else{
+    	ElbowMotor.set(yAxis);
+    	}
+    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
     	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
+
     }
     
     public void MoveWrist(double yAxis){
