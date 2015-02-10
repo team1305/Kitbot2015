@@ -3,8 +3,8 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+//import org.usfirst.frc.team1305.robot.commands.arm.ArmFancyCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -29,6 +29,9 @@ public class Arm extends Subsystem {
 	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	private double WristAngleToPotRatio = 180;
+	private double ShoulderAngleToPotRatio = 180;
+	private double ElbowAngleToPotRatio = 180;
 	
 	public Arm(){
 		
@@ -40,14 +43,24 @@ public class Arm extends Subsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new MoveShoulderCommand());
+        setDefaultCommand(new ArmDefaultCommand());
     }
     
-    public double getShoulderPot(){
+    private double GetShoulderAngle()
+    {
+    	return 60;
+    }
+    
+    private double GetElbowAngle()
+    {
+    	return 60;
+    }
+    
+    private double getShoulderPot(){
     	return potShoulder.get();
     }
     
-    public double getElbowPot(){
+    private double getElbowPot(){
     	return potElbow.get();
     }
     
@@ -74,32 +87,51 @@ public class Arm extends Subsystem {
     
     public void MoveElbow(double yAxis){
     	ElbowMotor.set(yAxis);
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
+    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
+    	SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
     }
     
     public void MoveWrist(double yAxis){
     	WristMotor.set(yAxis);
     }
+//    
+//    public void MoveArmUpDown(int yAxisDir)
+//    {
+//    	//newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
+//    	//if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
+//    		//else if (newYClawPosition < Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MIN;}
+//    	
+//    	//CalcElbowPot(newXClawPosition, newYClawPosition);
+//    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+//    }
+//    
+//    public void MoveArmInOut(int xAxisDir)
+//    {
+//    	//newXClawPosition = prevXClawPosition + xAxisDir * X_AXIS_FACTOR;
+//    	//if (newXClawPosition > X_AXIS_MAX) {newXClawPosition = X_AXIS_MAX;}
+//    		//else if (newXClawPosition < X_AXIS_MAX) {newXClawPosition = X_AXIS_MIN;}
+//    	
+//    	//CalcElbowPot(newXClawPosition, newYClawPosition);
+//    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+//    }
     
-    public void MoveArmUpDown(int yAxisDir)
+    public void AutoMoveWrist()
     {
-    	//newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
-    	//if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
-    		//else if (newYClawPosition < Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MIN;}
-    	
-    	//CalcElbowPot(newXClawPosition, newYClawPosition);
-    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+    
     }
     
-    public void MoveArmInOut(int xAxisDir)
+    private double CalcWristPot()
     {
-    	//newXClawPosition = prevXClawPosition + xAxisDir * X_AXIS_FACTOR;
-    	//if (newXClawPosition > X_AXIS_MAX) {newXClawPosition = X_AXIS_MAX;}
-    		//else if (newXClawPosition < X_AXIS_MAX) {newXClawPosition = X_AXIS_MIN;}
-    	
-    	//CalcElbowPot(newXClawPosition, newYClawPosition);
-    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+    	double wristAngle;
+    	wristAngle = GetElbowAngle() + GetShoulderAngle() - 90;
+    	return ConvertWristAngleToPot(wristAngle);
     }
+    
+    private double ConvertWristAngleToPot(double wristAngle)
+    {
+    	return wristAngle * WristAngleToPotRatio;
+    }
+    
     
     private void CalcElbowPot(int newX, int newY, double hypotenuse)
     {
