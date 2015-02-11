@@ -28,37 +28,12 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//sets valuse from drivestick for arcade drive
     	double XL = Robot.oi.getDriveXL();
     	double YL = Robot.oi.getDriveYL();
-
-    	if (s == 3){
-    		if(v/YL < 0){
-    			if(p < 4){    			
-	    			Robot.drivetrain.arcadeDrive(0, 0);
-	    			p = p + 1;
-	    			SmartDashboard.putString("Safey Buffer :", "Engaged");
-	    			SmartDashboard.putNumber("Safey Buffer count :", s);
-    			}else{
-		    		p = 0;
-		    		v = YL;
-		    		s = 0;
-		    		SmartDashboard.putString("Safey Buffer :", "Engaged");
-		    		SmartDashboard.putNumber("Safey Buffer count :", s);
-    			}
-    		}else{
-				Robot.drivetrain.arcadeDrive(YL, XL);
-				v = YL;
-				s = 0;
-				SmartDashboard.putString("Safey Buffer :", "DisEngaged");
-				SmartDashboard.putNumber("Safey Buffer count :", s);
-    		}
-    	}else{
-    		Robot.drivetrain.arcadeDrive(YL, XL);
-    		s = s + 1;
-    		SmartDashboard.putString("Safey Buffer :", "DisEngaged");
-			SmartDashboard.putNumber("Safey Buffer count :", s);
-			
-    	}
+    	
+    	//apply stick values to the arcadedrive function
+    	Robot.drivetrain.arcadeDrive(YL, XL);
 
 	}
 

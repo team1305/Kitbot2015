@@ -32,6 +32,7 @@ public class Claw extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     	//setDefaultCommand();
     }
+    //toggles claw
     public  void ToggleIGrab(){
     	if (IsOpen == false){
     		IsOpen = true;

@@ -17,11 +17,13 @@ public class getPowerMetric extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//clears stickies fult
     	Robot.powerPanel.ClearSticky();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//gets metrics from PDP
     	Robot.powerPanel.powerMetric();
     }
 

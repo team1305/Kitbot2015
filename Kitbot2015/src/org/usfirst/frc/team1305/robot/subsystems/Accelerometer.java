@@ -28,6 +28,7 @@ public class Accelerometer extends Subsystem {
     	setDefaultCommand(new AccelerometerDefaultCommand());
     }
     
+    //functions to get values from accelerometer axis's
     public double getAccelX(){
     	return a.getX();
     }
