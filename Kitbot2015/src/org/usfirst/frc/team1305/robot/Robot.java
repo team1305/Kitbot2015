@@ -32,8 +32,8 @@ public class Robot extends IterativeRobot {
 	//public static final Gyroscope gyroscope = new Gyroscope();
 	public static final Claw IGrab = new Claw();
 	
+	//camera server aka camera declaration
 	CameraServer server;
-	CameraServer server2;
 	
     Command autonomousCommand;
 
@@ -42,14 +42,15 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	//set oi
 		oi = new OI();
+		//Gets instances of camera from camera server
 		server = CameraServer.getInstance();
-		server2 = CameraServer.getInstance();
+		//set quality of video feed
         server.setQuality(80);
-        server2.setQuality(80);
         //the camera name (ex "cam0") can be found through the roborio web interface
+        //starts camera feed
         server.startAutomaticCapture("cam0");
-        server2.startAutomaticCapture("cam1");
         // instantiate the command used for the autonomous period
     }
 	

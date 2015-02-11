@@ -14,27 +14,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 	
 	
-	
+	// Drivestick Axis referance
 	public static final int AXIS_XL = 0; 
 	public static final int AXIS_YL = 1;
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
     
-    public static final int Top_button_Shift = 3;
+    //Drive stick button referance
+    public static final int Top_button_Toggle_Claw = 3;
     public static final int Left_Turn = 4;
     public static final int Right_Turn = 5;
-    public static final int Claw_Up = 11;
-    public static final int Claw_Down = 10;
-
+    
+    //Joystick delcaration
 	private final Joystick driveStick = new Joystick(1);
 	
-    Button shift = new JoystickButton(driveStick, Top_button_Shift);
-    Button ClawU = new JoystickButton(driveStick, Claw_Up);
-    Button ClawD = new JoystickButton(driveStick, Claw_Down);
+	//button delcaration for drivestick
+    Button toggle_Claw = new JoystickButton(driveStick, Top_button_Toggle_Claw);
+    
     
 	public OI(){
 		
-		shift.whenReleased(new ToggleClaw());
+		//assign ToggleClaw command to toggle_Claw button
+		toggle_Claw.whenReleased(new ToggleClaw());
 
 		
 	}
@@ -43,7 +44,7 @@ public class OI {
 		return 0;
 	}
 
-	
+	//getAxis functions for drivestick
 	public double getDriveXL(){     
         SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
         return driveStick.getRawAxis(AXIS_XL);
