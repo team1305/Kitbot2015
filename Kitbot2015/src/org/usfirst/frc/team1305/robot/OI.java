@@ -38,11 +38,7 @@ public class OI {
 	public OI(){
 		
 		shift.whenReleased(new ToggleClaw());
-		ClawU.whileHeld(new ClawUp());
-		ClawD.whileHeld(new ClawDown());
-		ClawU.whenReleased(new ClawStop());
-		ClawD.whenReleased(new ClawStop());
-		
+
 		
 	}
 	

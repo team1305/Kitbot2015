@@ -44,10 +44,7 @@ public class Claw extends Subsystem {
     		ClawAct.set(false);
     	}
     }
-    public void Clawangler(double move){
-    	ClawAngleControl.Set(move);
-    	
-    }
+
     
     
 }
