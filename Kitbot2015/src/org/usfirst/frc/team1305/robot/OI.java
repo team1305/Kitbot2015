@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1305.robot;
 
 
-import org.usfirst.frc.team1305.robot.commands.claw.ClawDown;
-import org.usfirst.frc.team1305.robot.commands.claw.ClawStop;
-import org.usfirst.frc.team1305.robot.commands.claw.ClawUp;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleSmoothing;
