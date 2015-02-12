@@ -7,6 +7,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -24,11 +25,13 @@ public class OI {
     public static final int DRIVE_AXIS_YR = 3;
     
     public static final int ARM_AXIS_YR = 1;
+    public static final int ARM_AXIS_YL = 3;
     public static final int STACKER_AXIS_YL = 3;
     
     //public static final int ARM_AXIS_YR = 3;
     //public static final int STACKER_AXIS_YL = 1;
     
+
     public static final int BUTTON_RB = 6;
     public static final int BUTTON_LB = 5;
     public static final int BUTTON_X = 3;
@@ -36,6 +39,7 @@ public class OI {
     public static final int BUTTON_B = 2;
     public static final int BUTTON_A = 1;
     public static final int LEFT_JOYSTICK = 9;
+    private final boolean invertArmStick = true;
 
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
@@ -49,6 +53,7 @@ public class OI {
     Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
     Button presetButton = new JoystickButton(armStick, BUTTON_LB);
     Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
+
     
     
 	public OI(){
@@ -64,10 +69,7 @@ public class OI {
 			presetButton.whileHeld(new MaxStackPresetCommand());
 		//}
 		claw.whenPressed(new ToggleShifter());
-		
-		
-		
-		
+
 	}
 	
 	public static final int ToggleSmoothing() {
@@ -95,9 +97,40 @@ public class OI {
         return driveStick.getRawAxis(DRIVE_AXIS_YR);
     }
     
+    public double getShoulderYL(){
+    	SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(ARM_AXIS_YL);
+    	}
+    }
+    
+    public double getElbowYR(){
+    	SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(ARM_AXIS_YR);
+    	}
+    }
+    
     public double getArmYR(){
-        SmartDashboard.putNumber("Arm YL", armStick.getRawAxis(ARM_AXIS_YR));
-        return armStick.getRawAxis(ARM_AXIS_YR);
+    	SmartDashboard.putNumber("Arm YR", armStick.getRawAxis(ARM_AXIS_YR));
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(ARM_AXIS_YR);
+    	}
     }
     
     public double getStackerYL(){

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
-
+import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -35,8 +35,12 @@ public class Arm extends Subsystem {
 	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	private double WristAngleToPotRatio = 180;
+	private double ShoulderAngleToPotRatio = 180;
+	private double ElbowAngleToPotRatio = 180;
 	
 	public Arm(){
+		System.out.println("Arm is Initialized");
 		//SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
 		//SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
 	}
@@ -47,14 +51,24 @@ public class Arm extends Subsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new MoveShoulderCommand());
+        setDefaultCommand(new ArmDefaultCommand());
     }
     
-    public double getShoulderPot(){
+    private double GetShoulderAngle()
+    {
+    	return 60;
+    }
+    
+    private double GetElbowAngle()
+    {
+    	return 60;
+    }
+    
+    private double getShoulderPot(){
     	return potShoulder.get();
     }
     
-    public double getElbowPot(){
+    private double getElbowPot(){
     	return potElbow.get();
     }
     
@@ -107,7 +121,12 @@ public class Arm extends Subsystem {
     	ElbowMotor.set(yAxis);
     	}
     	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());   
+    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
+    	
+    	//SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
+        System.out.println("ShoulderPot = " + getShoulderPot());
+    	System.out.println("ElbowPot = " + getElbowPot());
+    	
     }
     
     public void MoveWrist(double yAxis){
@@ -123,26 +142,20 @@ public class Arm extends Subsystem {
     	WristMotor.set(-yAxis);
     	}
     }
+
     
-    public void MoveArmUpDown(int yAxisDir)
+    private double CalcWristPot()
     {
-    	//newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
-    	//if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
-    		//else if (newYClawPosition < Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MIN;}
-    	
-    	//CalcElbowPot(newXClawPosition, newYClawPosition);
-    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+    	double wristAngle;
+    	wristAngle = GetElbowAngle() + GetShoulderAngle() - 90;
+    	return ConvertWristAngleToPot(wristAngle);
     }
     
-    public void MoveArmInOut(int xAxisDir)
+    private double ConvertWristAngleToPot(double wristAngle)
     {
-    	//newXClawPosition = prevXClawPosition + xAxisDir * X_AXIS_FACTOR;
-    	//if (newXClawPosition > X_AXIS_MAX) {newXClawPosition = X_AXIS_MAX;}
-    		//else if (newXClawPosition < X_AXIS_MAX) {newXClawPosition = X_AXIS_MIN;}
-    	
-    	//CalcElbowPot(newXClawPosition, newYClawPosition);
-    	//CalcShoulderPot(newXClawPosition, newYClawPosition);
+    	return wristAngle * WristAngleToPotRatio;
     }
+    
     
     private void CalcElbowPot(int newX, int newY, double hypotenuse)
     {
