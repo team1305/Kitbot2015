@@ -32,7 +32,7 @@ public class Stacker extends Subsystem {
         setDefaultCommand(new MoveStackerCommand());
     }
     
-    public void MoveShoulder(double yAxis){
+    public void MoveStacker(double yAxis){
     	stackerMotor.set(yAxis);
     }
     

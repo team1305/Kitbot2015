@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleSmoothing;
+import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -27,31 +29,44 @@ public class OI {
     //public static final int ARM_AXIS_YR = 3;
     //public static final int STACKER_AXIS_YL = 1;
     
-    public static final int Top_button_Shift = 6;
-    public static final int SHOULDER_BLUE = 3;
-    public static final int ELBOW_YELLOW = 4;
-    public static final int WRIST_RED = 2;
-    public static final int ARM_IDLE_GREEN = 1;
+    public static final int BUTTON_RB = 6;
+    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_X = 3;
+    public static final int BUTTON_Y = 4;
+    public static final int BUTTON_B = 2;
+    public static final int BUTTON_A = 1;
+    public static final int LEFT_JOYSTICK = 9;
 
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
 	
 	
-    Button shift = new JoystickButton(driveStick, Top_button_Shift);
-    Button claw = new JoystickButton(armStick, Top_button_Shift);
-    Button shoulderButton = new JoystickButton(armStick, SHOULDER_BLUE);
-    Button elbowButton = new JoystickButton(armStick, ELBOW_YELLOW);
-    Button wristButton = new JoystickButton(armStick, WRIST_RED);
-    Button armIdleButton = new JoystickButton(armStick, ARM_IDLE_GREEN);
+    Button shift = new JoystickButton(driveStick, BUTTON_RB);
+    Button claw = new JoystickButton(armStick, BUTTON_RB);
+    Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
+    Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
+    Button wristButton = new JoystickButton(armStick, BUTTON_B);
+    Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
+    Button presetButton = new JoystickButton(armStick, BUTTON_LB);
+    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
     
     
 	public OI(){
-		
+		//SmartDashboard.putBoolean("Joystick is", manualOverride.get());
 		//shift.whenPressed(new ToggleShifter());
+		//if(manualOverride.get() == true){
+			elbowButton.whenPressed(new MoveElbowCommand());
+			shoulderButton.whenPressed(new MoveShoulderCommand());
+			wristButton.whenPressed(new MoveWristCommand());
+		//}else{
+			manualOverride.whileHeld(new ExtendedPresetCommand());
+			armIdleButton.whileHeld(new TransportPresetCommand());
+			presetButton.whileHeld(new MaxStackPresetCommand());
+		//}
 		claw.whenPressed(new ToggleShifter());
-		elbowButton.whenPressed(new MoveElbowCommand());
-		shoulderButton.whenPressed(new MoveShoulderCommand());
-		wristButton.whenPressed(new MoveWristCommand());
+		
+		
+		
 		
 	}
 	
