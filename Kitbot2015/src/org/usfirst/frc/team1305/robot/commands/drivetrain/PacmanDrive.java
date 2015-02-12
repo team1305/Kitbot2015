@@ -45,11 +45,12 @@ public class PacmanDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//first we get the x and y values for the joystick
-    	double x = Robot.oi.getDriveX();
+    	double x = -Robot.oi.getDriveX();
     	double y = Robot.oi.getDriveY();
     	SmartDashboard.putNumber("Pacdrive: Joystick X", x);
     	SmartDashboard.putNumber("Pacdrive: Joystick Y", y);
     	SmartDashboard.putNumber("Pacdrive: Angle", Robot.gyroscope.getAngle());
+    	
     	//now we get the angle of the stick as well as the magnitude
     	double angle = getAngle(x, y);
     	double magnitude = getMagnitude(x, y);
@@ -57,11 +58,16 @@ public class PacmanDrive extends Command {
     	SmartDashboard.putNumber("Pacdrive: stick magnitude", magnitude);
     	//feed the rotate value into the PID object
     	rotateController.setSetpoint(angle);
+    	
     	//Now get the result from the PIDController
-    	double computedAngle = rotateController.get();
-    	SmartDashboard.putNumber("Pacdrive: computed stick angle", computedAngle);
+    	double computedTurn = rotateController.get();
+    	SmartDashboard.putNumber("Pacdrive: computed stick turn value", computedTurn);
+    	
+    	//if the angle is off too much, then we don't try to drive foreward
+    	double computedForeward = magnitude*(1.0 - Math.abs(computedTurn));
+    	
     	//Now we send the magnitude and the computedAngle to the standard  RobotDrive
-    	Robot.drivetrain.drive(magnitude, computedAngle);
+    	Robot.drivetrain.arcadeDrive(computedForeward, computedTurn*magnitude);
     	
     }
 
@@ -81,6 +87,7 @@ public class PacmanDrive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.drivetrain.arcadeDrive(0, 0);
+    	
     	rotateController.disable();
     	rotateController.free();
     }
@@ -92,11 +99,10 @@ public class PacmanDrive extends Command {
      * @param x x-value of stick
      * @param y y-value of stick
      * 
-     * @return the stick angle in degrees.
+     * @return the stick angle in degrees, constrained to [0, 360).
      */
     private double getAngle(double x, double y){
     	double theta;
-    	//Get theta in first/fourth quadrant, from X vector
     	theta = Math.atan2(x, y) + Math.PI;
     	//now return the angle, scaled to degrees.
     	return theta * 180 / Math.PI;
@@ -106,7 +112,7 @@ public class PacmanDrive extends Command {
      * The result should be a value between the values of 0 and 1
      * @param x
      * @param y
-     * @return
+     * @return Magnitude of the stick displacement, constrained to [0, 1]
      */
     private double getMagnitude(double x, double y){
     	//pythagorean formula used here. 
