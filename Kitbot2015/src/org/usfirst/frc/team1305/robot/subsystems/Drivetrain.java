@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.TripleTalon;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.Drive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.PacmanDrive;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -36,7 +37,8 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new SmoothDrive());
+//    	setDefaultCommand(new SmoothDrive());
+    	setDefaultCommand(new PacmanDrive());
     }
     
     //function for arcadedrive
@@ -47,6 +49,9 @@ public class Drivetrain extends Subsystem {
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
     	drive.tankDrive(leftValue, rightValue);
+    }
+    public void drive(double move, double rotate){
+    	drive.drive(move, rotate);
     }
     
     //function to shift gears on B3

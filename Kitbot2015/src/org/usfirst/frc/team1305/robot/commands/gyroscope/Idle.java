@@ -1,20 +1,19 @@
-package org.usfirst.frc.team1305.robot.commands.drivetrain;
+package org.usfirst.frc.team1305.robot.commands.gyroscope;
 
+import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team1305.robot.Robot;
-
 /**
  *
  */
-public class Drive extends Command {
-	
-    public Drive() {
+public class Idle extends Command {
+
+    public Idle() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(Drive);
-    	requires(Robot.drivetrain);
+        // eg. requires(chassis);
+    	requires(Robot.gyroscope);
     }
 
     // Called just before this Command runs the first time
@@ -23,15 +22,8 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//sets valuse from drivestick for arcade drive
-    	double XL = Robot.oi.getDriveX();
-    	double YL = Robot.oi.getDriveY();
-    	
-    	//apply stick values to the arcadedrive function
-    	Robot.drivetrain.arcadeDrive(YL, XL);
-
-
-	}
+    	SmartDashboard.putNumber("Gyroscope Angle", Robot.gyroscope.getAngle());
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
@@ -46,8 +38,4 @@ public class Drive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-
-	public static void toggleSmoothing() {
-		
-	}
 }

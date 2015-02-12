@@ -5,15 +5,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrainPIDOutput implements PIDOutput{
 
-	Double value;
-	public DriveTrainPIDOutput(Double d)
-	{
-		SmartDashboard.putNumber("DriveTrainPID Constructor", d);
-		value = d;	
+	double value;
+	public DriveTrainPIDOutput(){
+
 	}
 	
 	public void pidWrite(double output){
 		SmartDashboard.putNumber("DriveTrainPID Write", output);
 		value = output;
+	}
+	
+	public double get(){
+		return this.value;
 	}
 }
