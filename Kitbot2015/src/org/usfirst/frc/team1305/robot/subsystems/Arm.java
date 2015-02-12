@@ -19,6 +19,7 @@ public class Arm extends Subsystem {
     // here. Call these from Commands.
 	private AnalogPotentiometer potShoulder = new AnalogPotentiometer(RobotMap.ANALOG_POT_SHOULDER);
 	private AnalogPotentiometer potElbow = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
+	private AnalogPotentiometer potWrist = new AnalogPotentiometer(RobotMap.ANALOG_POT_WRIST);
 	
 	private int newXClawPosition, prevXClawPosition;
 	private int newYClawPosition, prevYClawPosition;
@@ -38,6 +39,7 @@ public class Arm extends Subsystem {
 	private double ElbowAngleToPotRatio = 180;
 	
 	public Arm(){
+		System.out.println("Arm is Initialized");
 		//SmartDashboard.putNumber("Elbow Pot", getElbowPot());    	
 		//SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
 	}
@@ -67,6 +69,10 @@ public class Arm extends Subsystem {
     
     private double getElbowPot(){
     	return potElbow.get();
+    }
+
+    private double getWristPot(){
+    	return potWrist.get();
     }
     
     public void MoveArm(int xAxisDir, int yAxisDir)
@@ -114,12 +120,17 @@ public class Arm extends Subsystem {
     	}
     	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
     	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
-    	SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
-
+    	
+    	//SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
+        System.out.println("ShoulderPot = " + getShoulderPot());
+    	System.out.println("ElbowPot = " + getElbowPot());
+    	
     }
     
     public void MoveWrist(double yAxis){
     	WristMotor.set(yAxis);
+    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+    	System.out.println("WristPot = " + getWristPot());
     }
 //    
 //    public void MoveArmUpDown(int yAxisDir)
