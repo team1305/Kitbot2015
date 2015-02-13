@@ -19,3 +19,4 @@ public class Constants {
 	public static final double PACMAN_TOLERANCE = 0.25; //percent
 
 }
+

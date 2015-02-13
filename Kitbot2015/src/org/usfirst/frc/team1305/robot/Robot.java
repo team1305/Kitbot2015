@@ -16,7 +16,10 @@ import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 //import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
-//import org.usfirst.frc.team1305.robot.subsystems.Arm;
+
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
+import org.usfirst.frc.team1305.robot.subsystems.Stacker;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,6 +40,10 @@ public class Robot extends IterativeRobot {
 	//camera server aka camera declaration
 	CameraServer server;
 	
+
+	public static final Arm arm = new Arm();
+	public static final Stacker stacker = new Stacker();
+
     Command autonomousCommand;
 
     /**
@@ -78,6 +85,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        System.out.println("Teleop is Initialized");
     }
 
     /**

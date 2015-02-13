@@ -1,34 +1,35 @@
-package org.usfirst.frc.team1305.robot.commands.drivetrain;
+package org.usfirst.frc.team1305.robot.commands.stacker;
+
+import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 /**
  *
- * @author Root 1
  */
-public class ToggleSmoothing extends Command {
-    
-    public ToggleSmoothing() {
-        Object Drive = null;
-        requires(Drive);
-  }
+public class MoveStackerCommand extends Command {
 
-    private void requires(Object drive) {
+	
+    public MoveStackerCommand() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.stacker);
     }
 
-	// Called just before this Command runs the first time
+    // Called just before this Command runs the first time
     protected void initialize() {
-        Drive.toggleSmoothing();
+    
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.stacker.MoveStacker(Robot.oi.getStackerYL());
     }
 
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
