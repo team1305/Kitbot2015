@@ -151,9 +151,11 @@ public class OI {
     	}
     }
     
-    public double getStackerYL(){
-        SmartDashboard.putNumber("Stacker YR", armStick.getRawAxis(STACKER_AXIS_YL));
-        return armStick.getRawAxis(STACKER_AXIS_YL);
+    public double getStackerZ(){
+        //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
+        //return armStick.getRawAxis(STACKER_AXIS_YL);
+    	SmartDashboard.putNumber("StackerMotor", driveStick.getZ());
+    	return driveStick.getZ();
     }
 	
     public double getDriveAxis(int axis){

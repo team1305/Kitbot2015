@@ -23,7 +23,7 @@ public class MoveStackerCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.stacker.MoveStacker(Robot.oi.getStackerYL());
+    	Robot.stacker.MoveStacker(Robot.oi.getStackerZ());
     }
 
     
