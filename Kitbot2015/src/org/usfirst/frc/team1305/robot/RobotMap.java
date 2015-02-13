@@ -56,4 +56,10 @@ public class RobotMap {
 	public static int CAN_DEVICE_STACKER;
 	public static int CAN_DEVICE_FORK_LEFT;
 	public static int CAN_DEVICE_FORK_RIGHT;
+	
+	public static int CAN_DEVICE_DRIVE_L1 = 1;
+	public static int CAN_DEVICE_DRIVE_L2 = 2;
+	public static int CAN_DEVICE_DRIVE_R1 = 9;
+	public static int CAN_DEVICE_DRIVE_R2 = 10;
+
 }

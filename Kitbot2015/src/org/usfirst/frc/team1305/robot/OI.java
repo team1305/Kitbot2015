@@ -2,7 +2,6 @@ package org.usfirst.frc.team1305.robot;
 
 
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleShifter;
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
@@ -86,8 +85,8 @@ public class OI {
 			manualOverride.whileHeld(new ExtendedPresetCommand());
 			armIdleButton.whileHeld(new TransportPresetCommand());
 			presetButton.whileHeld(new MaxStackPresetCommand());
+			claw.toggleWhenPressed(new ToggleClaw());
 		//}
-		claw.whenPressed(new ToggleShifter());
 
 
 	}

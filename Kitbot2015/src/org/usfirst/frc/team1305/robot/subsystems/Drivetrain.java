@@ -6,6 +6,7 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.Drive;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.PacmanDrive;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,23 +17,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Drivetrain extends Subsystem {
     
+	CANTalon ml1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L1);
+	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
+	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
+	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
 
-	private RobotDrive drive = new RobotDrive(mL, mR);
+	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
 	
-	//things for shifter on B3
-	private Solenoid Shifter = new Solenoid(1);
-	private boolean isHighGear = false;
+
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new Drive());
+    	setDefaultCommand(new SmoothDrive());
 //    	setDefaultCommand(new PacmanDrive());
     }
     
     //function for arcadedrive
     public void arcadeDrive(double moveValue, double rotateValue){
-    	drive.arcadeDrive(moveValue, rotateValue);
+    	drive.arcadeDrive(moveValue/1.7, rotateValue/1.5);
     }
     
     //function for tankdrive
@@ -42,22 +45,8 @@ public class Drivetrain extends Subsystem {
     public void drive(double move, double rotate){
     	drive.drive(move, rotate);
     }
-    
-    //function to shift gears on B3
-    public void SwitchGear(){
-    	if (isHighGear == false){
-    		isHighGear = true;
-    		SmartDashboard.putString("Gear Status:", "High");
-    		drive.arcadeDrive(0.0, 0.0);
-    		Shifter.set(true);
-    	}
-    	else{
-    		isHighGear = false;
-    		SmartDashboard.putString("Gear Status:", "Low");
-    		drive.arcadeDrive(0.0, 0.0);
-    		Shifter.set(false);
-    	}
+
     		
-    }
+    
 }
 
