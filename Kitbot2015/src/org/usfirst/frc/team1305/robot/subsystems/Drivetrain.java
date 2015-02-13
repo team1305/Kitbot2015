@@ -16,18 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Drivetrain extends Subsystem {
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	//triple talon leftside
-	private TripleTalon mL = new TripleTalon(RobotMap.PWM_DRIVE_LEFT_1,
-											RobotMap.PWM_DRIVE_LEFT_2,
-											RobotMap.PWM_DRIVE_LEFT_3);
-	//triple talon rightside
-	private TripleTalon mR = new TripleTalon(RobotMap.PWM_DRIVE_RIGHT_1,
-											RobotMap.PWM_DRIVE_RIGHT_2,
-											RobotMap.PWM_DRIVE_RIGHT_3);
-	
-	//uses triple talon to assign left and right side to drivetrian
+
 	private RobotDrive drive = new RobotDrive(mL, mR);
 	
 	//things for shifter on B3
@@ -37,7 +26,7 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new SmoothDrive());
+    	setDefaultCommand(new Drive());
 //    	setDefaultCommand(new PacmanDrive());
     }
     

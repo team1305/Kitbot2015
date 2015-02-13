@@ -102,13 +102,13 @@ public class OI {
         return driveStick.getRawAxis(AXIS_XL);
 	}
 	public double getDriveX(){     
-        SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_X));
+        SmartDashboard.putNumber("X", driveStick.getRawAxis(AXIS_X));
         return driveStick.getRawAxis(AXIS_X);
 
     }
 	
     public double getDriveY(){
-        SmartDashboard.putNumber("YL", driveStick.getRawAxis(AXIS_Y));
+        SmartDashboard.putNumber("Y", driveStick.getRawAxis(AXIS_Y));
         return driveStick.getRawAxis(AXIS_Y);
 
 
