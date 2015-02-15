@@ -24,6 +24,8 @@ public class MoveElbowCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//TODO:  replace getArmYR with getElbowYR 
+    	//Robot.arm.MoveElbow(Robot.oi.getElbowYR());
     	Robot.arm.MoveElbow(Robot.oi.getArmYR());
     }
 

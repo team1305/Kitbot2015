@@ -42,6 +42,8 @@ public class OI {
     
     public static final int ARM_AXIS_YR = 1;
     public static final int ARM_AXIS_YL = 3;
+    public static final int ARM_AXIS_XR = 2;
+    
     public static final int STACKER_AXIS_YL = 3;
     
     //public static final int ARM_AXIS_YR = 3;
@@ -55,12 +57,15 @@ public class OI {
     public static final int BUTTON_B = 2;
     public static final int BUTTON_A = 1;
     public static final int LEFT_JOYSTICK = 9;
-    private final boolean invertArmStick = true;
+    private final boolean invertArmStick = false;
+    private final boolean invertDriveStick = true;
 
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
 	
-
+	public static final String ARM_PRESET_EXTENDED = "EXTENDED";
+	public static final String ARM_PRESET_TRANSPORT = "TRANSPORT";
+	public static final String ARM_PRESET_MAX_STACK = "MAX_STACK";
 
 	
     Button shift = new JoystickButton(driveStick, BUTTON_RB);
@@ -96,20 +101,26 @@ public class OI {
 	}
 
 	//getAxis functions for drivestick
-	public double getDriveXL(){     
-        SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
-        return driveStick.getRawAxis(AXIS_XL);
+	public double getDriveXL(){
+        	return driveStick.getRawAxis(AXIS_XL);
 	}
+	
 	public double getDriveX(){     
         SmartDashboard.putNumber("X", driveStick.getRawAxis(AXIS_X));
-        return driveStick.getRawAxis(AXIS_X);
+        	return driveStick.getRawAxis(AXIS_X) ;
 
     }
 	
     public double getDriveY(){
         SmartDashboard.putNumber("Y", driveStick.getRawAxis(AXIS_Y));
-        return driveStick.getRawAxis(AXIS_Y);
-
+        if (invertDriveStick)
+        {
+        	return driveStick.getRawAxis(AXIS_Y) * -1;
+        }
+        else
+        {
+        	return driveStick.getRawAxis(AXIS_Y);
+        }
 
     }
     
@@ -151,6 +162,29 @@ public class OI {
     	}
     }
     
+//    public double getArmRightY(){
+//    	SmartDashboard.putNumber("Arm Right Y", armStick.getRawAxis(ARM_AXIS_YR));
+//    	if (invertArmStick)
+//        {
+//    		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
+//        }
+//    	else
+//    	{
+//    		return armStick.getRawAxis(ARM_AXIS_YR);
+//    	}
+//    }
+//    
+//    public double getArmRightX(){
+//    	SmartDashboard.putNumber("Arm Right X", armStick.getRawAxis(ARM_AXIS_XR));
+//    	if (invertArmStick)
+//        {
+//    		return armStick.getRawAxis(ARM_AXIS_XR) * -1;
+//        }
+//    	else
+//    	{
+//    		return armStick.getRawAxis(ARM_AXIS_XR);
+//    	}
+//    }
     public double getStackerZ(){
         //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
         //return armStick.getRawAxis(STACKER_AXIS_YL);

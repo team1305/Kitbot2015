@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class ArmDefaultCommand extends Command {
-
 	
     public ArmDefaultCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -24,10 +23,12 @@ public class ArmDefaultCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.MoveElbow(Robot.oi.getElbowYR());
+    	
+    	
+		Robot.arm.MoveElbow(Robot.oi.getElbowYR());
     	Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
-    	//TODO: Figure out where this went in the merge.  Sorry :(
-    	//Robot.arm.AutoMoveWrist();
+    	
+    	Robot.arm.AutoMoveWrist();
     }
 
     

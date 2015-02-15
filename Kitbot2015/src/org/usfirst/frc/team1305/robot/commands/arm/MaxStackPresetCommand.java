@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.commands.arm;
 
+import org.usfirst.frc.team1305.robot.OI;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,7 +23,7 @@ public class MaxStackPresetCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.ArmPresets("MaxStack");
+    	Robot.arm.ArmPresets(OI.ARM_PRESET_MAX_STACK);
     }
     
     // Make this return true when this Command no longer needs to run execute()
