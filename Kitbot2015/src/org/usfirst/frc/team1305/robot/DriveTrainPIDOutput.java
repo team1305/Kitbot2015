@@ -11,7 +11,7 @@ public class DriveTrainPIDOutput implements PIDOutput{
 	}
 	
 	public void pidWrite(double output){
-		SmartDashboard.putNumber("DriveTrainPID Write", output);
+		//SmartDashboard.putNumber("DriveTrainPID Write", output);
 		value = output;
 	}
 	
