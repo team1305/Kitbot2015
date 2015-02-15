@@ -53,10 +53,6 @@ public class RobotMap {
 	public static int CAN_DEVICE_SHOULDER = 7;
 	public static int CAN_DEVICE_ELBOW = 8;
 	
-	public static int CAN_DEVICE_STACKER;
-	public static int CAN_DEVICE_FORK_LEFT;
-	public static int CAN_DEVICE_FORK_RIGHT;
-	
 	public static int CAN_DEVICE_DRIVE_L1 = 1;
 	public static int CAN_DEVICE_DRIVE_L2 = 2;
 	public static int CAN_DEVICE_DRIVE_R1 = 9;
