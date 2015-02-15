@@ -50,10 +50,10 @@ public class ArmFancyCommand extends Command {
     	desiredAngle = 45;
     	desiredArmPreset = 1;
     	newClawDirectionRequest = "UPDOWN";
-    	SmartDashboard.putNumber(SDTAG_WHAT_ANGLE, desiredAngle);
-    	SmartDashboard.putBoolean(SDTAG_IS_ELBOW, isElbow);
+    	//SmartDashboard.putNumber(SDTAG_WHAT_ANGLE, desiredAngle);
+    	//SmartDashboard.putBoolean(SDTAG_IS_ELBOW, isElbow);
     	//SmartDashboard.putNumber(SDTAG_GOTO_ARM_PRESET, 1);
-    	SmartDashboard.putString(SDTAG_CLAW_UP_DOWN_IN_OUT, newClawDirectionRequest);
+    	//SmartDashboard.putString(SDTAG_CLAW_UP_DOWN_IN_OUT, newClawDirectionRequest);
     }
 
     // Called repeatedly when this Command is scheduled to run

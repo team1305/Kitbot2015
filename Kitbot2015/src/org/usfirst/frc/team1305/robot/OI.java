@@ -97,17 +97,17 @@ public class OI {
 
 	//getAxis functions for drivestick
 	public double getDriveXL(){     
-        SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
+        //SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
         return driveStick.getRawAxis(AXIS_XL);
 	}
 	public double getDriveX(){     
-        SmartDashboard.putNumber("X", driveStick.getRawAxis(AXIS_X));
+        //SmartDashboard.putNumber("X", driveStick.getRawAxis(AXIS_X));
         return driveStick.getRawAxis(AXIS_X);
 
     }
 	
     public double getDriveY(){
-        SmartDashboard.putNumber("Y", driveStick.getRawAxis(AXIS_Y));
+        //SmartDashboard.putNumber("Y", driveStick.getRawAxis(AXIS_Y));
         return driveStick.getRawAxis(AXIS_Y);
 
 
@@ -116,7 +116,7 @@ public class OI {
 
     
     public double getShoulderYL(){
-    	SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
+    	//SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
     	if (invertArmStick)
         {
     		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
@@ -128,7 +128,7 @@ public class OI {
     }
     
     public double getElbowYR(){
-    	SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
+    	//SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
     	if (invertArmStick)
         {
     		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
@@ -140,7 +140,7 @@ public class OI {
     }
     
     public double getArmYR(){
-    	SmartDashboard.putNumber("Arm YR", armStick.getRawAxis(ARM_AXIS_YR));
+    	//SmartDashboard.putNumber("Arm YR", armStick.getRawAxis(ARM_AXIS_YR));
     	if (invertArmStick)
         {
     		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
@@ -151,13 +151,18 @@ public class OI {
     	}
     }
     
+    public double getStackerRX(){
+        //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
+        //return armStick.getRawAxis(STACKER_AXIS_YL);
+    	return driveStick.getRawAxis(5);
+    }
+	
     public double getStackerZ(){
         //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
         //return armStick.getRawAxis(STACKER_AXIS_YL);
-    	SmartDashboard.putNumber("StackerMotor", driveStick.getZ());
-    	return driveStick.getZ();
+    	return driveStick.getRawAxis(4);
     }
-	
+    
     public double getDriveAxis(int axis){
     	return driveStick.getRawAxis(axis);    	
     }

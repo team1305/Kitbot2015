@@ -35,15 +35,17 @@ public class Drivetrain extends Subsystem {
     
     //function for arcadedrive
     public void arcadeDrive(double moveValue, double rotateValue){
-    	drive.arcadeDrive(moveValue/1.7, rotateValue/1.5);
+    	drive.arcadeDrive(moveValue/1.7, rotateValue/2);
     }
     
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
-    	drive.tankDrive(leftValue, rightValue);
+    	drive.tankDrive(leftValue/1.4, rightValue/1.4);
+    	SmartDashboard.putNumber("LeftDrive", leftValue);
+    	SmartDashboard.putNumber("RightDrive", rightValue);
     }
     public void drive(double move, double rotate){
-    	drive.drive(move, rotate);
+    	drive.drive(move/2, rotate/2);
     }
 
     		

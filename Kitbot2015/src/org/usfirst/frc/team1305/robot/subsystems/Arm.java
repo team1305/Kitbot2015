@@ -31,7 +31,7 @@ public class Arm extends Subsystem {
 	private double MIN_ELBOW_POT = 0.1;
 	private double MAX_ELBOW_POT = 0.465;
 	private double MIN_WRIST_POT = 0.13;
-	private double MAX_WRIST_POT = 0.37;
+	private double MAX_WRIST_POT = 0.36;
 	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
@@ -139,7 +139,7 @@ public class Arm extends Subsystem {
     		WristMotor.set(Math.abs(yAxis)/4);
     	}
     	else{
-    	WristMotor.set(-yAxis);
+    	WristMotor.set(yAxis);
     	}
     }
 

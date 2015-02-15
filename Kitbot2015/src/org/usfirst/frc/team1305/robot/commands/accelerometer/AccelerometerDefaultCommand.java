@@ -23,9 +23,9 @@ public class AccelerometerDefaultCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//puts accelerometer values to dashboard
-    	SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
-    	SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
-    	SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
+    	//SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
+    	//SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
+    	//SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
     }
 
     // Make this return true when this Command no longer needs to run execute()
