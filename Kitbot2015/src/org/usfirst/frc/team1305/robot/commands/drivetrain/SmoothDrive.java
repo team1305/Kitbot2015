@@ -68,7 +68,7 @@ public class SmoothDrive extends Command {
     	//first get the current time from the FPGA
     	t1 = Utility.getFPGATime();
     	//get move and rotate values from the drive stick
-    	moveValue = Robot.oi.getDriveAxis(RobotMap.AXIS_DRIVETRAIN_MOVE);
+    	moveValue = -Robot.oi.getDriveAxis(RobotMap.AXIS_DRIVETRAIN_MOVE);
     	rotateValue = Robot.oi.getDriveAxis(RobotMap.AXIS_DRIVETRAIN_ROTATE);
     	
     	//Decode the move and rotate values into left- and right- tank drive 

@@ -1,33 +1,38 @@
-package org.usfirst.frc.team1305.robot.commands.accelerometer;
+package org.usfirst.frc.team1305.robot.commands.arm;
 
 import org.usfirst.frc.team1305.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class AccelerometerDefaultCommand extends Command {
+public class MoveShoulderCommand extends Command {
 
-    public AccelerometerDefaultCommand() {
+	
+    public MoveShoulderCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.accelerometer);
+    	requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//puts accelerometer values to dashboard
-    	//SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
-    	//SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
-    	//SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
+    	Robot.arm.MoveShoulder(Robot.oi.getArmYR());
+    
     }
 
+    private double calcShoulderPot(double targetAngle){
+    	return 0;
+        }
+    
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
@@ -35,10 +40,12 @@ public class AccelerometerDefaultCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.arm.MoveShoulder(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.arm.MoveShoulder(0);
     }
 }

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.commands.gyroscope.ReInit;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
@@ -16,7 +17,9 @@ import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 //import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
-//import org.usfirst.frc.team1305.robot.subsystems.Arm;
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
+import org.usfirst.frc.team1305.robot.subsystems.Stacker;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,6 +40,10 @@ public class Robot extends IterativeRobot {
 	//camera server aka camera declaration
 	CameraServer server;
 	
+
+	public static final Arm arm = new Arm();
+	public static final Stacker stacker = new Stacker();
+
     Command autonomousCommand;
 
     /**
@@ -52,7 +59,8 @@ public class Robot extends IterativeRobot {
         server.setQuality(80);
         //the camera name (ex "cam0") can be found through the roborio web interface
         //starts camera feed
-        server.startAutomaticCapture("cam0");
+        //TODO: REMEMBER THIS
+        //server.startAutomaticCapture("cam0");
         // instantiate the command used for the autonomous period
     }
 	
@@ -78,6 +86,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        System.out.println("Teleop is Initialized");
+        SmartDashboard.putString("RobotStatus", "Entering Teleop");
     }
 
     /**
@@ -86,7 +96,7 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	//TODO: check if this is correct or just do command.start()
-    	Scheduler.getInstance().add(new ReInit());
+    	//Scheduler.getInstance().add(new ReInit());
     }
 
     /**
@@ -94,6 +104,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putData(Scheduler.getInstance());
     }
     
     /**

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
     
-	private Solenoid ClawAct = new Solenoid(0);
+	private Solenoid ClawAct = new Solenoid(1);
 	private CanTalonSRX ClawAngleControl = new CanTalonSRX(0);
 	
 	private boolean IsOpen = false;
