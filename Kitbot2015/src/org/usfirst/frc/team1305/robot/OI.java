@@ -7,6 +7,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 
@@ -35,14 +36,15 @@ public class OI {
 
     
 
-    //Drive stick button referance
+    //Drive stick button reference
     public static final int BTN_TOGGLE_CLAW = 3;
     public static final int BTN_LEFT_TURN = 4;
     public static final int BTN_RIGHT_TURN = 5;
     
-    public static final int ARM_AXIS_YR = 1;
-    public static final int ARM_AXIS_YL = 3;
-    public static final int ARM_AXIS_XR = 2;
+    public static final int ARM_AXIS_YR = 5;
+    public static final int ARM_AXIS_YL = 1;
+    public static final int ARM_AXIS_XR = 4;
+    public static final int ARM_AXIS_R_PUSH = 10;
     
     public static final int STACKER_AXIS_YL = 3;
     
@@ -57,7 +59,7 @@ public class OI {
     public static final int BUTTON_B = 2;
     public static final int BUTTON_A = 1;
     public static final int LEFT_JOYSTICK = 9;
-    private final boolean invertArmStick = false;
+    private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
 
 	private final Joystick driveStick = new Joystick(0);
@@ -76,6 +78,7 @@ public class OI {
     Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
     Button presetButton = new JoystickButton(armStick, BUTTON_LB);
     Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
+    Button toggleWristAutoManu = new JoystickButton(armStick, ARM_AXIS_R_PUSH);
 
     
 	public OI(){
@@ -91,6 +94,7 @@ public class OI {
 			armIdleButton.whileHeld(new TransportPresetCommand());
 			presetButton.whileHeld(new MaxStackPresetCommand());
 			claw.toggleWhenPressed(new ToggleClaw());
+			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
 		//}
 
 
@@ -125,8 +129,31 @@ public class OI {
     
 
     
+//    public double getShoulderYL(){
+//    	SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
+//    	if (invertArmStick)
+//        {
+//    		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
+//        }
+//    	else
+//    	{
+//    		return armStick.getRawAxis(ARM_AXIS_YL);
+//    	}
+//    }
+    public double getWristXR(){
+    	SmartDashboard.putNumber("Wrist XR", armStick.getRawAxis(ARM_AXIS_XR));
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(ARM_AXIS_XR) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(ARM_AXIS_XR);
+    	}
+    }
+    
     public double getShoulderYL(){
-    	//SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
+    	SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
     	if (invertArmStick)
         {
     		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
@@ -138,7 +165,7 @@ public class OI {
     }
     
     public double getElbowYR(){
-    	//SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
+    	SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
     	if (invertArmStick)
         {
     		return armStick.getRawAxis(ARM_AXIS_YR) * -1;

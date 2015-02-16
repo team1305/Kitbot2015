@@ -33,13 +33,18 @@ public class Arm extends Subsystem {
 	private double MAX_ELBOW_POT = 0.465;
 	private double MIN_WRIST_POT = 0.13;
 	private double MAX_WRIST_POT = 0.36;
-	private CANTalon ShoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
-	private CANTalon ElbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
-	private CANTalon WristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
+	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
+	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative wrist dir
+	private CANTalon shoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
+	private CANTalon elbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
+	private CANTalon wristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
 //	private double WristAngleToPotRatio = 180;
 //	private double ShoulderAngleToPotRatio = 180;
 //	private double ElbowAngleToPotRatio = 180;
 	private double targetWristPot;
+	private double targetWristAngle;
+	private boolean isWristAuto = true;
 	
 	public Arm(){
 		
@@ -63,14 +68,20 @@ public class Arm extends Subsystem {
     
     private double GetShoulderAngle()
     {
-    	//measurement of pot to angle produced following formula =.0056x + .0213
-    	return .0056 * getShoulderPot() + 0.0213;
+    	//xxxmeasurement of pot to angle produced following formula =178 * G2 - 3.53
+    	//measurement of pot to angle produced following formula = -178x+88.53
+
+    	updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() +88.53);
+    	return (-178 * getShoulderPot() +88.53);
+    	//inverse formula....return .0056 * getShoulderPot() + 0.0213;
     }
     
     private double GetElbowAngle()
     {
-    	//measurement of pot to angle produced following formula = =-.0036x + .5891
-    	return -.0036 * getElbowPot() + .5891;
+    	//measurement of pot to angle produced following formula =(-274  * G11) + 162
+    	updateSmartDashboard("Elbow Angle Calc", (-274  * getElbowPot()) + 162);
+    	return (-274  * getElbowPot()) + 162;
+    	//inverse formula....return -.0036 * getElbowPot() + .5891;
     }
     
     private double getShoulderPot(){
@@ -87,9 +98,8 @@ public class Arm extends Subsystem {
    
     private double calcTargetWristPot()
     {
-    	double targetWristAngle;
     	targetWristAngle = GetElbowAngle() + GetShoulderAngle() - 90;
-    	SmartDashboard.putNumber("Target Wrist Angle", targetWristAngle);
+    	updateSmartDashboard();
     	return ConvertWristAngleToPot(targetWristAngle);
     }
     
@@ -101,72 +111,130 @@ public class Arm extends Subsystem {
     
     public void MoveShoulder(double yAxis){
     	//min extension 0.12, max extension 0.465
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());   
-    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+    	
     	if(getShoulderPot() <= MIN_SHOULDER_POT){
-    		ShoulderMotor.set(-Math.abs(yAxis)/4);
+    		shoulderMotor.set(-Math.abs(yAxis)/4);
     	}
     	else if(getShoulderPot() >= MAX_SHOULDER_POT){
-    		ShoulderMotor.set(Math.abs(yAxis)/4);
+    		shoulderMotor.set(Math.abs(yAxis)/4);
     	}
     	else{
-    		ShoulderMotor.set(yAxis);
+    		shoulderMotor.set(yAxis);
     	}
+    	updateSmartDashboard("Shoulder Joystick", yAxis);
     }
     
     public void MoveElbow(double yAxis){
     	//min 0.1 max 0.5
-    	ElbowMotor.set(yAxis);
+    	
     	if(getElbowPot() <= MIN_ELBOW_POT){
-    		ElbowMotor.set(-Math.abs(yAxis)/4);
+    		elbowMotor.set(-Math.abs(yAxis)/4);
     	}
     	else if(getElbowPot() >= MAX_ELBOW_POT){
-    		ElbowMotor.set(Math.abs(yAxis)/4);
+    		elbowMotor.set(Math.abs(yAxis)/4);
     	}
     	else{
-    		ElbowMotor.set(yAxis);
+    		elbowMotor.set(yAxis);
     	}
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
-        System.out.println("ShoulderPot = " + getShoulderPot());
+    	updateSmartDashboard("Elbow Joystick", yAxis);
+    	System.out.println("ShoulderPot = " + getShoulderPot());
     	System.out.println("ElbowPot = " + getElbowPot());
     	
     }
     
-    public void MoveWrist(double yAxis){
-    	//min 0.12 max 0.37
-    	targetWristPot = calcTargetWristPot();
+    private void updateSmartDashboard()
+    {
+    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+    	
+    	SmartDashboard.putNumber("Target Wrist Angle", targetWristAngle);
     	SmartDashboard.putNumber("Wrist Pot Calc", targetWristPot);
 		SmartDashboard.putNumber("Wrist Motor Suggestion", (getWristPot()-targetWristPot)/getWristPot());
 		
-    	if(getWristPot() <= MIN_WRIST_POT){
-    		WristMotor.set(-Math.abs(yAxis)/4);
+		SmartDashboard.putNumber("Shoulder Speed", shoulderMotor.get());
+		SmartDashboard.putNumber("Elbow Speed", elbowMotor.get());
+		SmartDashboard.putNumber("Extended Wrist Speed", wristMotor.get());
+    }
+    
+    private void updateSmartDashboard(String itemLabel, double itemValue)
+    {
+    	SmartDashboard.putNumber(itemLabel, itemValue);
+    	updateSmartDashboard();
+    }
+    
+    private void updateSmartDashboard(String itemLabel, String itemValue)
+    {
+    	SmartDashboard.putString(itemLabel, itemValue);
+    	updateSmartDashboard();
+    }
+    
+    public void MoveWrist(double yAxis){
+    	//if in auto, ignore; otherwise respond
+    	if (! isWristAuto)
+    	{
+    	 	moveWristDirectly(yAxis);
     	}
-    	else if(getWristPot() >= MAX_WRIST_POT){
-    		WristMotor.set(Math.abs(yAxis)/4);
-    	}
-    	else{
-    		WristMotor.set(-yAxis);
-    	}
+    		
+    }
+    
+    private void moveWristDirectly(double yAxis){
+    	//min 0.12 max 0.37
+    	targetWristPot = calcTargetWristPot();
+		//TODO:  put min/max logic back in once
+		//potentiometer is fixed
+    	wristMotor.set(-yAxis);
+    	
+//    	if(getWristPot() <= MIN_WRIST_POT){
+//    		WristMotor.set(-Math.abs(yAxis)/4);
+//    	}
+//    	else if(getWristPot() >= MAX_WRIST_POT){
+//    		WristMotor.set(Math.abs(yAxis)/4);
+//    	}
+//    	else{
+//    		WristMotor.set(-yAxis);
+//    	}
+    	updateSmartDashboard();
     }
 
-    public void AutoMoveWrist()
+    public void MoveWristAutomatically()
     {
-    	targetWristPot = calcTargetWristPot();
-    	if(getWristPot() != targetWristPot){
-    		//WristMotor.set((getWristPot()-targetWristPot)*24);
-    		//calc fraction it is away, and send as joystick signal
-    		SmartDashboard.putNumber("Wrist Pot Calc", targetWristPot);
-    		SmartDashboard.putNumber("Wrist Motor Suggestion", (getWristPot()-targetWristPot)/getWristPot());    		//TODO:  MoveWrist((getWristPot()-targetWristPot)/getWristPot());
-		}
+    	//if wrist is not in auto mode, just ignore
+    	if (isWristAuto){
+    		targetWristPot = calcTargetWristPot();
+        	
+        	if(getWristPot() != targetWristPot){
+        		//WristMotor.set((getWristPot()-targetWristPot)*24);
+        		//calc fraction it is away, and send as joystick signal
+        		//TODO:  MoveWrist((getWristPot()-targetWristPot)/getWristPot());
+    		}
+        	updateSmartDashboard();	
+    	}
     	
+    }
+    
+    public void toggleWristAutoManu(){
+    	isWristAuto = !isWristAuto;
     }
     
     private boolean isBetween(double value1, double value2)
     {
     	return value1 == value2;
+    }
+    
+    public void StopShoulder()
+    {
+    	shoulderMotor.set(0);
+    }
+    
+    public void StopElbow()
+    {
+    	elbowMotor.set(0);
+    }
+    
+    public void StopWrist()
+    {
+    	wristMotor.set(0);
     }
     
     public void MoveArm(int xAxisDir, int yAxisDir)
@@ -205,46 +273,42 @@ public class Arm extends Subsystem {
     }
     
     public void ArmPresets(String preset){
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	if(preset == OI.ARM_PRESET_EXTENDED){
     		
     		if(getShoulderPot() != 0.495){
-    			ShoulderMotor.set((getShoulderPot()-0.495)*24);
-    			SmartDashboard.putNumber("Extended Shoulder Speed", (getShoulderPot()-0.495)*24);
+    			shoulderMotor.set((getShoulderPot()-0.495)*24);
     		}
     		if(getElbowPot() != 0.12){
-    			ElbowMotor.set((getElbowPot()-0.12)*24);
-    			SmartDashboard.putNumber("Extended Elbow Speed", (getElbowPot()-0.12)*24);
+    			elbowMotor.set((getElbowPot()-0.12)*24);
     		}
     		if(getWristPot() != 0.22){
-    			WristMotor.set((getWristPot()-0.22)*24);
-    			SmartDashboard.putNumber("Extended Wrist Speed", (getWristPot()-0.22)*24);
+    			wristMotor.set((getWristPot()-0.22)*24);
     		}
     		//0.22
     	} 
     	else if(preset == OI.ARM_PRESET_TRANSPORT){
     		if(getShoulderPot() != 0.13){
-    			ShoulderMotor.set((getShoulderPot()-0.13)*24);
+    			shoulderMotor.set((getShoulderPot()-0.13)*24);
     		}
     		if(getElbowPot() != 0.45){
-    			ElbowMotor.set((getElbowPot()-0.45)*24);
+    			elbowMotor.set((getElbowPot()-0.45)*24);
     		}
     		if(getWristPot() != 0.143){
-    			WristMotor.set((getWristPot()-0.143)*24);
+    			wristMotor.set((getWristPot()-0.143)*24);
     		}
     	}
     	else if(preset == OI.ARM_PRESET_MAX_STACK){
     		if(getShoulderPot() != 0.192){
-    			ShoulderMotor.set((getShoulderPot()-0.192)*24);
+    			shoulderMotor.set((getShoulderPot()-0.192)*24);
     		}
     		if(getElbowPot() != 0.10){
-    			ElbowMotor.set((getElbowPot()-0.10)*24);
+    			elbowMotor.set((getElbowPot()-0.10)*24);
     		}
     		if(getWristPot() != 0.345){
-    			WristMotor.set((getWristPot()-0.345)*24);
+    			wristMotor.set((getWristPot()-0.345)*24);
     		}
     	}
+    	updateSmartDashboard("Preset Is", preset);
     }
 }
 

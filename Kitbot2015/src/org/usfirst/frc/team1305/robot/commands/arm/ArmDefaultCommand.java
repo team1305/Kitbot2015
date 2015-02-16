@@ -26,9 +26,12 @@ public class ArmDefaultCommand extends Command {
     	
     	
 		Robot.arm.MoveElbow(Robot.oi.getElbowYR());
-    	Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
-    	
-    	Robot.arm.AutoMoveWrist();
+    	//Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
+		Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
+		
+		//arm subsystem will only allow one of these two commands to control the wrist
+		Robot.arm.MoveWrist(Robot.oi.getWristXR());    	
+    	Robot.arm.MoveWristAutomatically();
     }
 
     
