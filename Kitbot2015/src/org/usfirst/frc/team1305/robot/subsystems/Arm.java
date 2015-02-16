@@ -69,18 +69,18 @@ public class Arm extends Subsystem {
     private double GetShoulderAngle()
     {
     	//xxxmeasurement of pot to angle produced following formula =178 * G2 - 3.53
-    	//measurement of pot to angle produced following formula = -178x+88.53
+    	//measurement of pot to angle produced following formula = =(-178 * C8) + 125.83
 
-    	updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() +88.53);
-    	return (-178 * getShoulderPot() +88.53);
-    	//inverse formula....return .0056 * getShoulderPot() + 0.0213;
+    	updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() + 125.83);
+    	return (-178 * getShoulderPot() + 125.83);
     }
     
     private double GetElbowAngle()
     {
     	//measurement of pot to angle produced following formula =(-274  * G11) + 162
-    	updateSmartDashboard("Elbow Angle Calc", (-274  * getElbowPot()) + 162);
-    	return (-274  * getElbowPot()) + 162;
+    	
+    	updateSmartDashboard("Elbow Angle Calc", (-274  * getElbowPot()) + 165);
+    	return (-274  * getElbowPot()) + 165;
     	//inverse formula....return -.0036 * getElbowPot() + .5891;
     }
     
@@ -98,7 +98,7 @@ public class Arm extends Subsystem {
    
     private double calcTargetWristPot()
     {
-    	targetWristAngle = GetElbowAngle() + GetShoulderAngle() - 90;
+    	targetWristAngle = GetElbowAngle() + GetShoulderAngle(); // - 90;
     	updateSmartDashboard();
     	return ConvertWristAngleToPot(targetWristAngle);
     }
@@ -147,6 +147,7 @@ public class Arm extends Subsystem {
     	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
     	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+    	SmartDashboard.putBoolean("Is Wrist Auto?", isWristAuto);
     	
     	SmartDashboard.putNumber("Target Wrist Angle", targetWristAngle);
     	SmartDashboard.putNumber("Wrist Pot Calc", targetWristPot);
