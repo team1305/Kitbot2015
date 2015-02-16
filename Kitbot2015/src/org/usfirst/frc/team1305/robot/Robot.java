@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1305.robot.commands.gyroscope.ReInit;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
 import org.usfirst.frc.team1305.robot.subsystems.Accelerometer;
+import org.usfirst.frc.team1305.robot.subsystems.CameraServo;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 //import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
@@ -43,6 +45,8 @@ public class Robot extends IterativeRobot {
 
 	public static final Arm arm = new Arm();
 	public static final Stacker stacker = new Stacker();
+	public static final Elevator elevator = new Elevator();
+	public static final CameraServo cameraServo = new CameraServo();
 
     Command autonomousCommand;
 
