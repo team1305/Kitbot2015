@@ -65,7 +65,7 @@ public class Stacker extends Subsystem {
     
     public boolean IsVoltageOverThreshold()
     {
-    	return leftForkMotor.getOutputCurrent() >= FORK_MOTOR_CURRENT_THRESHOLD;
+    	return (leftForkMotor.getOutputCurrent() + leftForkMotor.getOutputCurrent()) / 2 >= FORK_MOTOR_CURRENT_THRESHOLD;
     }
 }
 
