@@ -20,7 +20,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 //import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
-import org.usfirst.frc.team1305.robot.subsystems.Stacker;
+import org.usfirst.frc.team1305.robot.subsystems.Forks;
 
 
 /**
@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	
 
 	public static final Arm arm = new Arm();
-	public static final Stacker stacker = new Stacker();
+	public static final Forks forks = new Forks();
 	public static final Elevator elevator = new Elevator();
 	public static final CameraServo cameraServo = new CameraServo();
 

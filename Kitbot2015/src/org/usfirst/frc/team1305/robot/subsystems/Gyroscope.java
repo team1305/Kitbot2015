@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Gyroscope extends Subsystem implements PIDSource {
     
-	private Gyro gyro = new Gyro(RobotMap.ANALOG_GYRO_RATE);
+	private Gyro gyro = new Gyro(RobotMap.ANALOG_GYRO);
 
 	
 	public Gyroscope(){

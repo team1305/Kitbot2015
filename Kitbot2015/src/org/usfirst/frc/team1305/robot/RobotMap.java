@@ -29,21 +29,25 @@ public class RobotMap {
 	public static final int PWM_CAMERA_SERVO = 0;
 	
 	//Analog Ports
-	public static final int ANALOG_GYRO_RATE = 0;
+	public static final int ANALOG_GYRO = 0;
 
-	public static int ANALOG_VEX_POT_SHOULDER = 1;
-	public static int ANALOG_VEX_POT_ELBOW = 2;
+	public static final int ANALOG_VEX_POT_SHOULDER = 1;
+	public static final int ANALOG_VEX_POT_ELBOW = 2;
 	
-	public static int ANALOG_POT_WRIST = 3;
-	public static int ANALOG_POT_ELBOW = 2;
-	public static int ANALOG_POT_SHOULDER = 1;
+	public static final int ANALOG_POT_WRIST = 3;
+	public static final int ANALOG_POT_ELBOW = 2;
+	public static final int ANALOG_POT_SHOULDER = 1;
 	
-	//right & left fork need to be removed
-		public static int CAN_DEVICE_RIGHT_FORK = 4;
-		public static int CAN_DEVICE_LEFT_FORK = 3;
+	//right & left fork CAN motors need to be removed - replaced by solenoid
+	public static int CAN_DEVICE_RIGHT_FORK = 4;
+	public static int CAN_DEVICE_LEFT_FORK = 3;
 	
-	public static int CAN_DEVICE_LIFT = 5;
-	public static int CAN_DEVICE_WRIST = 6;
+	public static final int SOL_FORK = 0;
+	public static final int SOL_CLAW = 1;
+	
+		
+	public static final int CAN_DEVICE_LIFT = 5;
+	public static final int CAN_DEVICE_WRIST = 6;
 	public static int CAN_DEVICE_SHOULDER = 7;
 	public static int CAN_DEVICE_ELBOW = 8;
 	

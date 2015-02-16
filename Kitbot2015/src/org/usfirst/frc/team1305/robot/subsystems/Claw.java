@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.Robot;
+import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 
@@ -18,8 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
     
-	private Solenoid ClawAct = new Solenoid(1);
-	private CanTalonSRX ClawAngleControl = new CanTalonSRX(0);
+	private Solenoid ClawAct = new Solenoid(RobotMap.SOL_CLAW);
 	
 	private boolean IsOpen = false;
     
