@@ -42,16 +42,16 @@ public class ArmDefaultCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 }
