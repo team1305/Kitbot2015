@@ -27,7 +27,7 @@ public class OI {
 
 
     
-    //Drive stick button referance
+    //Drive stick button reference
     public static final int BTN_TOGGLE_CLAW = 3;
     public static final int BTN_LEFT_TURN = 4;
     public static final int BTN_RIGHT_TURN = 5;
