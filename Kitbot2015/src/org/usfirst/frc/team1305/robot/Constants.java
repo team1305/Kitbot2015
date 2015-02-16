@@ -7,7 +7,7 @@ package org.usfirst.frc.team1305.robot;
  */
 public class Constants {
 	//for SmoothDrive, units %/s
-	public static final double DRIVESMOOTHING_MAX_RATE = 28.0;
+	public static final double DRIVESMOOTHING_MAX_RATE = 15.0;
 	
 	//for Gyroscope subsystem
 	public static final double GYRO_YAW_RATE = 0.007; // unit v/*/second
@@ -17,6 +17,9 @@ public class Constants {
 	public static final double PACMAN_I = 0.00007;
 	public static final double PACMAN_D = 0.00001;
 	public static final double PACMAN_TOLERANCE = 0.25; //percent
+	
+	//For elevator presets
+	public static final double ELEVATOR_PRESET_TOLERANCE = 3.00; //percent
 
 }
 

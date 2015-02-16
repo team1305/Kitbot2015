@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.stacker;
+package org.usfirst.frc.team1305.robot.commands.elevator;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -7,23 +7,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveStackerCommand extends Command {
+public class ManualElevator extends Command {
 
 	
-    public MoveStackerCommand() {
+    public ManualElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.stacker);
+    	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+    	Robot.elevator.setMode(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.stacker.MoveStacker(Robot.oi.getStackerRX(), Robot.oi.getStackerZ());
+    	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
+
     	
     }
 
