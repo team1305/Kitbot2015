@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1305.robot.commands.arm;
 
+import org.usfirst.frc.team1305.robot.OI;
 import org.usfirst.frc.team1305.robot.Robot;
+
+
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,7 +24,7 @@ public class ExtendedPresetCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.ArmPresets("Extended");
+    	Robot.arm.ArmPresets(OI.ARM_PRESET_EXTENDED);
     }
     
     // Make this return true when this Command no longer needs to run execute()
@@ -31,16 +34,16 @@ public class ExtendedPresetCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 }

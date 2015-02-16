@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.claw;
+package org.usfirst.frc.team1305.robot.commands.forks;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleClaw extends Command {
+public class ToggleForks extends Command {
 
-    public ToggleClaw() {
+    public ToggleForks() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.IGrab);
+    	requires(Robot.forks);
     }
 
     // Called just before this Command runs the first time

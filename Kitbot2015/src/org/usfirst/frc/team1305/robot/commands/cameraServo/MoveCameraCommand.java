@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.claw;
+package org.usfirst.frc.team1305.robot.commands.cameraServo;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -7,28 +7,30 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleClaw extends Command {
+public class MoveCameraCommand extends Command {
 
-    public ToggleClaw() {
+	
+    public MoveCameraCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.IGrab);
+    	requires(Robot.cameraServo);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//sets Claw toggle function from claw subsystem to command
-    	Robot.IGrab.ToggleIGrab();
+    	Robot.cameraServo.MoveCamera();
     	
     }
 
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
