@@ -26,14 +26,8 @@ public class RobotMap {
 
 	
 	//Motor PWM
-	public static final int PWM_DRIVE_RIGHT_1 = 0;
-	public static final int PWM_DRIVE_RIGHT_2 = 1;
-	public static final int PWM_DRIVE_RIGHT_3 = 2;
-	public static final int PWM_DRIVE_LEFT_1 = 3;
-	public static final int PWM_DRIVE_LEFT_2 = 4;
-	public static final int PWM_DRIVE_LEFT_3 = 5;
+	public static final int PWM_CAMERA_SERVO = 0;
 	
-
 	//Analog Ports
 	public static final int ANALOG_GYRO_RATE = 0;
 
@@ -44,11 +38,11 @@ public class RobotMap {
 	public static int ANALOG_POT_ELBOW = 2;
 	public static int ANALOG_POT_SHOULDER = 1;
 	
+	//right & left fork need to be removed
+		public static int CAN_DEVICE_RIGHT_FORK = 4;
+		public static int CAN_DEVICE_LEFT_FORK = 3;
 	
-	
-	public static int CAN_DEVICE_LIFT = 3;
-	public static int CAN_DEVICE_RIGHT_FORK = 4;
-	public static int CAN_DEVICE_LEFT_FORK = 5;
+	public static int CAN_DEVICE_LIFT = 5;
 	public static int CAN_DEVICE_WRIST = 6;
 	public static int CAN_DEVICE_SHOULDER = 7;
 	public static int CAN_DEVICE_ELBOW = 8;

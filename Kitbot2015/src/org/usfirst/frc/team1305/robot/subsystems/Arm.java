@@ -71,7 +71,7 @@ public class Arm extends Subsystem {
     	//xxxmeasurement of pot to angle produced following formula =178 * G2 - 3.53
     	//measurement of pot to angle produced following formula = =(-178 * C8) + 125.83
 
-    	updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() + 125.83);
+    	updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() + 130.00); //125.83);
     	return (-178 * getShoulderPot() + 125.83);
     }
     
@@ -105,8 +105,9 @@ public class Arm extends Subsystem {
     
     private double ConvertWristAngleToPot(double wristAngle)
     {
-    	//measurement of pot to angle produced following formula = = 0.0000165 x^2 - .0026x + .2581
-    	return (0.0000165 * wristAngle * wristAngle) - (.0026 * wristAngle) + 0.2581; //-  WristAngleToPotRatio;
+    	//measurement of pot to angle produced following formula = .0019x + .0991
+
+    	return (0.0019 * wristAngle) + 0.0991; //-  WristAngleToPotRatio;
     }
     
     public void MoveShoulder(double yAxis){
@@ -207,7 +208,7 @@ public class Arm extends Subsystem {
         	if(getWristPot() != targetWristPot){
         		//WristMotor.set((getWristPot()-targetWristPot)*24);
         		//calc fraction it is away, and send as joystick signal
-        		//TODO:  MoveWrist((getWristPot()-targetWristPot)/getWristPot());
+        		moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
     		}
         	updateSmartDashboard();	
     	}
