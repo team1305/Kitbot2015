@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.hal.CanTalonSRX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -36,12 +36,12 @@ public class Claw extends Subsystem {
     public  void ToggleIGrab(){
     	if (IsOpen == false){
     		IsOpen = true;
-    		SmartDashboard.putString("Claw Status :", "Open!");
+//    		SmartDashboard.putString("Claw Status :", "Open!");
     		ClawAct.set(true);
     		
     	} else {
     		IsOpen = false;
-    		SmartDashboard.putString("Claw Status :", "Close!");
+//    		SmartDashboard.putString("Claw Status :", "Close!");
     		ClawAct.set(false);
     	}
     }

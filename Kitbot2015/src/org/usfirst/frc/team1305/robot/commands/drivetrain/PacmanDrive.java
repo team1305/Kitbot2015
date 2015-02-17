@@ -6,7 +6,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -47,21 +47,21 @@ public class PacmanDrive extends Command {
     	//first we get the x and y values for the joystick
     	double x = -Robot.oi.getDriveX();
     	double y = Robot.oi.getDriveY();
-    	SmartDashboard.putNumber("Pacdrive: Joystick X", x);
-    	SmartDashboard.putNumber("Pacdrive: Joystick Y", y);
-    	SmartDashboard.putNumber("Pacdrive: Angle", Robot.gyroscope.getAngle());
+//    	SmartDashboard.putNumber("Pacdrive: Joystick X", x);
+//    	SmartDashboard.putNumber("Pacdrive: Joystick Y", y);
+//    	SmartDashboard.putNumber("Pacdrive: Angle", Robot.gyroscope.getAngle());
     	
     	//now we get the angle of the stick as well as the magnitude
     	double angle = getAngle(x, y);
     	double magnitude = getMagnitude(x, y);
-    	SmartDashboard.putNumber("Pacdrive: stick angle", angle);
-    	SmartDashboard.putNumber("Pacdrive: stick magnitude", magnitude);
+//    	SmartDashboard.putNumber("Pacdrive: stick angle", angle);
+//    	SmartDashboard.putNumber("Pacdrive: stick magnitude", magnitude);
     	//feed the rotate value into the PID object
     	rotateController.setSetpoint(angle);
     	
     	//Now get the result from the PIDController
     	double computedTurn = rotateController.get();
-    	SmartDashboard.putNumber("Pacdrive: computed stick turn value", computedTurn);
+//    	SmartDashboard.putNumber("Pacdrive: computed stick turn value", computedTurn);
     	
     	//if the angle is off too much, then we don't try to drive foreward
     	double computedForeward = magnitude*(1.0 - Math.abs(computedTurn));

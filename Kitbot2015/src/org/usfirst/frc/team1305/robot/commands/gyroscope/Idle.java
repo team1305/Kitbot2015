@@ -3,7 +3,7 @@ package org.usfirst.frc.team1305.robot.commands.gyroscope;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Idle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Gyroscope Angle", Robot.gyroscope.getAngle());
+//    	SmartDashboard.putNumber("Gyroscope Angle", Robot.gyroscope.getAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -7,7 +7,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+//import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  *
@@ -94,9 +94,9 @@ public class Arm extends Subsystem {
     
     public void MoveShoulder(double yAxis){
     	//min extension 0.12, max extension 0.465
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());   
-    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+//    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+//    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());   
+//    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
     	if(getShoulderPot() <= MIN_SHOULDER_POT){
     		ShoulderMotor.set(-Math.abs(yAxis)/4);
     	}
@@ -120,8 +120,8 @@ public class Arm extends Subsystem {
     	else{
     	ElbowMotor.set(yAxis);
     	}
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
+//    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+//    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	
     	//SmartDashboard.putNumber("Wrist Pot Calc", CalcWristPot());
         System.out.println("ShoulderPot = " + getShoulderPot());
@@ -131,7 +131,7 @@ public class Arm extends Subsystem {
     
     public void MoveWrist(double yAxis){
     	//min 0.12 max 0.37
-    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
+//    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
     	if(getWristPot() <= MIN_WRIST_POT){
     		WristMotor.set(-Math.abs(yAxis)/4);
     	}
@@ -177,21 +177,21 @@ public class Arm extends Subsystem {
     }
     
     public void ArmPresets(String preset){
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
+//    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
+//    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
     	if(preset == "Extended"){
     		
     		if(getShoulderPot() != 0.495){
     			ShoulderMotor.set((getShoulderPot()-0.495)*24);
-    			SmartDashboard.putNumber("Extended Shoulder Speed", (getShoulderPot()-0.495)*24);
+//    			SmartDashboard.putNumber("Extended Shoulder Speed", (getShoulderPot()-0.495)*24);
     		}
     		if(getElbowPot() != 0.12){
     			ElbowMotor.set((getElbowPot()-0.12)*24);
-    			SmartDashboard.putNumber("Extended Elbow Speed", (getElbowPot()-0.12)*24);
+//    			SmartDashboard.putNumber("Extended Elbow Speed", (getElbowPot()-0.12)*24);
     		}
     		if(getWristPot() != 0.22){
     			WristMotor.set((getWristPot()-0.22)*24);
-    			SmartDashboard.putNumber("Extended Wrist Speed", (getWristPot()-0.22)*24);
+//    			SmartDashboard.putNumber("Extended Wrist Speed", (getWristPot()-0.22)*24);
     		}
     		//0.22
     	} 

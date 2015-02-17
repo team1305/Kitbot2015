@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -41,8 +41,8 @@ public class Drivetrain extends Subsystem {
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
     	drive.tankDrive(leftValue/1.4, rightValue/1.4);
-    	SmartDashboard.putNumber("LeftDrive", leftValue);
-    	SmartDashboard.putNumber("RightDrive", rightValue);
+//    	SmartDashboard.putNumber("LeftDrive", leftValue);
+//    	SmartDashboard.putNumber("RightDrive", rightValue);
     }
     public void drive(double move, double rotate){
     	drive.drive(move/2, rotate/2);

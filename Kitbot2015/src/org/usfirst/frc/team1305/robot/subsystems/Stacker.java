@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.stacker.MoveStackerCommand;
@@ -34,7 +34,7 @@ public class Stacker extends Subsystem {
     }
     
     public void MoveStacker(double yAxis, double xAxis){
-    	SmartDashboard.putNumber("StackerMotor", yAxis);
+//    	SmartDashboard.putNumber("StackerMotor", yAxis);
     	stackerMotor.set(yAxis);
     	leftForkMotor.set(xAxis);
     	rightForkMotor.set(xAxis);

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.commands.gyroscope.ReInit;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
@@ -54,9 +54,9 @@ public class Robot extends IterativeRobot {
     	//set oi
 		oi = new OI();
 		//Gets instances of camera from camera server
-		server = CameraServer.getInstance();
+		//server = CameraServer.getInstance();
 		//set quality of video feed
-        server.setQuality(80);
+        //server.setQuality(80);
         //the camera name (ex "cam0") can be found through the roborio web interface
         //starts camera feed
         //TODO: REMEMBER THIS
@@ -87,7 +87,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         System.out.println("Teleop is Initialized");
-        SmartDashboard.putString("RobotStatus", "Entering Teleop");
+//        SmartDashboard.putString("RobotStatus", "Entering Teleop");
     }
 
     /**
@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putData(Scheduler.getInstance());
+//        SmartDashboard.putData(Scheduler.getInstance());
     }
     
     /**
