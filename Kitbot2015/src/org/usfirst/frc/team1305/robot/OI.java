@@ -2,6 +2,7 @@ package org.usfirst.frc.team1305.robot;
 
 
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
@@ -69,7 +70,7 @@ public class OI {
 	public static final String ARM_PRESET_MAX_STACK = "MAX_STACK";
 
 	
-    Button shift = new JoystickButton(driveStick, BUTTON_RB);
+    Button forkToggle = new JoystickButton(driveStick, BUTTON_RB);
     Button claw = new JoystickButton(armStick, BUTTON_RB);
     Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
     Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
@@ -82,20 +83,16 @@ public class OI {
     
 	public OI(){
 
-		//SmartDashboard.putBoolean("Joystick is", manualOverride.get());
-		//shift.whenPressed(new ToggleShifter());
-		//if(manualOverride.get() == true){
 			elbowButton.whenPressed(new MoveElbowCommand());
 			shoulderButton.whenPressed(new MoveShoulderCommand());
 			wristButton.whenPressed(new MoveWristCommand());
-		//}else{
 			manualOverride.whileHeld(new ExtendedPresetCommand());
 			armIdleButton.whileHeld(new TransportPresetCommand());
 			presetButton.whileHeld(new MaxStackPresetCommand());
 			claw.toggleWhenPressed(new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
-		//}
-
+			
+			forkToggle.whenPressed(new ToggleForks());
 
 	}
 	

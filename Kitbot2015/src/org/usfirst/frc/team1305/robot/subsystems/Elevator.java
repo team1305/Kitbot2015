@@ -58,7 +58,7 @@ public class Elevator extends Subsystem {
      * @param axis movement value form [-1, 1]
      */
     public void manualHeight(double axis){
-    	if(!(stackerTalon.getControlMode().equals(CANTalon.ControlMode.PercentVbus))){
+    	if((stackerTalon.getControlMode().equals(CANTalon.ControlMode.PercentVbus))){
     		stackerTalon.set(axis);
     	}
     }

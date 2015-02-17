@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.commands.forks.ForksDoNothing;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -33,7 +34,7 @@ public class Forks extends Subsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ToggleForks());
+        setDefaultCommand(new ForksDoNothing());
     }
     
     public void ToggleForks(){

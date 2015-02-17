@@ -22,7 +22,7 @@ public class ToggleClaw extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//sets Claw toggle function from claw subsystem to command
-    	Robot.claw.ToggleIGrab();
+    	Robot.claw.toggleGrab();
     	
     }
 

@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
+import org.usfirst.frc.team1305.robot.commands.claw.ClawDoNothing;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -31,9 +32,10 @@ public class Claw extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	//setDefaultCommand();
+    	setDefaultCommand(new ClawDoNothing());
     }
     //toggles claw
-    public  void ToggleIGrab(){
+    public  void toggleGrab(){
     	if (IsOpen == false){
     		IsOpen = true;
     		SmartDashboard.putString("Claw Status :", "Open!");
