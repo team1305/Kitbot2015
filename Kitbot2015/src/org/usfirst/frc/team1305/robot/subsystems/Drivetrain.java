@@ -48,9 +48,6 @@ public class Drivetrain extends Subsystem {
     
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
-    	drive.tankDrive(leftValue/1.4, rightValue/1.4);
-//    	SmartDashboard.putNumber("LeftDrive", leftValue);
-//    	SmartDashboard.putNumber("RightDrive", rightValue);
     	if(armPerspective){
         	drive.tankDrive(-rightValue/1.4, -leftValue/1.4);
     	}
