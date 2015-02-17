@@ -26,6 +26,7 @@ public class Drivetrain extends Subsystem {
 	
 	//true if arm-perspective, false if stacker-perspective
 	private boolean armPerspective = false;
+	private boolean isLowGear = false;
 	
 
 
@@ -38,6 +39,12 @@ public class Drivetrain extends Subsystem {
     
     //function for arcadedrive
     public void arcadeDrive(double moveValue, double rotateValue){
+    	//check for low gear
+    	if(isLowGear){
+    		moveValue /= 2.0;
+    		rotateValue /= 2.0;
+    	}
+    	//check perspective and apply
     	if(armPerspective){
     		drive.arcadeDrive(-moveValue/1.7, rotateValue/2);
     	}
@@ -48,15 +55,16 @@ public class Drivetrain extends Subsystem {
     
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
+    	if(isLowGear){
+    		leftValue /= 2.0;
+    		rightValue /= 2.0;
+    	}
     	if(armPerspective){
         	drive.tankDrive(-rightValue/1.4, -leftValue/1.4);
     	}
     	else{
         	drive.tankDrive(leftValue/1.4, rightValue/1.4);
     	}
-    }
-    public void drive(double move, double rotate){
-    	drive.drive(move/2, rotate/2);
     }
     /**
      * Set whether the driving perspective should be of the stacker or the arm
@@ -72,6 +80,17 @@ public class Drivetrain extends Subsystem {
     public boolean getArmPerspective(){
     	return armPerspective;
     }
+    
+    public void toggleGear(){
+    	this.isLowGear = ! this.isLowGear;
+    }
+    public void setLowGear(boolean value){
+    	this.isLowGear = value;
+    }
+    public boolean getLowGear(){
+    	return this.isLowGear;
+    }
+    
 
     		
     

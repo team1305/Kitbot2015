@@ -4,6 +4,7 @@ package org.usfirst.frc.team1305.robot;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleGear;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
@@ -12,8 +13,6 @@ import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,7 +30,10 @@ public class OI {
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
 
-	//Attack 3 axis reference
+	
+    
+    
+    //Attack 3 axis reference
 	public static final int AXIS_X = 0; 
 	public static final int AXIS_Y = 1;
 
@@ -46,12 +48,9 @@ public class OI {
     public static final int ARM_AXIS_YR = 5;
     public static final int ARM_AXIS_YL = 1;
     public static final int ARM_AXIS_XR = 4;
-    public static final int ARM_AXIS_R_PUSH = 10;
     
     public static final int STACKER_AXIS_YL = 3;
     
-    //public static final int ARM_AXIS_YR = 3;
-    //public static final int STACKER_AXIS_YL = 1;
     
 
     public static final int BUTTON_RB = 6;
@@ -60,7 +59,9 @@ public class OI {
     public static final int BUTTON_Y = 4;
     public static final int BUTTON_B = 2;
     public static final int BUTTON_A = 1;
-    public static final int LEFT_JOYSTICK = 9;
+    public static final int LEFT_JOYSTICK_CLICK = 9;
+    public static final int RIGHT_JOYSTICK_CLICK = 10;
+
     private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
 
@@ -75,6 +76,7 @@ public class OI {
     Button forkToggle = new JoystickButton(driveStick, BUTTON_RB);
     Button armPerspective = new JoystickButton(driveStick, BUTTON_Y);
     Button stackPerspective = new JoystickButton(driveStick, BUTTON_A);
+    Button toggleGear = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
     
     
     //arm stick functions
@@ -84,8 +86,8 @@ public class OI {
     Button wristButton = new JoystickButton(armStick, BUTTON_B);
     Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
     Button presetButton = new JoystickButton(armStick, BUTTON_LB);
-    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
-    Button toggleWristAutoManu = new JoystickButton(armStick, ARM_AXIS_R_PUSH);
+    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK_CLICK);
+    Button toggleWristAutoManu = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
 
     
 	public OI(){
@@ -93,6 +95,7 @@ public class OI {
 			forkToggle.whenPressed(new ToggleForks());
 			armPerspective.whileHeld(new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
+			toggleGear.whenPressed(new ToggleGear());
 
 			//arm stick command assignments
 			elbowButton.whenPressed(new MoveElbowCommand());
@@ -199,14 +202,10 @@ public class OI {
 
 
     public double getStackerRX(){
-        //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
-        //return armStick.getRawAxis(STACKER_AXIS_YL);
     	return driveStick.getRawAxis(5);
     }
 	
     public double getStackerZ(){
-        //SmartDashboard.putNumber("Stacker YR", driveStick.getRawAxis(STACKER_AXIS_YL));
-        //return armStick.getRawAxis(STACKER_AXIS_YL);
     	return driveStick.getRawAxis(4);
     }
     
