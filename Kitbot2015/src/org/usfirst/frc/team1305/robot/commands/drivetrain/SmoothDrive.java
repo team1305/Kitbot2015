@@ -138,6 +138,13 @@ public class SmoothDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	t0 = 0;
+    	t1 = 0;
+    	l0 = 0;
+    	l1 = 0;
+    	r0 = 0;
+    	r1 = 1;
+    	Robot.drivetrain.tankDrive(0.0, 0.0);
     }
 
     // Called when another command which requires one or more of the same

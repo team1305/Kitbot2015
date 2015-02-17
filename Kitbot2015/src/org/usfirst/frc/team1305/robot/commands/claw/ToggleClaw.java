@@ -12,7 +12,7 @@ public class ToggleClaw extends Command {
     public ToggleClaw() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.IGrab);
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +22,7 @@ public class ToggleClaw extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//sets Claw toggle function from claw subsystem to command
-    	Robot.IGrab.ToggleIGrab();
+    	Robot.claw.ToggleIGrab();
     	
     }
 
@@ -40,3 +40,4 @@ public class ToggleClaw extends Command {
     protected void interrupted() {
     }
 }
+
