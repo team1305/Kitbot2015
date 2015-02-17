@@ -24,6 +24,9 @@ public class Drivetrain extends Subsystem {
 
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
 	
+	//true if arm-perspective, false if stacker-perspective
+	private boolean armPerspective = false;
+	
 
 
     public void initDefaultCommand() {
@@ -35,7 +38,12 @@ public class Drivetrain extends Subsystem {
     
     //function for arcadedrive
     public void arcadeDrive(double moveValue, double rotateValue){
-    	drive.arcadeDrive(moveValue/1.7, rotateValue/2);
+    	if(armPerspective){
+    		drive.arcadeDrive(-moveValue/1.7, rotateValue/2);
+    	}
+    	else{
+    		drive.arcadeDrive(moveValue/1.7, rotateValue/2);
+    	}
     }
     
     //function for tankdrive
@@ -43,9 +51,29 @@ public class Drivetrain extends Subsystem {
     	drive.tankDrive(leftValue/1.4, rightValue/1.4);
 //    	SmartDashboard.putNumber("LeftDrive", leftValue);
 //    	SmartDashboard.putNumber("RightDrive", rightValue);
+    	if(armPerspective){
+        	drive.tankDrive(-rightValue/1.4, -leftValue/1.4);
+    	}
+    	else{
+        	drive.tankDrive(leftValue/1.4, rightValue/1.4);
+    	}
     }
     public void drive(double move, double rotate){
     	drive.drive(move/2, rotate/2);
+    }
+    /**
+     * Set whether the driving perspective should be of the stacker or the arm
+     * @param value true if the perspective is of arm, false if of stacker.
+     */
+    public void setArmPerspective(boolean value){
+    	armPerspective = value;
+    }
+    /**
+     * Get the current driving perspective
+     * @return true if arm perspecive, false otherwise.
+     */
+    public boolean getArmPerspective(){
+    	return armPerspective;
     }
 
     		

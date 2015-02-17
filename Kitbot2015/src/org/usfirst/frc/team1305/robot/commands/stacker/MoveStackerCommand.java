@@ -13,7 +13,7 @@ public class MoveStackerCommand extends Command {
     public MoveStackerCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.stacker);
+    	//requires(Robot.stacker);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class MoveStackerCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.stacker.MoveStacker(Robot.oi.getStackerRX(), Robot.oi.getStackerZ());
+    	//Robot.stacker.MoveStacker(Robot.oi.getStackerRX(), Robot.oi.getStackerZ());
     	
     }
 

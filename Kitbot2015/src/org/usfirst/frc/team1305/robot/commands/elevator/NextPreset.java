@@ -1,47 +1,45 @@
-package org.usfirst.frc.team1305.robot.commands.arm;
+package org.usfirst.frc.team1305.robot.commands.elevator;
 
+import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+
 /**
  *
  */
-public class MoveWristCommand extends Command {
+public class NextPreset extends Command {
 
-	
-    public MoveWristCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.arm);
+    public NextPreset() {
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+    	Robot.elevator.setMode(true);
+    	int preset = Robot.elevator.getPreset();
+    	Robot.elevator.setPreset(preset+1);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.MoveWrist(Robot.oi.getArmYR());
-    
     }
 
-    
-    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        double dh = Robot.elevator.getHeight() - Robot.elevator.getPresetValue();
+        double pd = Math.abs(dh / Robot.elevator.getPresetValue()) * 100.0;
+        if( dh < Constants.ELEVATOR_PRESET_TOLERANCE ) return true;
+        else return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.StopWrist();
     }
 }

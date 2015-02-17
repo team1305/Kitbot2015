@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class ArmDefaultCommand extends Command {
-
 	
     public ArmDefaultCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -24,10 +23,15 @@ public class ArmDefaultCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.MoveElbow(Robot.oi.getElbowYR());
-    	Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
-    	//TODO: Figure out where this went in the merge.  Sorry :(
-    	//Robot.arm.AutoMoveWrist();
+    	
+    	
+		Robot.arm.MoveElbow(Robot.oi.getElbowYR());
+    	//Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
+		Robot.arm.MoveShoulder(-Robot.oi.getShoulderYL());
+		
+		//arm subsystem will only allow one of these two commands to control the wrist
+		Robot.arm.MoveWrist(Robot.oi.getWristXR());    	
+    	Robot.arm.MoveWristAutomatically();
     }
 
     
@@ -38,16 +42,16 @@ public class ArmDefaultCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.MoveElbow(0);
-    	Robot.arm.MoveShoulder(0);
-    	Robot.arm.MoveWrist(0);
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 }
