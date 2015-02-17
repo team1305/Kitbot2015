@@ -8,7 +8,7 @@ package org.usfirst.frc.team1305.robot;
  */
 public class Constants {
 	//for SmoothDrive, units %/s
-	public static final double DRIVESMOOTHING_MAX_RATE = 28.0;
+	public static final double DRIVESMOOTHING_MAX_RATE = 40.0;
 	
 	//for Gyroscope subsystem
 	public static final double GYRO_YAW_RATE = 0.007; // unit v/*/second

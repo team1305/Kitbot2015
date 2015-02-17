@@ -2,6 +2,8 @@ package org.usfirst.frc.team1305.robot;
 
 
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
@@ -69,8 +71,13 @@ public class OI {
 	public static final String ARM_PRESET_TRANSPORT = "TRANSPORT";
 	public static final String ARM_PRESET_MAX_STACK = "MAX_STACK";
 
-	
+	//driver stick functions
     Button forkToggle = new JoystickButton(driveStick, BUTTON_RB);
+    Button armPerspective = new JoystickButton(driveStick, BUTTON_Y);
+    Button stackPerspective = new JoystickButton(driveStick, BUTTON_A);
+    
+    
+    //arm stick functions
     Button claw = new JoystickButton(armStick, BUTTON_RB);
     Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
     Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
@@ -82,7 +89,12 @@ public class OI {
 
     
 	public OI(){
+			//drive stick command assignments
+			forkToggle.whenPressed(new ToggleForks());
+			armPerspective.whileHeld(new SetArmPerspective());
+			stackPerspective.whileHeld(new SetStackerPerspective());
 
+			//arm stick command assignments
 			elbowButton.whenPressed(new MoveElbowCommand());
 			shoulderButton.whenPressed(new MoveShoulderCommand());
 			wristButton.whenPressed(new MoveWristCommand());
@@ -92,7 +104,7 @@ public class OI {
 			claw.toggleWhenPressed(new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
 			
-			forkToggle.whenPressed(new ToggleForks());
+			
 
 	}
 	
