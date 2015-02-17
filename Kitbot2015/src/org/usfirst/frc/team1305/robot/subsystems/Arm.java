@@ -31,7 +31,7 @@ public class Arm extends Subsystem {
 	private double MIN_SHOULDER_POT = 0.12;
 	private double MAX_SHOULDER_POT = 0.495;
 	private double MIN_ELBOW_POT = 0.1;
-	private double MAX_ELBOW_POT = 0.465;
+	private double MAX_ELBOW_POT = 0.5;
 	private double MIN_WRIST_POT = 0.13;
 	private double MAX_WRIST_POT = 0.36;
 	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
@@ -279,37 +279,37 @@ public class Arm extends Subsystem {
 
     	if(preset == OI.ARM_PRESET_EXTENDED){
     		
-    		if(getShoulderPot() != 0.495){
-    			shoulderMotor.set((getShoulderPot()-0.495)*24);
+    		if(getShoulderPot() != 0.45){
+    			shoulderMotor.set((getShoulderPot()-0.45)*24);
     		}
     		if(getElbowPot() != 0.12){
     			elbowMotor.set((getElbowPot()-0.12)*24);
     		}
-    		if(getWristPot() != 0.22){
-    			wristMotor.set((getWristPot()-0.22)*24);
+    		if(getWristPot() != 0.42){
+    			wristMotor.set((getWristPot()-0.42)*24);
     		}
     		//0.22
     	} 
     	else if(preset == OI.ARM_PRESET_TRANSPORT){
-    		if(getShoulderPot() != 0.13){
-    			shoulderMotor.set((getShoulderPot()-0.13)*24);
+    		if(getShoulderPot() != 0.15){
+    			shoulderMotor.set((getShoulderPot()-0.15)*24);
     		}
-    		if(getElbowPot() != 0.45){
-    			elbowMotor.set((getElbowPot()-0.45)*24);
+    		if(getElbowPot() != 0.44){
+    			elbowMotor.set((getElbowPot()-0.44)*24);
     		}
-    		if(getWristPot() != 0.143){
-    			wristMotor.set((getWristPot()-0.143)*24);
+    		if(getWristPot() != 0.37){
+    			wristMotor.set((getWristPot()-0.37)*24);
     		}
     	}
     	else if(preset == OI.ARM_PRESET_MAX_STACK){
-    		if(getShoulderPot() != 0.192){
-    			shoulderMotor.set((getShoulderPot()-0.192)*24);
+    		if(getShoulderPot() != 0.17){
+    			shoulderMotor.set((getShoulderPot()-0.17)*24);
     		}
     		if(getElbowPot() != 0.10){
     			elbowMotor.set((getElbowPot()-0.10)*24);
     		}
-    		if(getWristPot() != 0.345){
-    			wristMotor.set((getWristPot()-0.345)*24);
+    		if(getWristPot() != 0.52){
+    			wristMotor.set((getWristPot()-0.52)*24);
     		}
     	}
     	updateSmartDashboard("Preset Is", preset);
