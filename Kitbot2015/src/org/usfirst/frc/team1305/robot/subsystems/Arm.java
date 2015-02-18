@@ -32,8 +32,8 @@ public class Arm extends Subsystem {
 	private double MAX_SHOULDER_POT = 0.495;
 	private double MIN_ELBOW_POT = 0.1;
 	private double MAX_ELBOW_POT = 0.5;
-	private double MIN_WRIST_POT = 0.13;
-	private double MAX_WRIST_POT = 0.52;
+	private double MIN_WRIST_POT = 0.2; //0.13;
+	private double MAX_WRIST_POT = 0.4; //0.52;
 	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
 	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
 	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative wrist dir
@@ -187,15 +187,18 @@ public class Arm extends Subsystem {
 		//TODO:  put min/max logic back in once
 		//potentiometer is fixed
     	if(getWristPot() <= MIN_WRIST_POT){
-    		if(yAxis <= 0){
+    		//testing if motor dir is opposite of what we thought
+    		//if(yAxis <= 0){
+    		if(yAxis >= 0){
     			wristMotor.set(-Math.abs(yAxis)/4);
     		}else{
     			wristMotor.set(0);
     		}
-    		
     	}
     	else if(getWristPot() >= MAX_WRIST_POT){
-    		if(yAxis >= 0){
+    		//testing if motor dir is opposite of what we thought
+    		//if(yAxis >= 0){
+    		if(yAxis <= 0){
     			wristMotor.set(Math.abs(yAxis)/4);
     		}else{
     			wristMotor.set(0);
