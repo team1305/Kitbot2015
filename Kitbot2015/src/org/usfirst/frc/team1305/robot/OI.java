@@ -53,13 +53,12 @@ public class OI {
     //public static final int ARM_AXIS_YR = 3;
     //public static final int STACKER_AXIS_YL = 1;
     
-
-    public static final int BUTTON_RB = 6;
-    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_A = 1;
+    public static final int BUTTON_B = 2;
     public static final int BUTTON_X = 3;
     public static final int BUTTON_Y = 4;
-    public static final int BUTTON_B = 2;
-    public static final int BUTTON_A = 1;
+    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_RB = 6;
     public static final int LEFT_JOYSTICK = 9;
     private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
@@ -79,12 +78,12 @@ public class OI {
     
     //arm stick functions
     Button claw = new JoystickButton(armStick, BUTTON_RB);
-    Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
-    Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
-    Button wristButton = new JoystickButton(armStick, BUTTON_B);
-    Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
-    Button presetButton = new JoystickButton(armStick, BUTTON_LB);
-    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
+//    Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
+//    Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
+//    Button wristButton = new JoystickButton(armStick, BUTTON_B);
+    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
+    Button maxStackPresetButton = new JoystickButton(armStick, BUTTON_X);
+    Button extendedPresetButton = new JoystickButton(armStick, BUTTON_B);
     Button toggleWristAutoManu = new JoystickButton(armStick, ARM_AXIS_R_PUSH);
 
     
@@ -95,12 +94,12 @@ public class OI {
 			stackPerspective.whileHeld(new SetStackerPerspective());
 
 			//arm stick command assignments
-			elbowButton.whenPressed(new MoveElbowCommand());
-			shoulderButton.whenPressed(new MoveShoulderCommand());
-			wristButton.whenPressed(new MoveWristCommand());
-			manualOverride.whileHeld(new ExtendedPresetCommand());
-			armIdleButton.whileHeld(new TransportPresetCommand());
-			presetButton.whileHeld(new MaxStackPresetCommand());
+//			elbowButton.whenPressed(new MoveElbowCommand());
+//			shoulderButton.whenPressed(new MoveShoulderCommand());
+//			wristButton.whenPressed(new MoveWristCommand());
+			extendedPresetButton.whileHeld(new ExtendedPresetCommand());
+			transportPresetButton.whileHeld(new TransportPresetCommand());
+			maxStackPresetButton.whileHeld(new MaxStackPresetCommand());
 			claw.toggleWhenPressed(new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
 			
