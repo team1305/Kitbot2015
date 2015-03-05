@@ -47,8 +47,8 @@ public class RobotMap {
 	public static final int CAN_DEVICE_ELBOW = 8;
 	
 
-	public static final int CAN_DEVICE_DRIVE_L1 = 1;
-	public static final int CAN_DEVICE_DRIVE_L2 = 2;
-	public static final int CAN_DEVICE_DRIVE_R1 = 9;
-	public static final int CAN_DEVICE_DRIVE_R2 = 10;
+	public static final int CAN_DEVICE_DRIVE_L1 = 13;//1;
+	public static final int CAN_DEVICE_DRIVE_L2 = 14;//2;
+	public static final int CAN_DEVICE_DRIVE_R1 = 19;//9;
+	public static final int CAN_DEVICE_DRIVE_R2 = 11;//10;
 }

@@ -9,6 +9,7 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,7 +22,14 @@ public class Drivetrain extends Subsystem {
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
 	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
-
+	
+	
+	private Timer robotSetTimer = new Timer();
+	private static final double ROBOT_SET_DURATION = 3;
+    private int currentState = 0;
+	
+    
+    
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
 	
 	//true if arm-perspective, false if stacker-perspective
@@ -56,14 +64,14 @@ public class Drivetrain extends Subsystem {
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
     	if(isLowGear){
-    		leftValue /= 2.0;
-    		rightValue /= 2.0;
+    		leftValue /= 1.8;
+    		rightValue /= 1.8;
     	}
     	if(armPerspective){
-        	drive.tankDrive(-rightValue/1.4, -leftValue/1.4);
+        	drive.tankDrive(-rightValue/1.3, -leftValue/1.3);
     	}
     	else{
-        	drive.tankDrive(leftValue/1.4, rightValue/1.4);
+        	drive.tankDrive(leftValue/1.3, rightValue/1.3);
     	}
     }
     /**
@@ -91,7 +99,75 @@ public class Drivetrain extends Subsystem {
     	return this.isLowGear;
     }
     
-
+    public boolean autonomousMobility(){
+    	switch (currentState){
+        case 0:
+            robotSetTimer.start();
+            
+            currentState++;
+            break;
+        case 1:
+            if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            {
+                
+                currentState++;
+            }
+            drive.tankDrive(0.6,0.6);
+            break;
+        case 2:
+            drive.tankDrive(0,0);
+            currentState = 0;
+            robotSetTimer.stop();
+            robotSetTimer.reset();
+            return true; 
+    }
+    return false;
+    }
+    
+    public boolean autonomousDance(){
+    	switch (currentState){
+        case 0:
+            robotSetTimer.start();
+            
+            currentState++;
+            break;
+        case 1:
+            if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            {
+                
+                currentState++;
+                robotSetTimer.reset();
+                robotSetTimer.start();
+            }
+            drive.tankDrive(-0.5,0.5);
+            break;
+        case 2:
+        	if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            {
+                currentState++;
+                robotSetTimer.reset();
+                robotSetTimer.start();
+            }
+            drive.tankDrive(0.5,-0.5);       	
+        	break;
+        case 3:
+        	if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            {
+                currentState++;
+                robotSetTimer.reset();
+                robotSetTimer.start();
+            }
+            drive.tankDrive(-0.8,0.8);
+        	break;
+        case 4:
+            drive.tankDrive(0,0);
+            currentState = 0;
+            robotSetTimer.stop();
+            robotSetTimer.reset();
+            return true; 
+    }
+    return false;
+    }
     		
     
 }

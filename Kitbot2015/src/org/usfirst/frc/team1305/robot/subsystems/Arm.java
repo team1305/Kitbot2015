@@ -33,7 +33,7 @@ public class Arm extends Subsystem {
 	private double MIN_ELBOW_POT = 0.1;
 	private double MAX_ELBOW_POT = 0.5;
 	private double MIN_WRIST_POT = 0.13;
-	private double MAX_WRIST_POT = 0.36;
+	private double MAX_WRIST_POT = 0.52;
 	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
 	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
 	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative wrist dir
@@ -130,10 +130,18 @@ public class Arm extends Subsystem {
     	//min 0.1 max 0.5
     	
     	if(getElbowPot() <= MIN_ELBOW_POT){
-    		elbowMotor.set(-Math.abs(yAxis)/4);
+    		if(yAxis >= 0){
+    			elbowMotor.set(-Math.abs(yAxis));
+    		}else{
+    			elbowMotor.set(0);
+    		}
     	}
     	else if(getElbowPot() >= MAX_ELBOW_POT){
-    		elbowMotor.set(Math.abs(yAxis)/4);
+    		if(yAxis <= 0){
+    			elbowMotor.set(Math.abs(yAxis));
+    		}else{
+    			elbowMotor.set(0);
+    		}
     	}
     	else{
     		elbowMotor.set(yAxis);
@@ -186,17 +194,27 @@ public class Arm extends Subsystem {
     	targetWristPot = calcTargetWristPot();
 		//TODO:  put min/max logic back in once
 		//potentiometer is fixed
-    	wristMotor.set(-yAxis);
-    	
-//    	if(getWristPot() <= MIN_WRIST_POT){
-//    		WristMotor.set(-Math.abs(yAxis)/4);
-//    	}
-//    	else if(getWristPot() >= MAX_WRIST_POT){
-//    		WristMotor.set(Math.abs(yAxis)/4);
-//    	}
-//    	else{
-//    		WristMotor.set(-yAxis);
-//    	}
+    	if(getWristPot() <= MIN_WRIST_POT){
+    		//testing if motor dir is opposite of what we thought
+    		//if(yAxis <= 0){
+    		if(yAxis >= 0){
+    			wristMotor.set(-Math.abs(yAxis));
+    		}else{
+    			wristMotor.set(0);
+    		}
+    	}
+    	else if(getWristPot() >= MAX_WRIST_POT){
+    		//testing if motor dir is opposite of what we thought
+    		//if(yAxis >= 0){
+    		if(yAxis <= 0){
+    			wristMotor.set(Math.abs(yAxis));
+    		}else{
+    			wristMotor.set(0);
+    		}
+    	}
+    	else{
+    		wristMotor.set(-yAxis);
+    	}
     	updateSmartDashboard();
     }
 
@@ -294,8 +312,8 @@ public class Arm extends Subsystem {
     		if(getShoulderPot() != 0.15){
     			shoulderMotor.set((getShoulderPot()-0.15)*24);
     		}
-    		if(getElbowPot() != 0.44){
-    			elbowMotor.set((getElbowPot()-0.44)*24);
+    		if(getElbowPot() != 0.48){
+    			elbowMotor.set((getElbowPot()-0.48)*24);
     		}
     		if(getWristPot() != 0.37){
     			wristMotor.set((getWristPot()-0.37)*24);

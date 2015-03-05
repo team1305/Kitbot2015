@@ -52,16 +52,15 @@ public class OI {
     public static final int STACKER_AXIS_YL = 3;
     
     
-
-    public static final int BUTTON_RB = 6;
-    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_A = 1;
+    public static final int BUTTON_B = 2;
     public static final int BUTTON_X = 3;
     public static final int BUTTON_Y = 4;
-    public static final int BUTTON_B = 2;
-    public static final int BUTTON_A = 1;
-    public static final int LEFT_JOYSTICK_CLICK = 9;
-    public static final int RIGHT_JOYSTICK_CLICK = 10;
 
+    public static final int RIGHT_JOYSTICK_CLICK = 10;
+    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_RB = 6;
+    public static final int LEFT_JOYSTICK = 9;
     private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
 
@@ -76,7 +75,7 @@ public class OI {
     Button forkToggle = new JoystickButton(driveStick, BUTTON_RB);
     Button armPerspective = new JoystickButton(driveStick, BUTTON_Y);
     Button stackPerspective = new JoystickButton(driveStick, BUTTON_A);
-    Button toggleGear = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
+    Button toggleGear = new JoystickButton(driveStick, LEFT_JOYSTICK);
     
     
     //arm stick functions
@@ -86,8 +85,13 @@ public class OI {
     Button wristButton = new JoystickButton(armStick, BUTTON_B);
     Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
     Button presetButton = new JoystickButton(armStick, BUTTON_LB);
-    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK_CLICK);
+    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK);
     Button toggleWristAutoManu = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
+
+    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
+    Button maxStackPresetButton = new JoystickButton(armStick, BUTTON_X);
+    Button extendedPresetButton = new JoystickButton(armStick, BUTTON_B);
+
 
     
 	public OI(){
@@ -98,12 +102,12 @@ public class OI {
 			toggleGear.whenPressed(new ToggleGear());
 
 			//arm stick command assignments
-			elbowButton.whenPressed(new MoveElbowCommand());
-			shoulderButton.whenPressed(new MoveShoulderCommand());
-			wristButton.whenPressed(new MoveWristCommand());
-			manualOverride.whileHeld(new ExtendedPresetCommand());
-			armIdleButton.whileHeld(new TransportPresetCommand());
-			presetButton.whileHeld(new MaxStackPresetCommand());
+//			elbowButton.whenPressed(new MoveElbowCommand());
+//			shoulderButton.whenPressed(new MoveShoulderCommand());
+//			wristButton.whenPressed(new MoveWristCommand());
+			extendedPresetButton.whileHeld(new ExtendedPresetCommand());
+			transportPresetButton.whileHeld(new TransportPresetCommand());
+			maxStackPresetButton.whileHeld(new MaxStackPresetCommand());
 			claw.toggleWhenPressed(new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
 			

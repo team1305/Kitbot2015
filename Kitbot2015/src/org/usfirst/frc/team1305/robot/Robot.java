@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
 import org.usfirst.frc.team1305.robot.commands.gyroscope.ReInit;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
 import org.usfirst.frc.team1305.robot.subsystems.Accelerometer;
@@ -50,7 +52,7 @@ public class Robot extends IterativeRobot {
 	public static final CameraServo cameraServo = new CameraServo();
 
 
-    Command autonomousCommand;
+    Command autonomousCommand = new AutonomousMasterGroup();
 
     /**
      * This function is run when the robot is first started up and should be
