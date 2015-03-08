@@ -28,11 +28,11 @@ public class Arm extends Subsystem {
 //	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 //	private double hypot;
 //	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT = 0.12;
-	private double MAX_SHOULDER_POT = 0.495;
-	private double MIN_ELBOW_POT = 0.1;
-	private double MAX_ELBOW_POT = 0.5;
-	private double MIN_WRIST_POT = 0.13;
+	private double MIN_SHOULDER_POT = 0.1;//0.12;
+	private double MAX_SHOULDER_POT = 0.49;//0.495;
+	private double MIN_ELBOW_POT = 0.06;//0.1;
+	private double MAX_ELBOW_POT = 0.46;//0.5;
+	private double MIN_WRIST_POT = 0.192;//0.13;
 	private double MAX_WRIST_POT = 0.52;
 	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
 	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
