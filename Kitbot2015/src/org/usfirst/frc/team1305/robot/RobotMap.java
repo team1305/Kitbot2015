@@ -37,14 +37,15 @@ public class RobotMap {
 	public static final int CAN_DEVICE_RIGHT_FORK = 4;
 	public static final int CAN_DEVICE_LEFT_FORK = 3;
 	
-	public static final int SOL_FORK = 0;
-	public static final int SOL_CLAW = 1;
+	public static final int SOL_FORK = 1;
+	public static final int SOL_CLAW = 2;
+	public static final int SOL_STACKER = 0;
 	
 		
-	public static final int CAN_DEVICE_LIFT = 5;
-	public static final int CAN_DEVICE_WRIST = 6;
-	public static final int CAN_DEVICE_SHOULDER = 7;
-	public static final int CAN_DEVICE_ELBOW = 8;
+	public static final int CAN_DEVICE_LIFT = 15;//5;
+	public static final int CAN_DEVICE_WRIST = 26;//6;
+	public static final int CAN_DEVICE_SHOULDER = 27;//7;
+	public static final int CAN_DEVICE_ELBOW = 28;//8;
 	
 
 	public static final int CAN_DEVICE_DRIVE_L1 = 13;//1;

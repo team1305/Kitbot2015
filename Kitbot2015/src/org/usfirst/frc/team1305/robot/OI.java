@@ -6,6 +6,7 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleGear;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleStacker;
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -76,6 +78,7 @@ public class OI {
     Button armPerspective = new JoystickButton(driveStick, BUTTON_Y);
     Button stackPerspective = new JoystickButton(driveStick, BUTTON_A);
     Button toggleGear = new JoystickButton(driveStick, LEFT_JOYSTICK);
+    Button stackerToggle = new JoystickButton(driveStick, BUTTON_LB);
     
     
     //arm stick functions
@@ -97,6 +100,7 @@ public class OI {
 	public OI(){
 			//drive stick command assignments
 			forkToggle.whenPressed(new ToggleForks());
+			stackerToggle.whenPressed(new ToggleStacker());
 			armPerspective.whileHeld(new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
 			toggleGear.whenPressed(new ToggleGear());
