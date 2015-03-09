@@ -28,32 +28,33 @@ public class Arm extends Subsystem {
 //	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 //	private double hypot;
 //	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT = 0.1; //0.12;
-	private int SHOULDER_ANGLE_AT_MIN_POT = 91;
-	private double MAX_SHOULDER_POT = 0.49; //0.495;
-	private int SHOULDER_ANGLE_AT_MAX_POT = 40;
+	private double MIN_SHOULDER_POT = 0.099; //0.12;
+	private int SHOULDER_ANGLE_AT_MIN_POT = 35;
+	private double MAX_SHOULDER_POT = 0.496; //0.495;
+	private int SHOULDER_ANGLE_AT_MAX_POT = 81;
 	private double SHOULDER_YMXB_M = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
 	private double SHOULDER_YMXB_B = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
 	
 	private double MIN_ELBOW_POT = 0.06; //0.1;
-	private int ELBOW_ANGLE_AT_MIN_POT = 135;
+	private int ELBOW_ANGLE_AT_MIN_POT = 126;
 	private double MAX_ELBOW_POT = 0.46; //0.5;
-	private int ELBOW_ANGLE_AT_MAX_POT = 33;
+	private int ELBOW_ANGLE_AT_MAX_POT = 20;
 	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
 	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
 	
-	private double MIN_WRIST_POT = 0.192; //0.13;
+	private double MIN_WRIST_POT = 0.194; //0.13;
 	private int WRIST_ANGLE_AT_MIN_POT = 103;
-	private double MAX_WRIST_POT = 0.52; //0.498; //0.52;
-	private int WRIST_ANGLE_AT_MAX_POT = 235;
+	private double MAX_WRIST_POT = 0.426; //0.498; //0.52;
+	private int WRIST_ANGLE_AT_MAX_POT = 360-136;
+	private int WRIST_SPEED_SCALING_FACTOR = 1;
 	//NB - wrist line (y=mx + b) has y is pot reading, not angle like shoulder and elbow
 	//because we "calc" target pot reading (rather than "reading" current value and calc'ing angle)
-	private double WRIST_YMXB_M = (MIN_WRIST_POT - MAX_WRIST_POT)/(WRIST_ANGLE_AT_MIN_POT - WRIST_ANGLE_AT_MAX_POT);
+	private double WRIST_YMXB_M = (MAX_WRIST_POT - MIN_WRIST_POT)/(WRIST_ANGLE_AT_MAX_POT - WRIST_ANGLE_AT_MIN_POT);
 	private double WRIST_YMXB_B = MAX_WRIST_POT - (WRIST_YMXB_M * WRIST_ANGLE_AT_MAX_POT);
 	
-	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
-	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
-	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative wrist dir
+	private double ELBOW_POT_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes decreasing elbow pot
+	private double SHOULDER_POT_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes decreasing shoulder pot
+	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes decreasing wrist pot
 	private CANTalon shoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon elbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon wristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
@@ -127,7 +128,7 @@ public class Arm extends Subsystem {
     {
     	//measurement of pot to angle produced following formula = .0019x + .0991
     	//return (0.0019 * wristAngle) + 0.0991; //-  WristAngleToPotRatio;
-    	return (WRIST_YMXB_M * getWristPot()) + WRIST_YMXB_B; //-  WristAngleToPotRatio;
+    	return (WRIST_YMXB_M * wristAngle) + WRIST_YMXB_B; //-  WristAngleToPotRatio;
     }
     
     public void MoveShoulder(double yAxis){
@@ -179,7 +180,7 @@ public class Arm extends Subsystem {
     	SmartDashboard.putBoolean("Is Wrist Auto?", isWristAuto);
     	
     	SmartDashboard.putNumber("Target Wrist Angle", targetWristAngle);
-    	SmartDashboard.putNumber("Wrist Pot Calc", targetWristPot);
+    	SmartDashboard.putNumber("Wrist Pot Calc", calcTargetWristPot());
 		SmartDashboard.putNumber("Wrist Motor Suggestion", (getWristPot()-targetWristPot)/getWristPot());
 		
 		SmartDashboard.putNumber("Shoulder Speed", shoulderMotor.get());
@@ -199,40 +200,38 @@ public class Arm extends Subsystem {
     	updateSmartDashboard();
     }
     
-    public void MoveWrist(double yAxis){
+    public void MoveWrist(double xAxis){
     	//if in auto, ignore; otherwise respond
     	if (! isWristAuto)
     	{
-    	 	moveWristDirectly(yAxis);
+    	 	moveWristDirectly(xAxis);
     	}
     		
     }
     
-    private void moveWristDirectly(double yAxis){
+    private void moveWristDirectly(double upDownSpeed){
     	//min 0.12 max 0.37
-    	targetWristPot = calcTargetWristPot();
-		//TODO:  put min/max logic back in once
-		//potentiometer is fixed
-    	if(getWristPot() <= MIN_WRIST_POT){
-    		//testing if motor dir is opposite of what we thought
-    		//if(yAxis <= 0){
-    		if(yAxis >= 0){
-    			wristMotor.set(-Math.abs(yAxis));
-    		}else{
-    			wristMotor.set(0);
-    		}
+    	//targetWristPot = calcTargetWristPot();
+    	//if flexing up, and wrist already at min pot, ignore
+    	if(upDownSpeed > 0 & getWristPot() <= MIN_WRIST_POT){
+			wristMotor.set(0);
+//    		if(xAxis >= 0){
+//    			wristMotor.set(-Math.abs(xAxis));
+//    		}else{
+//    			wristMotor.set(0);
+//    		}
     	}
-    	else if(getWristPot() >= MAX_WRIST_POT){
-    		//testing if motor dir is opposite of what we thought
-    		//if(yAxis >= 0){
-    		if(yAxis <= 0){
-    			wristMotor.set(Math.abs(yAxis));
-    		}else{
-    			wristMotor.set(0);
-    		}
+    	//if going down (extending), and wrist already at max pot, ignore
+    	else if(upDownSpeed > 0 & getWristPot() >= MAX_WRIST_POT){
+    		wristMotor.set(0);
+//    		if(xAxis <= 0){
+//    			wristMotor.set(Math.abs(xAxis));
+//    		}else{
+//    			wristMotor.set(0);
+//    		}
     	}
     	else{
-    		wristMotor.set(-yAxis);
+    		wristMotor.set(WRIST_DIR_TO_MOTOR_DIR * upDownSpeed);
     	}
     	updateSmartDashboard();
     }
@@ -246,7 +245,10 @@ public class Arm extends Subsystem {
         	if(getWristPot() != targetWristPot){
         		//WristMotor.set((getWristPot()-targetWristPot)*24);
         		//calc fraction it is away, and send as joystick signal
-        		moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
+        		//if it is "close" to it's target, ((actual - target)/actual) will be very small
+        		//so speed will be slow
+        		//WRIST_SPEED_SCALING_FACTOR is mostly for unit testing so can make wrist go really slow.
+        		moveWristDirectly(WRIST_SPEED_SCALING_FACTOR * (getWristPot()-targetWristPot)/getWristPot());
     		}
         	updateSmartDashboard();	
     	}

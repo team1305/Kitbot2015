@@ -43,7 +43,7 @@ public class RobotMap {
 	
 		
 	public static final int CAN_DEVICE_LIFT = 15;//5;
-	public static final int CAN_DEVICE_WRIST = 27;//6;
+	public static final int CAN_DEVICE_WRIST = 17;//6;
 	public static final int CAN_DEVICE_SHOULDER = 12;//7;
 	public static final int CAN_DEVICE_ELBOW = 16;//8;
 	
