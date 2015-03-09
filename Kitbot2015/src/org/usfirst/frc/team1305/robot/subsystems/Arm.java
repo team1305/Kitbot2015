@@ -46,6 +46,9 @@ public class Arm extends Subsystem {
 	private double targetWristPot;
 	private double targetWristAngle;
 	private boolean isWristAuto = true;
+	public static final int ARM_PRESET_EXTENDED = 1;
+	public static final int ARM_PRESET_TRANSPORT = 2;
+	public static final int ARM_PRESET_MAX_STACK = 3;
 	
 	public Arm(){
 		
@@ -293,9 +296,9 @@ public class Arm extends Subsystem {
     	
     }
     
-    public void ArmPresets(String preset){
+    public void ArmPresets(int preset){
 
-    	if(preset == OI.ARM_PRESET_EXTENDED){
+    	if(preset == ARM_PRESET_EXTENDED){
     		
     		if(getShoulderPot() != 0.45){
     			shoulderMotor.set((getShoulderPot()-0.45)*24);
@@ -308,7 +311,7 @@ public class Arm extends Subsystem {
     		}
     		//0.22
     	} 
-    	else if(preset == OI.ARM_PRESET_TRANSPORT){
+    	else if(preset == ARM_PRESET_TRANSPORT){
     		if(getShoulderPot() != 0.15){
     			shoulderMotor.set((getShoulderPot()-0.15)*24);
     		}
@@ -319,7 +322,7 @@ public class Arm extends Subsystem {
     			wristMotor.set((getWristPot()-0.37)*24);
     		}
     	}
-    	else if(preset == OI.ARM_PRESET_MAX_STACK){
+    	else if(preset == ARM_PRESET_MAX_STACK){
     		if(getShoulderPot() != 0.17){
     			shoulderMotor.set((getShoulderPot()-0.17)*24);
     		}

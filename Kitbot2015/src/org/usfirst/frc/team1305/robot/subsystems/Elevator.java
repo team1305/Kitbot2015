@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.elevator.ManualElevator;
 
@@ -21,6 +22,9 @@ public class Elevator extends Subsystem {
 	private final double STACKER_P = 0.0;
 	private final double STACKER_I = 0.0;
 	private final double STACKER_D = 0.0;
+	
+	private double ELEVATOR_MOTOR_UP_SPEED = 1;
+	private double ELEVATOR_MOTOR_DOWN_SPEED = 1;
 	
 	//preset values for the stacker, in ascending order
 	private final double[] PRESETS = {0.0, 1.0, 2.0, 3.0};
@@ -58,7 +62,8 @@ public class Elevator extends Subsystem {
      * @param axis movement value form [-1, 1]
      */
     public void manualHeight(double axis){
-    	if((stackerTalon.getControlMode().equals(CANTalon.ControlMode.PercentVbus))){
+    	if((stackerTalon.getControlMode().equals(CANTalon.ControlMode.PercentVbus) 
+    			&& Robot.oi.usingAttack3 == false)){
     		stackerTalon.set(axis);
     	}
     }
@@ -136,6 +141,15 @@ public class Elevator extends Subsystem {
     		return PRESETS[presetIndex];
     	}
     }
+    
+    public void elevatorUp(){
+    	stackerTalon.set(ELEVATOR_MOTOR_UP_SPEED);
+    }
+    
+    public void elevatorDown(){
+    	stackerTalon.set(-ELEVATOR_MOTOR_DOWN_SPEED);
+    }
+    
     
     
 }
