@@ -7,9 +7,11 @@ import org.usfirst.frc.team1305.robot.commands.claw.ClawDoNothing;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,10 +24,16 @@ public class Claw extends Subsystem {
     
 	private Solenoid ClawAct = new Solenoid(RobotMap.SOL_CLAW);
 	
+	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_CLAW_TRIGGER);
+	
+	private Timer triggerTimer = new Timer();
+	
 	private boolean IsOpen = false;
+	
+	private double TRIGGER_LOCKOUT = 3;
     
     public Claw(){
-    	
+    	triggerTimer.start();
     }
     
     public void initDefaultCommand() {
@@ -37,6 +45,7 @@ public class Claw extends Subsystem {
     //toggles claw
     public  void toggleGrab(){
     	if (IsOpen == false){
+    		triggerTimer.reset();
     		IsOpen = true;
 //    		SmartDashboard.putString("Claw Status :", "Open!");
     		ClawAct.set(true);
@@ -48,7 +57,13 @@ public class Claw extends Subsystem {
     	}
     }
 
-    
+    public void autoGrab(){
+    	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
+    	ClawAct.set(false);
+    	IsOpen = false;
+    	}
+    	
+    }
     
 }
 

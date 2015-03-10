@@ -65,25 +65,31 @@ public class Arm extends Subsystem {
 	private double targetWristAngle;
 	private boolean isWristAuto = true;
 
+	public static final int ARM_PRESET_EXTENDED = 1;
+	public static final int ARM_PRESET_TRANSPORT = 2;
+	public static final int ARM_PRESET_MAX_STACK = 3;
+	
 	public Arm(){
-
+		
 	}
-
+	
 	// Called just before this Command runs the first time
-	protected void initialize() {
-		System.out.println("Arm is Initialized");
-		SmartDashboard.putNumber("Shoulder MIN Pot", MIN_SHOULDER_POT);
-		SmartDashboard.putNumber("Shoulder MAX Pot", MAX_SHOULDER_POT);
-		SmartDashboard.putNumber("Elbow MIN Pot", MIN_ELBOW_POT);
-		SmartDashboard.putNumber("Elbow MAX Pot", MAX_ELBOW_POT);
-		SmartDashboard.putNumber("Wrist MIN Pot", MIN_WRIST_POT);
-		SmartDashboard.putNumber("Wrist MAX Pot", MAX_WRIST_POT);
-	}
+    protected void initialize() {
+    	System.out.println("Arm is Initialized");
+    	SmartDashboard.putNumber("Shoulder MIN Pot", MIN_SHOULDER_POT);    
+    	SmartDashboard.putNumber("Shoulder MAX Pot", MAX_SHOULDER_POT);    
+    	SmartDashboard.putNumber("Elbow MIN Pot", MIN_ELBOW_POT);    
+    	SmartDashboard.putNumber("Elbow MAX Pot", MAX_ELBOW_POT);
+    	SmartDashboard.putNumber("Wrist MIN Pot", MIN_WRIST_POT);    
+    	SmartDashboard.putNumber("Wrist MAX Pot", MAX_WRIST_POT); 
+    }
+    
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        setDefaultCommand(new ArmDefaultCommand());
+    }
+    
 
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		setDefaultCommand(new ArmDefaultCommand());
-	}
 
 	private double GetShoulderAngle()
 	{
@@ -119,7 +125,7 @@ public class Arm extends Subsystem {
 	private double calcTargetWristPot()
 	{
 		targetWristAngle = GetElbowAngle() + GetShoulderAngle(); // - 90;
-		updateSmartDashboard();
+		updateSmartDashboard2();
 		return ConvertWristAngleToPot(targetWristAngle);
 	}
 
@@ -173,7 +179,7 @@ public class Arm extends Subsystem {
 
 	}
 
-	private void updateSmartDashboard()
+	private void updateSmartDashboard2()
 	{
 		SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
 		SmartDashboard.putNumber("Elbow Pot", getElbowPot());
@@ -192,13 +198,13 @@ public class Arm extends Subsystem {
 	private void updateSmartDashboard(String itemLabel, double itemValue)
 	{
 		SmartDashboard.putNumber(itemLabel, itemValue);
-		updateSmartDashboard();
+		updateSmartDashboard2();
 	}
 
 	private void updateSmartDashboard(String itemLabel, String itemValue)
 	{
 		SmartDashboard.putString(itemLabel, itemValue);
-		updateSmartDashboard();
+		updateSmartDashboard2();
 	}
 
 	public void MoveWrist(double xAxis){
@@ -236,24 +242,31 @@ public class Arm extends Subsystem {
 		else{
 			wristMotor.set(-xAxis);
 		}
-		updateSmartDashboard();
+		updateSmartDashboard2();
 	}
 
-	public void MoveWristAutomatically()
-	{
-		//if wrist is not in auto mode, just ignore
-		if (isWristAuto){
-			targetWristPot = calcTargetWristPot();
 
-			if(getWristPot() != targetWristPot){
-				//WristMotor.set((getWristPot()-targetWristPot)*24);
-				//calc fraction it is away, and send as joystick signal
-				moveWristDirectly(20 * (getWristPot()-targetWristPot)/getWristPot());
-			}
-			updateSmartDashboard();
-		}
+    public void MoveWristAutomatically()
+    {
+    	//if wrist is not in auto mode, just ignore
+    	if (isWristAuto){
+    		targetWristPot = calcTargetWristPot();
+        	
+        	if(getWristPot() != targetWristPot){
+        		//WristMotor.set((getWristPot()-targetWristPot)*24);
+        		//calc fraction it is away, and send as joystick signal
+        		moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
+    		}
+        	updateSmartDashboard2();	
+    	}
+    	
+    }
+    
 
-	}
+    
+
+    
+
 
 	public void toggleWristAutoManu(){
 		isWristAuto = !isWristAuto;
@@ -314,43 +327,43 @@ public class Arm extends Subsystem {
 
 	}
 
-	public void ArmPresets(String preset){
+	public void ArmPresets(int preset){
 
-		if(preset == OI.ARM_PRESET_EXTENDED){
-
-			if(getShoulderPot() != 0.45){
-				shoulderMotor.set((getShoulderPot()-0.45)*24);
-			}
-			if(getElbowPot() != 0.12){
-				elbowMotor.set((getElbowPot()-0.12)*24);
-			}
-			if(getWristPot() != 0.42){
-				wristMotor.set((getWristPot()-0.42)*24);
-			}
-			//0.22
-		}
-		else if(preset == OI.ARM_PRESET_TRANSPORT){
-			if(getShoulderPot() != 0.15){
-				shoulderMotor.set((getShoulderPot()-0.15)*24);
-			}
-			if(getElbowPot() != 0.48){
-				elbowMotor.set((getElbowPot()-0.48)*24);
-			}
-			if(getWristPot() != 0.37){
-				wristMotor.set((getWristPot()-0.37)*24);
-			}
-		}
-		else if(preset == OI.ARM_PRESET_MAX_STACK){
-			if(getShoulderPot() != 0.17){
-				shoulderMotor.set((getShoulderPot()-0.17)*24);
-			}
-			if(getElbowPot() != 0.10){
-				elbowMotor.set((getElbowPot()-0.10)*24);
-			}
-			if(getWristPot() != 0.52){
-				wristMotor.set((getWristPot()-0.52)*24);
-			}
-		}
-		updateSmartDashboard("Preset Is", preset);
-	}
+    	if(preset == ARM_PRESET_EXTENDED){
+    		
+    		if(getShoulderPot() != 0.45){
+    			shoulderMotor.set((getShoulderPot()-0.45)*24);
+    		}
+    		if(getElbowPot() != 0.12){
+    			elbowMotor.set((getElbowPot()-0.12)*24);
+    		}
+    		if(getWristPot() != 0.42){
+    			wristMotor.set((getWristPot()-0.42)*24);
+    		}
+    		//0.22
+    	} 
+    	else if(preset == ARM_PRESET_TRANSPORT){
+    		if(getShoulderPot() != 0.15){
+    			shoulderMotor.set((getShoulderPot()-0.15)*24);
+    		}
+    		if(getElbowPot() != 0.48){
+    			elbowMotor.set((getElbowPot()-0.48)*24);
+    		}
+    		if(getWristPot() != 0.37){
+    			wristMotor.set((getWristPot()-0.37)*24);
+    		}
+    	}
+    	else if(preset == ARM_PRESET_MAX_STACK){
+    		if(getShoulderPot() != 0.17){
+    			shoulderMotor.set((getShoulderPot()-0.17)*24);
+    		}
+    		if(getElbowPot() != 0.10){
+    			elbowMotor.set((getElbowPot()-0.10)*24);
+    		}
+    		if(getWristPot() != 0.52){
+    			wristMotor.set((getWristPot()-0.52)*24);
+    		}
+    	}
+    	updateSmartDashboard("Preset Is", preset);
+    }
 }

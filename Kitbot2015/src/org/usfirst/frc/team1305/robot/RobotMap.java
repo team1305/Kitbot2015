@@ -33,6 +33,10 @@ public class RobotMap {
 	public static final int ANALOG_POT_ELBOW = 2;
 	public static final int ANALOG_POT_SHOULDER = 1;
 	
+	//Digital Ports
+	public static final int DIO_STACKER_TRIGGER = 8;
+	public static final int DIO_CLAW_TRIGGER = 9;
+	
 	//right & left fork CAN motors need to be removed - replaced by solenoid
 	public static final int CAN_DEVICE_RIGHT_FORK = 4;
 	public static final int CAN_DEVICE_LEFT_FORK = 3;

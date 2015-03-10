@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.forks;
+package org.usfirst.frc.team1305.robot.commands.elevator;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -8,26 +8,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ForksDoNothing extends Command {
+public class ElevatorUp extends Command {
 
-    public ForksDoNothing() {
+	
+    public ElevatorUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.forks);
+    	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.elevator.setMode(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putBoolean("Fork AutoGrab", Robot.forks.trigger.get());
-    	if(Robot.forks.trigger.get() == false){
-    		Robot.forks.autoForks();
-    	}
+    	Robot.elevator.elevatorUp();
     }
 
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;

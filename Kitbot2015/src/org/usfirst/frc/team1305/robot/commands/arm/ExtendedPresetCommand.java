@@ -5,6 +5,8 @@ import org.usfirst.frc.team1305.robot.Robot;
 
 
 
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -24,7 +26,7 @@ public class ExtendedPresetCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.ArmPresets(OI.ARM_PRESET_EXTENDED);
+    	Robot.arm.ArmPresets(Arm.ARM_PRESET_EXTENDED);
     }
     
     // Make this return true when this Command no longer needs to run execute()
