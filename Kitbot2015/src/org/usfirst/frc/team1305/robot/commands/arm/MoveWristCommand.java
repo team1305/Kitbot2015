@@ -23,7 +23,8 @@ public class MoveWristCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.MoveWrist(Robot.oi.getArmYR());
+    	//Robot.arm.MoveWrist(Robot.oi.getArmYR());
+    	Robot.arm.MoveWrist(Robot.oi.getWristXR());
     
     }
 

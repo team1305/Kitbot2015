@@ -31,7 +31,7 @@ public class ArmDefaultCommand extends Command {
 		
 		//arm subsystem will only allow one of these two commands to control the wrist
 		Robot.arm.MoveWrist(Robot.oi.getWristXR());    	
-    	Robot.arm.MoveWristAutomatically();
+    	//TODO:  Robot.arm.MoveWristAutomatically();
     }
 
     
