@@ -28,29 +28,29 @@ public class Arm extends Subsystem {
 	// private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 	// private double hypot;
 	// private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT = 0.099; //0.12;		
-	private int SHOULDER_ANGLE_AT_MIN_POT = 35;		
-	private double MAX_SHOULDER_POT = 0.496; //0.495;		
-	private int SHOULDER_ANGLE_AT_MAX_POT = 81;		
-	private double SHOULDER_YMXB_M = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT); //115.87; //		
-	private double SHOULDER_YMXB_B = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT); //23.53; //		
+	private double MIN_SHOULDER_POT = 0.100; //0.12;		
+	private int SHOULDER_ANGLE_AT_MIN_POT = 30;		
+	private double MAX_SHOULDER_POT = 0.500; //0.495;		
+	private int SHOULDER_ANGLE_AT_MAX_POT = 90;		
+	private double SHOULDER_YMXB_M = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT); //150; //		
+	private double SHOULDER_YMXB_B = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT); //15; //		
 			
-	private double MIN_ELBOW_POT = 0.06; //0.1;		
-	private int ELBOW_ANGLE_AT_MIN_POT = 126;		
-	private double MAX_ELBOW_POT = 0.46; //0.5;		
-	private int ELBOW_ANGLE_AT_MAX_POT = 20;		
-	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT); //-265 ; //		
-	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT); //141.9; //		
+	private double MIN_ELBOW_POT = 0.02; //0.1;		
+	private int ELBOW_ANGLE_AT_MIN_POT = 135;		
+	private double MAX_ELBOW_POT = 0.463; //0.5;		
+	private int ELBOW_ANGLE_AT_MAX_POT = 17;		
+	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT); //-256 ; //		
+	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT); //135.5; //		
 			
-	private double MIN_WRIST_POT = 0.194; //0.13;		
-	private int WRIST_ANGLE_AT_MIN_POT = 103;		
-	private double MAX_WRIST_POT = 0.426; //0.498; //0.52;		
-	private int WRIST_ANGLE_AT_MAX_POT = 360-136;		
+	private double MIN_WRIST_POT = 0.191; //0.13;		
+	private int WRIST_ANGLE_AT_MIN_POT = 95;		
+	private double MAX_WRIST_POT = 0.429; //0.498; //0.52;		
+	private int WRIST_ANGLE_AT_MAX_POT = 360-135;		
 	private int WRIST_SPEED_SCALING_FACTOR = 1;		
 	//NB - wrist line (y=mx + b) has y is pot reading, not angle like shoulder and elbow		
 	//because we "calc" target pot reading (rather than "reading" current value and calc'ing angle)		
-	private double WRIST_YMXB_M = (MAX_WRIST_POT - MIN_WRIST_POT)/(WRIST_ANGLE_AT_MAX_POT - WRIST_ANGLE_AT_MIN_POT); //0.0019;//		
-	private double WRIST_YMXB_B = MAX_WRIST_POT - (WRIST_YMXB_M * WRIST_ANGLE_AT_MAX_POT); //0.0035; //		
+	private double WRIST_YMXB_M = (MAX_WRIST_POT - MIN_WRIST_POT)/(WRIST_ANGLE_AT_MAX_POT - WRIST_ANGLE_AT_MIN_POT); //0.0018;//		
+	private double WRIST_YMXB_B = MAX_WRIST_POT - (WRIST_YMXB_M * WRIST_ANGLE_AT_MAX_POT); //0.017	; //		
 
 	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
 	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
@@ -248,7 +248,7 @@ public class Arm extends Subsystem {
 			if(getWristPot() != targetWristPot){
 				//WristMotor.set((getWristPot()-targetWristPot)*24);
 				//calc fraction it is away, and send as joystick signal
-				moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
+				moveWristDirectly(20 * (getWristPot()-targetWristPot)/getWristPot());
 			}
 			updateSmartDashboard();
 		}
