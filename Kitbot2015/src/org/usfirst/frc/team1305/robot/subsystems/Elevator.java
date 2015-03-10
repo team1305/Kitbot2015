@@ -23,8 +23,8 @@ public class Elevator extends Subsystem {
 	private final double STACKER_I = 0.0;
 	private final double STACKER_D = 0.0;
 	
-	private double ELEVATOR_MOTOR_UP_SPEED = 1;
-	private double ELEVATOR_MOTOR_DOWN_SPEED = 1;
+	private double ELEVATOR_MOTOR_UP_SPEED = 2;
+	private double ELEVATOR_MOTOR_DOWN_SPEED = 2;
 	
 	//preset values for the stacker, in ascending order
 	private final double[] PRESETS = {0.0, 1.0, 2.0, 3.0};

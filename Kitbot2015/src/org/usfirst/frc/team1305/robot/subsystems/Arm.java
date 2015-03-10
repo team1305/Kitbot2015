@@ -35,7 +35,7 @@ public class Arm extends Subsystem {
 	private double SHOULDER_YMXB_M = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
 	private double SHOULDER_YMXB_B = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
 	
-	private double MIN_ELBOW_POT = 0.06; //0.1;
+	private double MIN_ELBOW_POT = 0.02; //0.1;
 	private int ELBOW_ANGLE_AT_MIN_POT = 135;
 	private double MAX_ELBOW_POT = 0.46; //0.5;
 	private int ELBOW_ANGLE_AT_MAX_POT = 33;
@@ -249,7 +249,7 @@ public class Arm extends Subsystem {
         	if(getWristPot() != targetWristPot){
         		//WristMotor.set((getWristPot()-targetWristPot)*24);
         		//calc fraction it is away, and send as joystick signal
-        		moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
+        		//moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
     		}
         	updateSmartDashboard();	
     	}

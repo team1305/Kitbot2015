@@ -183,14 +183,14 @@ public class OI {
 //    	}
 //    }
     public double getWristXR(){
-    	SmartDashboard.putNumber("Wrist XR", armStick.getRawAxis(AXIS_XR));
+    	SmartDashboard.putNumber("Wrist XR", armStick.getRawAxis(4));
     	if (invertArmStick)
         {
-    		return armStick.getRawAxis(AXIS_XR) * -1;
+    		return armStick.getRawAxis(4) * -1;
         }
     	else
     	{
-    		return armStick.getRawAxis(AXIS_XR);
+    		return armStick.getRawAxis(4);
     	}
     }
     
@@ -198,11 +198,11 @@ public class OI {
     	//SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
     	if (invertArmStick)
         {
-    		return armStick.getRawAxis(AXIS_YL) * -1;
+    		return armStick.getRawAxis(1) * -1;
         }
     	else
     	{
-    		return armStick.getRawAxis(AXIS_YL);
+    		return armStick.getRawAxis(1);
     	}
     }
     
@@ -210,11 +210,11 @@ public class OI {
     	//SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
     	if (invertArmStick)
         {
-    		return armStick.getRawAxis(AXIS_YR) * -1;
+    		return armStick.getRawAxis(5) * -1;
         }
     	else
     	{
-    		return armStick.getRawAxis(AXIS_YR);
+    		return armStick.getRawAxis(5);
     	}
     }
     
@@ -222,11 +222,11 @@ public class OI {
     	//SmartDashboard.putNumber("Arm YR", armStick.getRawAxis(ARM_AXIS_YR));
     	if (invertArmStick)
         {
-    		return armStick.getRawAxis(AXIS_YR) * -1;
+    		return armStick.getRawAxis(5) * -1;
         }
     	else
     	{
-    		return armStick.getRawAxis(AXIS_YR);
+    		return armStick.getRawAxis(5);
     	}
     }
     

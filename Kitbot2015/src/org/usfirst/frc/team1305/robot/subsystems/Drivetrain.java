@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.CANJaguar.ControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +27,7 @@ public class Drivetrain extends Subsystem {
 	
 	private Timer robotSetTimer = new Timer();
 	private static final double ROBOT_SET_DURATION = 3;
+	private static final double ROBOT_DANCE_DURATION = 1;
     private int currentState = 0;
 	
     
@@ -34,7 +36,7 @@ public class Drivetrain extends Subsystem {
 	
 	//true if arm-perspective, false if stacker-perspective
 	private boolean armPerspective = false;
-	private boolean isLowGear = false;
+	public boolean isLowGear = false;
 	
 
 
@@ -64,8 +66,8 @@ public class Drivetrain extends Subsystem {
     //function for tankdrive
     public void tankDrive(double leftValue, double rightValue){
     	if(isLowGear){
-    		leftValue /= 1.8;
-    		rightValue /= 1.8;
+    		leftValue /= 1.6;
+    		rightValue /= 1.6;
     	}
     	if(armPerspective){
         	drive.tankDrive(-rightValue/1.3, -leftValue/1.3);
@@ -102,6 +104,10 @@ public class Drivetrain extends Subsystem {
     public boolean autonomousMobility(){
     	switch (currentState){
         case 0:
+        	ml1.changeControlMode(CANTalon.ControlMode.Voltage);
+        	ml2.changeControlMode(CANTalon.ControlMode.Voltage);
+        	mr1.changeControlMode(CANTalon.ControlMode.Voltage);
+        	mr2.changeControlMode(CANTalon.ControlMode.Voltage);
             robotSetTimer.start();
             
             currentState++;
@@ -112,13 +118,17 @@ public class Drivetrain extends Subsystem {
                 
                 currentState++;
             }
-            drive.tankDrive(0.6,0.6);
+            drive.tankDrive(-8,-8);
             break;
         case 2:
             drive.tankDrive(0,0);
             currentState = 0;
             robotSetTimer.stop();
             robotSetTimer.reset();
+            ml1.changeControlMode(CANTalon.ControlMode.PercentVbus);
+        	ml2.changeControlMode(CANTalon.ControlMode.PercentVbus);
+        	mr1.changeControlMode(CANTalon.ControlMode.PercentVbus);
+        	mr2.changeControlMode(CANTalon.ControlMode.PercentVbus);
             return true; 
     }
     return false;
@@ -132,7 +142,7 @@ public class Drivetrain extends Subsystem {
             currentState++;
             break;
         case 1:
-            if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
             {
                 
                 currentState++;
@@ -142,7 +152,7 @@ public class Drivetrain extends Subsystem {
             drive.tankDrive(-0.5,0.5);
             break;
         case 2:
-        	if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
             {
                 currentState++;
                 robotSetTimer.reset();
@@ -151,13 +161,13 @@ public class Drivetrain extends Subsystem {
             drive.tankDrive(0.5,-0.5);       	
         	break;
         case 3:
-        	if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
             {
                 currentState++;
                 robotSetTimer.reset();
                 robotSetTimer.start();
             }
-            drive.tankDrive(-0.8,0.8);
+            drive.tankDrive(-0.3,0.3);
         	break;
         case 4:
             drive.tankDrive(0,0);

@@ -17,8 +17,6 @@ public class AutonomousMasterGroup extends CommandGroup {
     public AutonomousMasterGroup() {
     	addSequential(new AutonomousMobility());
     	addSequential(new AutonomousDance());
-    	addSequential(new AutonomousDance());
-    	addSequential(new AutonomousDance());
     	
     	
 //        //Changes the autonomous if the robot is in the middle of the field.
