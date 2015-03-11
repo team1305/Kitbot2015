@@ -17,14 +17,16 @@ public class Elevator extends Subsystem {
     //constants
 	//TODO: find values for these
 	private final double BASE_HEIGHT = 0.0;
-	private final double VALUE = 0.0;
+	private final double SCALING_VALUE = 0.0;
 	
 	private final double STACKER_P = 0.0;
 	private final double STACKER_I = 0.0;
 	private final double STACKER_D = 0.0;
 	
-	private double ELEVATOR_MOTOR_UP_SPEED = 2;
-	private double ELEVATOR_MOTOR_DOWN_SPEED = 2;
+	private double ELEVATOR_MOTOR_UP_SPEED = 1;
+	private double ELEVATOR_MOTOR_DOWN_SPEED = 1;
+	
+	public static final double ELEVATOR_PRESET_TOLERANCE = 3.00; //percent
 	
 	//preset values for the stacker, in ascending order
 	private final double[] PRESETS = {0.0, 1.0, 2.0, 3.0};
@@ -58,7 +60,8 @@ public class Elevator extends Subsystem {
 
     /**
      * Move the arm manually using an axis value from [-1, 1]
-     * Only works in Percentage Mode
+     * 
+     * Only works in Percentage Mode, gets value from ManualElevator
      * @param axis movement value form [-1, 1]
      */
     public void manualHeight(double axis){
@@ -75,7 +78,7 @@ public class Elevator extends Subsystem {
     public double getHeight(){
     	//value is in range [0, 1023]
     	int value = stackerTalon.getAnalogInRaw();
-    	return BASE_HEIGHT + value * VALUE;
+    	return BASE_HEIGHT + value * SCALING_VALUE;
     }
     /**
      * Set the desired height of the stacker
@@ -83,7 +86,7 @@ public class Elevator extends Subsystem {
      * @param height the desired height of the stacker in inches from the ground.
      */
     public void setHeight(double height){
-    	int value = (int)( (height - BASE_HEIGHT)/(VALUE) );
+    	int value = (int)( (height - BASE_HEIGHT)/(SCALING_VALUE) );
     	//only set if we're in position control mode
     	if(stackerTalon.getControlMode().equals(CANTalon.ControlMode.Position)){
     		stackerTalon.set(value);
@@ -142,10 +145,16 @@ public class Elevator extends Subsystem {
     	}
     }
     
+    /**
+     * Elevator goes up at set speed, for attack 3 controls.
+     */
     public void elevatorUp(){
     	stackerTalon.set(ELEVATOR_MOTOR_UP_SPEED);
     }
     
+    /**
+     * Elevator goes down at a set speed, for attack 3 controls.
+     */
     public void elevatorDown(){
     	stackerTalon.set(-ELEVATOR_MOTOR_DOWN_SPEED);
     }

@@ -13,13 +13,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
 import org.usfirst.frc.team1305.robot.commands.gyroscope.ReInit;
 import org.usfirst.frc.team1305.robot.commands.powerpanel.getPowerMetric;
-import org.usfirst.frc.team1305.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team1305.robot.subsystems.CameraServo;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
-//import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
@@ -36,19 +34,18 @@ import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final PowerPanel powerPanel = new PowerPanel();
-	public static final Accelerometer accelerometer = new Accelerometer();
-	public static final Gyroscope gyroscope = new Gyroscope();
-	public static final Claw claw = new Claw();
+	public static final Drivetrain drivetrain	    = new Drivetrain();
+	public static final PowerPanel powerPanel   	= new PowerPanel();
+	public static final Gyroscope gyroscope         = new Gyroscope();
+	public static final Claw claw                   = new Claw();
 	
 	//camera server aka camera declaration
 	CameraServer server;
 	
 
-	public static final Arm arm = new Arm();
-	public static final Forks forks = new Forks();
-	public static final Elevator elevator = new Elevator();
+	public static final Arm arm                 = new Arm();
+	public static final Forks forks             = new Forks();
+	public static final Elevator elevator       = new Elevator();
 	public static final CameraServo cameraServo = new CameraServo();
 
 
@@ -69,7 +66,6 @@ public class Robot extends IterativeRobot {
         //starts camera feed
         //TODO: REMEMBER THIS
         //server.startAutomaticCapture("cam0");
-        // instantiate the command used for the autonomous period
     }
 	
 	public void disabledPeriodic() {
@@ -94,8 +90,6 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        System.out.println("Teleop is Initialized");
-//        SmartDashboard.putString("RobotStatus", "Entering Teleop");
     }
 
     /**

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawDoNothing;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 

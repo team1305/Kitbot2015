@@ -18,15 +18,11 @@ public class ArmDefaultCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("ArmDefaultCommand is Initialized");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	
 		Robot.arm.MoveElbow(Robot.oi.getElbowYR());
-    	//Robot.arm.MoveShoulder(Robot.oi.getShoulderYL());
 		Robot.arm.MoveShoulder(-Robot.oi.getShoulderYL());
 		
 		//arm subsystem will only allow one of these two commands to control the wrist

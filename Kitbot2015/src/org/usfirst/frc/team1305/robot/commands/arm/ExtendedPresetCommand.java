@@ -10,7 +10,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Activates extended preset command in the Arm Subsystem
  */
 public class ExtendedPresetCommand extends Command {
 

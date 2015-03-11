@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Activates Max stack preset command in Arm subsystem
  */
 public class MaxStackPresetCommand extends Command {
 

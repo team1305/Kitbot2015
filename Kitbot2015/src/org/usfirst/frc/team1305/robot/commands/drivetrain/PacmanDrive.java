@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
-import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.DriveTrainPIDOutput;
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -12,6 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class PacmanDrive extends Command {
+	
+	public static final double PACMAN_P = 0.0200;
+	public static final double PACMAN_I = 0.00007;
+	public static final double PACMAN_D = 0.00001;
+	public static final double PACMAN_TOLERANCE = 0.25; //percent
 	
 	PIDController rotateController;
 	DriveTrainPIDOutput dtpo = new DriveTrainPIDOutput();
@@ -30,14 +34,14 @@ public class PacmanDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	rotateController = new PIDController(Constants.PACMAN_P,
-												Constants.PACMAN_I,
-												Constants.PACMAN_D,
+    	rotateController = new PIDController(PACMAN_P,
+												PACMAN_I,
+												PACMAN_D,
 												Robot.gyroscope,
 												dtpo);
 		rotateController.setInputRange(0, 360.0);
 		rotateController.setOutputRange(-1, 1);
-		rotateController.setPercentTolerance(Constants.PACMAN_TOLERANCE);
+		rotateController.setPercentTolerance(PACMAN_TOLERANCE);
 		rotateController.setContinuous();
     	rotateController.enable();
     }

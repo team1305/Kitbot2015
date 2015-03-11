@@ -1,9 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,10 +12,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Gyroscope extends Subsystem implements PIDSource {
     
 	private Gyro gyro = new Gyro(RobotMap.ANALOG_GYRO);
-
+	public static final double GYRO_YAW_RATE = 0.007; // unit v/*/second
 	
 	public Gyroscope(){
-		gyro.setSensitivity(Constants.GYRO_YAW_RATE);
+		gyro.setSensitivity(GYRO_YAW_RATE);
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

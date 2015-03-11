@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
-import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 
@@ -36,8 +35,9 @@ import edu.wpi.first.wpilibj.command.Command;
  * @author Paul Belanger
  */
 public class SmoothDrive extends Command {
+
 	
-	private final double MAX_RATE = Constants.DRIVESMOOTHING_MAX_RATE;
+	private static final double MAX_RATE = 33.3; // units %/second
 	//values that will be assigned to the subsystem
 	private double leftValue = 0;
 	private double rightValue = 0;
@@ -50,7 +50,7 @@ public class SmoothDrive extends Command {
 	private long t1 = 0;
 	//intermediate variables
 	private double moveValue = 0;
-	private double rotateValue = 0;
+	private double rotateValue = 0;	
 	
     public SmoothDrive() {
         // Use requires() here to declare subsystem dependencies
