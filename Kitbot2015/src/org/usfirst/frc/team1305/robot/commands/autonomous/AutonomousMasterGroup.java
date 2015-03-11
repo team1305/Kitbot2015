@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonomousMasterGroup extends CommandGroup {
     double hotCount;
-    
+
     public AutonomousMasterGroup() {
     	addSequential(new AutonomousMobility());
-    	
-    	
+
+
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());

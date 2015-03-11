@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ReInit extends Command {
-	
-	
+
+
 
     public ReInit() {
         // Use requires() here to declare subsystem dependencies

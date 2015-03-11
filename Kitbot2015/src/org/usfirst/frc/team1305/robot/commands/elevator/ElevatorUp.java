@@ -3,14 +3,13 @@ package org.usfirst.frc.team1305.robot.commands.elevator;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class ElevatorUp extends Command {
 
-	
+
     public ElevatorUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -27,7 +26,7 @@ public class ElevatorUp extends Command {
     	Robot.elevator.elevatorUp();
     }
 
-    
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;

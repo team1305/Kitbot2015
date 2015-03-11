@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class PacmanDrive extends Command {
-	
+
 	public static final double PACMAN_P = 0.0200;
 	public static final double PACMAN_I = 0.00007;
 	public static final double PACMAN_D = 0.00001;
 	public static final double PACMAN_TOLERANCE = 0.25; //percent
-	
+
 	PIDController rotateController;
 	DriveTrainPIDOutput dtpo = new DriveTrainPIDOutput();
-	
+
 	double moveValue;
 
     public PacmanDrive() {
@@ -27,9 +27,9 @@ public class PacmanDrive extends Command {
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
     	requires(Robot.gyroscope);
-    	
-    	
-    	
+
+
+
     }
 
     // Called just before this Command runs the first time
@@ -54,7 +54,7 @@ public class PacmanDrive extends Command {
 //    	SmartDashboard.putNumber("Pacdrive: Joystick X", x);
 //    	SmartDashboard.putNumber("Pacdrive: Joystick Y", y);
 //    	SmartDashboard.putNumber("Pacdrive: Angle", Robot.gyroscope.getAngle());
-    	
+
     	//now we get the angle of the stick as well as the magnitude
     	double angle = getAngle(x, y);
     	double magnitude = getMagnitude(x, y);
@@ -62,17 +62,17 @@ public class PacmanDrive extends Command {
 //    	SmartDashboard.putNumber("Pacdrive: stick magnitude", magnitude);
     	//feed the rotate value into the PID object
     	rotateController.setSetpoint(angle);
-    	
+
     	//Now get the result from the PIDController
     	double computedTurn = rotateController.get();
 //    	SmartDashboard.putNumber("Pacdrive: computed stick turn value", computedTurn);
-    	
+
     	//if the angle is off too much, then we don't try to drive foreward
     	double computedForeward = magnitude*(1.0 - Math.abs(computedTurn));
-    	
+
     	//Now we send the magnitude and the computedAngle to the standard  RobotDrive
     	Robot.drivetrain.arcadeDrive(computedForeward, computedTurn*magnitude);
-    	
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -91,18 +91,18 @@ public class PacmanDrive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.drivetrain.arcadeDrive(0, 0);
-    	
+
     	rotateController.disable();
     	rotateController.free();
     }
-    
+
     /**
      * Get the angle the stick is making with the positive-vertical.
-     * 
+     *
      * 0 degrees is considered to be stick full-foreward
      * @param x x-value of stick
      * @param y y-value of stick
-     * 
+     *
      * @return the stick angle in degrees, constrained to [0, 360).
      */
     private double getAngle(double x, double y){
@@ -119,7 +119,7 @@ public class PacmanDrive extends Command {
      * @return Magnitude of the stick displacement, constrained to [0, 1]
      */
     private double getMagnitude(double x, double y){
-    	//pythagorean formula used here. 
+    	//pythagorean formula used here.
     	//we also need to divide by sqrt(2) to properly scale the output.
     	double base = x*x + y*y;
     	return Math.sqrt(base/2.0);

@@ -23,7 +23,7 @@ public class ToggleClaw extends Command {
     protected void execute() {
     	//sets Claw toggle function from claw subsystem to command
     	Robot.claw.toggleGrab();
-    	
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

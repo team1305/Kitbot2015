@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class PowerPanel extends Subsystem {
-    
+
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 //	private double PDPtemp;
@@ -24,9 +24,9 @@ public class PowerPanel extends Subsystem {
 //	private double motor4;
 //	private double motor5;
 //	private double motor6;
-	
+
 	private PowerDistributionPanel pdp = new PowerDistributionPanel();
-	
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

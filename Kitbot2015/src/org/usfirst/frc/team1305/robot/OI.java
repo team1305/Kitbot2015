@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1305.robot;
 
 
+import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
@@ -9,32 +13,25 @@ import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleStacker;
-import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class OI {
-	
+
 
 	//TODO: clean up axis names and decide final controller configuration
 
 	// xbox axis reference
-	public static final int AXIS_XL = 0; 
+	public static final int AXIS_XL = 0;
 	public static final int AXIS_YL = 1;
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
     //Attack 3 axis reference
-	public static final int AXIS_X = 0; 
+	public static final int AXIS_X = 0;
 	public static final int AXIS_Y = 1;
     //F310 Button reference
     public static final int BUTTON_A = 1;
@@ -43,17 +40,17 @@ public class OI {
     public static final int BUTTON_Y = 4;
     public static final int BUTTON_LB = 5;
     public static final int BUTTON_RB = 6;
-    public static final int LEFT_JOYSTICK_CLICK = 9;    
+    public static final int LEFT_JOYSTICK_CLICK = 9;
     public static final int RIGHT_JOYSTICK_CLICK = 10;
-    
+
     private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
 
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
-	
+
 	public static boolean usingAttack3;
-	
+
 
 	//driver stick functions
     Button forkOpenClose;
@@ -63,7 +60,7 @@ public class OI {
     Button forkDeployment;
     Button stackerMoveUp;
     Button stackerMoveDown;
-    
+
     //arm stick functions
     Button clawOpenClose;
     Button presetButton;
@@ -75,7 +72,7 @@ public class OI {
 
 
     /**
-     * Polls drivestation for # of axis, since Attack 3 Joysticks only have 
+     * Polls drivestation for # of axis, since Attack 3 Joysticks only have
      * 3 axis the code will automatically switch to controls for that joystick.
      * Otherwise, defaults to F310 joystick controls.  Arm controls remain
      * same throughout.
@@ -99,7 +96,7 @@ public class OI {
 			forkOpenClose.whenPressed (new ToggleForks());
 
 			usingAttack3 = true;
-			
+
 		}else{
 			//driver stick functions
 			forkOpenClose    = new JoystickButton(driveStick, BUTTON_RB);
@@ -107,47 +104,47 @@ public class OI {
 		    stackPerspective = new JoystickButton(driveStick, BUTTON_A);
 		    toggleGear       = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
 		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
-		    
+
 		    forkOpenClose.whenPressed (new ToggleForks());
 		    forkDeployment.whenPressed(new ToggleStacker());
 			armPerspective.whileHeld  (new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
 			toggleGear.whenPressed    (new ToggleGear());
-			
+
 			usingAttack3 = false;
 		}
-			
-		    
-		    
+
+
+
 		    //arm stick functions
 		    Button claw                  = new JoystickButton(armStick, BUTTON_RB);
 		    Button presetButton          = new JoystickButton(armStick, BUTTON_LB);
 		    Button toggleWristAutoManu   = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
-	
+
 		    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
 		    Button maxStackPresetButton  = new JoystickButton(armStick, BUTTON_X);
 		    Button extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
-		    
-		    
+
+
 			extendedPresetButton.whileHeld (new ExtendedPresetCommand());
 			transportPresetButton.whileHeld(new TransportPresetCommand());
 			maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
 			claw.toggleWhenPressed         (new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
-			
-			
+
+
 
 	}
 
 	//getAxis functions for drivestick
-	public double getDriveXL(){     
+	public double getDriveXL(){
         return driveStick.getRawAxis(AXIS_XL);
 	}
-	
-	public double getDriveX(){     
+
+	public double getDriveX(){
         return driveStick.getRawAxis(AXIS_X);
     }
-	
+
     public double getDriveY(){
         if (invertDriveStick)
         {
@@ -158,9 +155,9 @@ public class OI {
         	return driveStick.getRawAxis(AXIS_Y);
         }
     }
-    
 
-    
+
+
     public double getWristXR(){
     	if (invertArmStick)
         {
@@ -171,7 +168,7 @@ public class OI {
     		return armStick.getRawAxis(4);
     	}
     }
-    
+
     public double getShoulderYL(){
     	if (invertArmStick)
         {
@@ -182,7 +179,7 @@ public class OI {
     		return armStick.getRawAxis(1);
     	}
     }
-    
+
     public double getElbowYR(){
     	if (invertArmStick)
         {
@@ -193,7 +190,7 @@ public class OI {
     		return armStick.getRawAxis(5);
     	}
     }
-    
+
     public double getArmYR(){
     	if (invertArmStick)
         {
@@ -204,23 +201,23 @@ public class OI {
     		return armStick.getRawAxis(5);
     	}
     }
-    
+
 
 
     public double getStackerRX(){
     	return driveStick.getRawAxis(5);
     }
-	
+
     public double getStackerZ(){
     	return driveStick.getRawAxis(4);
     }
-    
+
     public double getDriveAxis(int axis){
-    	return driveStick.getRawAxis(axis);    	
+    	return driveStick.getRawAxis(axis);
     }
-    
-    
-    
+
+
+
 
 
 }

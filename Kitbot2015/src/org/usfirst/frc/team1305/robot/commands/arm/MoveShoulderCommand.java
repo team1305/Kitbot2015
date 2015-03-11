@@ -1,16 +1,15 @@
 package org.usfirst.frc.team1305.robot.commands.arm;
 
 import org.usfirst.frc.team1305.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team1305.robot.subsystems.Arm;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class MoveShoulderCommand extends Command {
 
-	
+
     public MoveShoulderCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -19,20 +18,20 @@ public class MoveShoulderCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.arm.MoveShoulder(Robot.oi.getArmYR());
-    
+
     }
 
     private double calcShoulderPot(double targetAngle){
     	return 0;
         }
-    
-    
+
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;

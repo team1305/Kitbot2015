@@ -1,16 +1,15 @@
 package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team1305.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class Drive extends Command {
-	
+
     public Drive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(Drive);
@@ -27,16 +26,16 @@ public class Drive extends Command {
     	//sets values from drivestick for arcade drive
     	double XL = Robot.oi.getDriveX()/0.8;
     	double YL = Robot.oi.getDriveY();
-    	
+
     	//apply stick values to the arcadedrive function
     	Robot.drivetrain.arcadeDrive(YL, XL);
     	}else{
     		//sets values from drivestick for arcade drive
         	double XL = Robot.oi.getDriveX();
         	double YL = Robot.oi.getDriveY();
-        	
+
         	//apply stick values to the arcadedrive function
-        	Robot.drivetrain.arcadeDrive(YL, XL);    		
+        	Robot.drivetrain.arcadeDrive(YL, XL);
     	}
 
 	}
@@ -56,6 +55,6 @@ public class Drive extends Command {
     }
 
 	public static void toggleSmoothing() {
-		
+
 	}
 }

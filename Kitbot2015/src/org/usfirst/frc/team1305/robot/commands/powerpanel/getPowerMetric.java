@@ -1,9 +1,9 @@
 
 package org.usfirst.frc.team1305.robot.commands.powerpanel;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1305.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *

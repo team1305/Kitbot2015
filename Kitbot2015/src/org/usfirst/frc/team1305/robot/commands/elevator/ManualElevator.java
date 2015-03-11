@@ -3,14 +3,13 @@ package org.usfirst.frc.team1305.robot.commands.elevator;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class ManualElevator extends Command {
 
-	
+
     public ManualElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -26,10 +25,10 @@ public class ManualElevator extends Command {
     protected void execute() {
     	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
 
-    	
+
     }
 
-    
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
