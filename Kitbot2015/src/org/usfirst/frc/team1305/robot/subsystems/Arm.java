@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Controls all arm movement. Holds algorithm for keeping claw horizontal.
  */
 public class Arm extends Subsystem {
 
@@ -26,12 +26,12 @@ public class Arm extends Subsystem {
 //	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 //	private double hypot;
 //	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT = 0.1; //0.12;
+	private double MIN_SHOULDER_POT       = 0.1; //0.12;
 	private int SHOULDER_ANGLE_AT_MIN_POT = 91;
-	private double MAX_SHOULDER_POT = 0.49; //0.495;
+	private double MAX_SHOULDER_POT       = 0.49; //0.495;
 	private int SHOULDER_ANGLE_AT_MAX_POT = 40;
-	private double SHOULDER_YMXB_M = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
-	private double SHOULDER_YMXB_B = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
+	private double SHOULDER_YMXB_M 	      = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
+	private double SHOULDER_YMXB_B        = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
 
 	private double MIN_ELBOW_POT = 0.02; //0.1;
 	private int ELBOW_ANGLE_AT_MIN_POT = 135;

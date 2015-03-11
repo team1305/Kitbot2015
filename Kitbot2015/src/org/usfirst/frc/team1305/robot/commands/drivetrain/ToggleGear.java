@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Toggles between digital low gear and high gear.
  */
 public class ToggleGear extends Command {
 

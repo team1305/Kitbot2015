@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * 90 degree turning drive system.  Currently not used.
  */
 public class PacmanDrive extends Command {
 
@@ -27,9 +27,6 @@ public class PacmanDrive extends Command {
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
     	requires(Robot.gyroscope);
-
-
-
     }
 
     // Called just before this Command runs the first time

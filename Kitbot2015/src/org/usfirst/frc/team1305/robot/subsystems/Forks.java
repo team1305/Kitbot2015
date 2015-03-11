@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Handles all fork movement, including opening and closing, and deployment.
  */
 public class Forks extends Subsystem {
 
@@ -28,19 +28,13 @@ public class Forks extends Subsystem {
 		triggerTimer.start();
 	}
 
-	private void updateSmartDashboard()
-    {
-
-    }
-	// Called just before this Command runs the first time
-    protected void initialize() {
-    }
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
         setDefaultCommand(new ForksDoNothing());
     }
 
+    /**
+     * Opens and closes the stacker.
+     */
     public void ToggleForks(){
 
     	if (IsOpen == false){
@@ -54,9 +48,11 @@ public class Forks extends Subsystem {
     		SmartDashboard.putString("Fork Status :", "Close!");
     		forkSol.set(false);
     	}
-    	updateSmartDashboard();
     }
 
+    /**
+     * Deploys/Retracts the stacker.
+     */
     public void ToggleStacker(){
 
     	if (IsOpen == false){
@@ -69,9 +65,13 @@ public class Forks extends Subsystem {
     		SmartDashboard.putString("Stacker Status :", "Close!");
     		stackerSol.set(false);
     	}
-    	updateSmartDashboard();
     }
 
+    /**
+     * Auto closes forks when trigger is activated.
+     * 
+     * If TRIGGER_TIMEOUT is still active, 
+     */
     public void autoForks(){
     	if(triggerTimer.get() >= TRIGGER_TIMEOUT){
     		forkSol.set(false);

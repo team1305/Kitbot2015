@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Switches movement direction to match stacker perspective.
  */
 public class SetStackerPerspective extends Command {
 

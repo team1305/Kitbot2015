@@ -5,7 +5,9 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Toggles between automatic wrist movements and manual mode. 
+ * 
+ * Calls Arm subsystem.
  */
 public class ToggleWristAutoManuCommand extends Command {
 
@@ -21,7 +23,7 @@ public class ToggleWristAutoManuCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.toggleWristAutoManu();;
+    	Robot.arm.toggleWristAutoManu();
     }
 
     // Make this return true when this Command no longer needs to run execute()

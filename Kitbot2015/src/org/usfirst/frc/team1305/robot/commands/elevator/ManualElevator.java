@@ -5,14 +5,12 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Manually sets elevator speed to an axis, used by F310 joystick.
  */
 public class ManualElevator extends Command {
 
 
     public ManualElevator() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.elevator);
     }
 

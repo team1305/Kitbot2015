@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 
 /**
- *
+ * Translates elevator to previous preset position.  Currently unused.
  */
 public class PreviousPreset extends Command {
 

@@ -6,7 +6,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Standard scrub drive for scrubs.
  */
 public class Drive extends Command {
 

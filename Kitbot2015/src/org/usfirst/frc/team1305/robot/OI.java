@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1305.robot;
 
-
 import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
@@ -12,18 +11,14 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleGear;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
-import org.usfirst.frc.team1305.robot.commands.forks.ToggleStacker;
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-
 public class OI {
-
-
-	//TODO: clean up axis names and decide final controller configuration
 
 	// xbox axis reference
 	public static final int AXIS_XL = 0;
@@ -87,7 +82,7 @@ public class OI {
 		    stackerMoveUp    = new JoystickButton(driveStick, 2);
 		    forkOpenClose    = new JoystickButton(driveStick, 1);
 
-			forkDeployment.whenPressed(new ToggleStacker());
+			forkDeployment.whenPressed(new ToggleStackerDeployment());
 			armPerspective.whileHeld  (new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
 			toggleGear.whenPressed    (new ToggleGear());
@@ -106,7 +101,7 @@ public class OI {
 		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
 
 		    forkOpenClose.whenPressed (new ToggleForks());
-		    forkDeployment.whenPressed(new ToggleStacker());
+		    forkDeployment.whenPressed(new ToggleStackerDeployment());
 			armPerspective.whileHeld  (new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
 			toggleGear.whenPressed    (new ToggleGear());
@@ -118,13 +113,10 @@ public class OI {
 
 		    //arm stick functions
 		    Button claw                  = new JoystickButton(armStick, BUTTON_RB);
-		    Button presetButton          = new JoystickButton(armStick, BUTTON_LB);
 		    Button toggleWristAutoManu   = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
-
 		    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
 		    Button maxStackPresetButton  = new JoystickButton(armStick, BUTTON_X);
 		    Button extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
-
 
 			extendedPresetButton.whileHeld (new ExtendedPresetCommand());
 			transportPresetButton.whileHeld(new TransportPresetCommand());
@@ -155,8 +147,6 @@ public class OI {
         	return driveStick.getRawAxis(AXIS_Y);
         }
     }
-
-
 
     public double getWristXR(){
     	if (invertArmStick)
@@ -202,8 +192,6 @@ public class OI {
     	}
     }
 
-
-
     public double getStackerRX(){
     	return driveStick.getRawAxis(5);
     }
@@ -215,9 +203,5 @@ public class OI {
     public double getDriveAxis(int axis){
     	return driveStick.getRawAxis(axis);
     }
-
-
-
-
 
 }

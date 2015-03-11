@@ -5,14 +5,12 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves elevator down at a set rate, used by Attack 3 joystick.
  */
 public class ElevatorDown extends Command {
 
 
     public ElevatorDown() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.elevator);
     }
 

@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Activates gyro.  Currently unused.
  */
 public class ReInit extends Command {
 

@@ -5,13 +5,11 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Opens/Closes forks.
  */
 public class ToggleForks extends Command {
 
     public ToggleForks() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.forks);
     }
 

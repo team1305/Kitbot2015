@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Called when claw is inactive, holds auto trigger.
  */
 public class ClawDoNothing extends Command {
 
@@ -22,7 +22,7 @@ public class ClawDoNothing extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putBoolean("Claw AutoGrab", Robot.claw.trigger.get());
+    	//Handles automatic closing.
     	if(Robot.claw.trigger.get() == false){
     		Robot.claw.autoGrab();
     	}

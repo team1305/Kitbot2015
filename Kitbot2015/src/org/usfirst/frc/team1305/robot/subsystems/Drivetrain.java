@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Handles all base movement of the robot.
  */
 public class Drivetrain extends Subsystem {
 

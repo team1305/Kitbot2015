@@ -5,14 +5,12 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves elevator up at a fixed rate, used by Attack 3 joystick.
  */
 public class ElevatorUp extends Command {
 
 
     public ElevatorUp() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.elevator);
     }
 

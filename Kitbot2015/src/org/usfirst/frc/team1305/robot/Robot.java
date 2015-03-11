@@ -3,13 +3,11 @@ package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
-import org.usfirst.frc.team1305.robot.subsystems.CameraServo;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
-import org.usfirst.frc.team1305.robot.subsystems.PowerPanel;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,21 +27,15 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static final Drivetrain drivetrain	    = new Drivetrain();
-	public static final PowerPanel powerPanel   	= new PowerPanel();
-	public static final Gyroscope gyroscope         = new Gyroscope();
-	public static final Claw claw                   = new Claw();
+	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Gyroscope gyroscope   = new Gyroscope();
+	public static final Claw claw             = new Claw();
+	public static final Arm arm               = new Arm();
+	public static final Forks forks           = new Forks();
+	public static final Elevator elevator     = new Elevator();
 
 	//camera server aka camera declaration
 	CameraServer server;
-
-
-	public static final Arm arm                 = new Arm();
-	public static final Forks forks             = new Forks();
-	public static final Elevator elevator       = new Elevator();
-	public static final CameraServo cameraServo = new CameraServo();
-
-
     Command autonomousCommand = new AutonomousMasterGroup();
 
     /**

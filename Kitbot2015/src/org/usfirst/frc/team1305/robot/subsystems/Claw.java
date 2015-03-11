@@ -19,11 +19,11 @@ public class Claw extends Subsystem {
 
 	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_CLAW_TRIGGER);
 
+	// Prevents autotrigger from closing when opened.
 	private Timer triggerTimer = new Timer();
-
+	private final double TRIGGER_LOCKOUT = 3;
+	
 	private boolean IsOpen = false;
-
-	private double TRIGGER_LOCKOUT = 3;
 
     public Claw(){
     	triggerTimer.start();
@@ -35,7 +35,10 @@ public class Claw extends Subsystem {
     	//setDefaultCommand();
     	setDefaultCommand(new ClawDoNothing());
     }
-    //toggles claw
+    
+    /**
+     * Handles manually opening and closing claw.
+     */
     public  void toggleGrab(){
     	if (IsOpen == false){
     		triggerTimer.reset();
@@ -50,6 +53,11 @@ public class Claw extends Subsystem {
     	}
     }
 
+    /**
+     * Automatically opens claw when trigger is hit.
+     * 
+     * If TRIGGER_LOCKOUT is still in effect, this will not activate.
+     */
     public void autoGrab(){
     	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
     	ClawAct.set(false);

@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
 public class AutonomousMobility extends Command {
 
@@ -24,8 +24,6 @@ public class AutonomousMobility extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.drivetrain.autonomousMobility();
-
-
     }
 
 

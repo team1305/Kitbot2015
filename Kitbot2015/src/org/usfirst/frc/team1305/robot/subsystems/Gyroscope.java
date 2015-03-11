@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Handles gyroscope sensor values.  Not used.
  */
 public class Gyroscope extends Subsystem implements PIDSource {
 

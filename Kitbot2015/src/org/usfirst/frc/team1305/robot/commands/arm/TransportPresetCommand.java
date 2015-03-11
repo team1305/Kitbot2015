@@ -6,7 +6,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Activates transport preset command in the Arm subsystem.
  */
 public class TransportPresetCommand extends Command {
 

@@ -31,8 +31,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * 	where ds/dt is replaced with our maximum stick-velocity
  * 5. The corrected stick values are passed along to the motor controllers and
  * 	remembered for the next iteration of the loop.
- *
- * @author Paul Belanger
  */
 public class SmoothDrive extends Command {
 
@@ -53,8 +51,6 @@ public class SmoothDrive extends Command {
 	private double rotateValue = 0;
 
     public SmoothDrive() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.drivetrain);
     }
 
