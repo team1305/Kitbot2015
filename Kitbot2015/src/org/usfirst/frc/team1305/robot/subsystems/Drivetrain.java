@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Handles all base movement of the robot.
@@ -94,7 +93,7 @@ public class Drivetrain extends Subsystem {
     }
     /**
      * Gets the current driving perspective.
-     * @return true if arm perspecive, false if stacker perspective.
+     * @return true if arm perspective, false if stacker perspective.
      */
     public boolean getArmPerspective(){
     	return armPerspective;
