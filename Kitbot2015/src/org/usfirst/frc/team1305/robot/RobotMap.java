@@ -41,13 +41,13 @@ public class RobotMap {
 	public static final int SOL_CLAW    = 2;
 
 	//CAN Devices Numbers
-	public static final int CAN_DEVICE_LIFT     = 15;//5;
-	public static final int CAN_DEVICE_WRIST    = 17;//6;
-	public static final int CAN_DEVICE_SHOULDER = 12;//7;
-	public static final int CAN_DEVICE_ELBOW    = 16;//8;
+	public static final int CAN_DEVICE_LIFT     = 5;//15;
+	public static final int CAN_DEVICE_WRIST    = 6;//17;
+	public static final int CAN_DEVICE_SHOULDER = 7;//12;
+	public static final int CAN_DEVICE_ELBOW    = 8;//16;
 
-	public static final int CAN_DEVICE_DRIVE_L1 = 13;//1;
-	public static final int CAN_DEVICE_DRIVE_L2 = 14;//2;
-	public static final int CAN_DEVICE_DRIVE_R1 = 19;//9;
-	public static final int CAN_DEVICE_DRIVE_R2 = 11;//10;
+	public static final int CAN_DEVICE_DRIVE_L1 = 1;//13;
+	public static final int CAN_DEVICE_DRIVE_L2 = 2;//14;
+	public static final int CAN_DEVICE_DRIVE_R1 = 9;//19;
+	public static final int CAN_DEVICE_DRIVE_R2 = 10;//11;
 }
