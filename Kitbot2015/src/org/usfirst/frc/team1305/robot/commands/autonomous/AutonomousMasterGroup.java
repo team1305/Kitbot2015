@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -8,9 +11,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousMasterGroup extends CommandGroup {
 
     public AutonomousMasterGroup() {
-    	addSequential(new AutonomousMobility());
-
-
+    	addSequential(new ToggleStackerDeployment());
+    	addParallel(new ToggleForks());
+    	addSequential(new AutonomousMobility(0.25, 0, 0));
+    	addSequential(new ToggleForks());
+    	addSequential(new AutonomousMobility(4,-0.5,-0.5));
+    	
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());

@@ -20,8 +20,9 @@ public class Drivetrain extends Subsystem {
 
 	// Timer handles all drive auto movement.
 	private Timer robotSetTimer = new Timer();
-	private static final double ROBOT_SET_DURATION = 3;
+	private static final double ROBOT_SET_DURATION = 1;
 	private static final double ROBOT_DANCE_DURATION = 1;
+	private static final double ROBOT_DELAY = 0.25;
     private int currentState = 0;
 
 
@@ -131,7 +132,7 @@ public class Drivetrain extends Subsystem {
      * to determine length of drive.  robotSetTimer causes method to proceed.
      * @return Returns true when finished, false while running.
      */
-    public boolean autonomousMobility(){
+    public boolean autonomousMobility(double duration, double leftSpeed, double rightSpeed){
     	switch (currentState){
         case 0:
             robotSetTimer.start();
@@ -139,12 +140,12 @@ public class Drivetrain extends Subsystem {
             currentState++;
             break;
         case 1:
-            if (robotSetTimer.get()>=ROBOT_SET_DURATION)
+            if (robotSetTimer.get()>= duration)
             {
 
                 currentState++;
             }
-            drive.tankDrive(-0.5,-0.5);
+            drive.tankDrive(leftSpeed,rightSpeed);
             break;
         case 2:
             drive.tankDrive(0,0);
@@ -204,7 +205,6 @@ public class Drivetrain extends Subsystem {
     }
     return false;
     }
-
 
 }
 

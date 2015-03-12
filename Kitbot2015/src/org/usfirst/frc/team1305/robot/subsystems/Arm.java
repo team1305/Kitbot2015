@@ -29,6 +29,7 @@ public class Arm extends Subsystem {
 	private double MIN_SHOULDER_POT       = 0.1; //0.12;
 	private int SHOULDER_ANGLE_AT_MIN_POT = 21;
 	private double MAX_SHOULDER_POT       = 0.505; //0.495;
+	private double SHOULDER_POT_MAX_LIMIT = 0.49;
 	private int SHOULDER_ANGLE_AT_MAX_POT = 84;
 	private double SHOULDER_YMXB_M 	      = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
 	private double SHOULDER_YMXB_B        = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
@@ -140,7 +141,7 @@ public class Arm extends Subsystem {
     	if(getShoulderPot() <= MIN_SHOULDER_POT){
     		shoulderMotor.set(-Math.abs(yAxis)/4);
     	}
-    	else if(getShoulderPot() >= MAX_SHOULDER_POT){
+    	else if(getShoulderPot() >= SHOULDER_POT_MAX_LIMIT){
     		shoulderMotor.set(Math.abs(yAxis)/4);
     	}
     	else{
@@ -248,7 +249,7 @@ public class Arm extends Subsystem {
     		targetWristPot = calcTargetWristPot();
 
         	if(getWristPot() != targetWristPot){
-        		wristMotor.set(-(getWristPot()-targetWristPot)*24);
+        		wristMotor.set(-(getWristPot()-targetWristPot)*36);
         		//calc fraction it is away, and send as joystick signal
         		//moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
     		}
@@ -320,39 +321,40 @@ public class Arm extends Subsystem {
 
     	if(preset == ARM_PRESET_EXTENDED){
 
-    		if(getShoulderPot() != 0.45){
-    			shoulderMotor.set((getShoulderPot()-0.45)*24);
+    		if(getShoulderPot() != 0.177){
+    			shoulderMotor.set((getShoulderPot()-0.177)*24);
     		}
-    		if(getElbowPot() != 0.12){
-    			elbowMotor.set((getElbowPot()-0.12)*24);
+    		if(getElbowPot() != 0.02){
+    			elbowMotor.set((getElbowPot()-0.02)*24);
     		}
-    		if(getWristPot() != 0.42){
-    			wristMotor.set((getWristPot()-0.42)*24);
-    		}
+//    		if(getWristPot() != 0.42){
+//    			wristMotor.set((getWristPot()-0.42)*24);
+//    		}
     		//0.22
     	}
     	else if(preset == ARM_PRESET_TRANSPORT){
-    		if(getShoulderPot() != 0.15){
-    			shoulderMotor.set((getShoulderPot()-0.15)*24);
+    		if(getShoulderPot() != 0.507){
+    			shoulderMotor.set((getShoulderPot()-0.507)*24);
     		}
-    		if(getElbowPot() != 0.48){
-    			elbowMotor.set((getElbowPot()-0.48)*24);
+    		if(getElbowPot() != 0.352){
+    			elbowMotor.set((getElbowPot()-0.352)*24);
     		}
-    		if(getWristPot() != 0.37){
-    			wristMotor.set((getWristPot()-0.37)*24);
-    		}
+//    		if(getWristPot() != 0.352){
+//    			wristMotor.set((getWristPot()-0.352)*24);
+//    		}
     	}
     	else if(preset == ARM_PRESET_MAX_STACK){
-    		if(getShoulderPot() != 0.17){
-    			shoulderMotor.set((getShoulderPot()-0.17)*24);
+    		if(getShoulderPot() != 0.505){
+    			shoulderMotor.set((getShoulderPot()-0.505)*24);
     		}
-    		if(getElbowPot() != 0.10){
-    			elbowMotor.set((getElbowPot()-0.10)*24);
+    		if(getElbowPot() != 0.02){
+    			elbowMotor.set((getElbowPot()-0.02)*24);
     		}
-    		if(getWristPot() != 0.52){
-    			wristMotor.set((getWristPot()-0.52)*24);
-    		}
+//    		if(getWristPot() != 0.52){
+//    			wristMotor.set((getWristPot()-0.52)*24);
+//    		}
     	}
+    	MoveWristAutomatically();
     	updateSmartDashboard("Preset Is", preset);
     }
 }

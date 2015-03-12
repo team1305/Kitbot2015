@@ -20,12 +20,15 @@ public class Forks extends Subsystem {
 	private Solenoid forkSol = new Solenoid(RobotMap.SOL_FORK);
 	private Solenoid stackerSol = new Solenoid(RobotMap.SOL_STACKER);
 	private Timer triggerTimer = new Timer();
+	private Timer humanErrorTimer = new Timer();
 	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_STACKER_TRIGGER);
 
 	private double TRIGGER_TIMEOUT = 1.5;
+	private double TRIGGER_TIMEOUT_HUMAN_ERROR = 0.8;
 
 	public Forks(){
 		triggerTimer.start();
+		humanErrorTimer.start();
 	}
 
     public void initDefaultCommand() {
@@ -37,13 +40,14 @@ public class Forks extends Subsystem {
      */
     public void ToggleForks(){
 
-    	if (IsOpen == false){
+    	if (IsOpen == false &&
+    			humanErrorTimer.get() >= TRIGGER_TIMEOUT_HUMAN_ERROR){
     		IsOpen = true;
     		SmartDashboard.putString("Fork Status :", "Open!");
     		forkSol.set(true);
     		triggerTimer.reset();
 
-    	} else {
+    	} else if(IsOpen == true){
     		IsOpen = false;
     		SmartDashboard.putString("Fork Status :", "Close!");
     		forkSol.set(false);
@@ -76,6 +80,7 @@ public class Forks extends Subsystem {
     	if(triggerTimer.get() >= TRIGGER_TIMEOUT){
     		forkSol.set(false);
     		IsOpen = false;
+    		humanErrorTimer.start();
     	}
 
     }

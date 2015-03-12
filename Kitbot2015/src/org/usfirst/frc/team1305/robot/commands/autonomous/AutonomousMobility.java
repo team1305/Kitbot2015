@@ -9,10 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonomousMobility extends Command {
 
-
-    public AutonomousMobility() {
+public double duration;
+public double lmSpeed;
+public double rmSpeed;
+    public AutonomousMobility(double time, double leftSpeed, double rightSpeed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	duration = time;
+    	lmSpeed = leftSpeed;
+    	rmSpeed = rightSpeed;
     	requires(Robot.drivetrain);
     }
 
@@ -23,13 +28,13 @@ public class AutonomousMobility extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.autonomousMobility();
+    	Robot.drivetrain.autonomousMobility(duration, lmSpeed, rmSpeed);
     }
 
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.autonomousMobility()){
+    	if (Robot.drivetrain.autonomousMobility(duration)){
             return true;
 
         }
