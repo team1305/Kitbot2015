@@ -51,6 +51,11 @@ public class NewArm extends Subsystem {
 	private final double WRIST_ANGLE2  	   = 0.0;
 	private final double WRIST_READING2	   = 0.0;
 	//==========================================
+	
+	//Motor directions. 1 if +motor implies +pot, false otherwise.
+	private final int WRIST_MOTORDIR    = 1;
+	private final int ELBOW_MOTORDIR    = 1;
+	private final int SHOULDER_MOTORDIR = 1;
 
 	
 	//motors, sensors, and PID objects
@@ -97,10 +102,18 @@ public class NewArm extends Subsystem {
     
     /**
      * Set the state of the auto-wrist leveller
+     * Handles turning on the PID
      * @param state true if auto-wrist is to be enabled. False if disabled.
      */
     public void setAutoWrist(boolean state){
     	this.isAutoWrist = state;
+    	if(state == true){
+    		pid_w.enable();
+    		pid_w.setSetpoint(computeAutoWristPotValue());
+    	}
+    	else{
+    		pid_w.disable();
+    	}
     }
     
     /**
@@ -184,6 +197,7 @@ public class NewArm extends Subsystem {
     
     /**
      * Compute the angle required at the wrist 
+     * 
      * @return the wrist pot value required to hold the wrist horizontal.
      */
     public double computeAutoWristPotValue(){
@@ -193,5 +207,21 @@ public class NewArm extends Subsystem {
     	return wrist_angle2pot(theta_s + theta_e);
     }
     
+    /**
+     * handles updating the automatic wrist value. Needs to be called in both the manual 
+     * movement commands as well as setpoint commands.
+     */
+    public void wristUpdate(){
+    	pid_w.setSetpoint(computeAutoWristPotValue());
+    }
+    
+    public void shoulder_manual(double axisval){
+    	//make sure we don't go past limits ever
+    	if((axisval > 0 && pot_s.getValue() > SHOULDER_MAX) ||
+    	   (axisval < 0 && pot_s.getValue() < SHOULDER_MIN)){
+    		motor_s.set(0.0);
+    	}
+    }
+
 }
 
