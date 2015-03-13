@@ -5,6 +5,7 @@ import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.elevator.ManualElevator;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -23,6 +24,9 @@ public class Elevator extends Subsystem {
 
 	private double ELEVATOR_MOTOR_UP_SPEED = 1;
 	private double ELEVATOR_MOTOR_DOWN_SPEED = 1;
+	
+	private Timer autoTimer = new Timer();
+	private int currentState = 0;
 
 	public static final double ELEVATOR_PRESET_TOLERANCE = 3.00; //percent
 
@@ -54,6 +58,7 @@ public class Elevator extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new ManualElevator());
+        autoTimer.start();
     }
 
     /**
@@ -157,7 +162,31 @@ public class Elevator extends Subsystem {
     	stackerTalon.set(-ELEVATOR_MOTOR_DOWN_SPEED);
     }
 
+    public boolean elevatorAuto(double duration, double speed){
+    	    switch (currentState){
+    	        case 0:
+    	        	autoTimer.start();
 
+    	            currentState++;
+    	            break;
+    	        case 1:
+    	            if (autoTimer.get()>= duration)
+    	            {
+
+    	                currentState++;
+    	            }
+    	            stackerTalon.set(speed);
+    	            break;
+    	        case 2:
+    	        	stackerTalon.set(0);
+    	            currentState = 0;
+    	            autoTimer.stop();
+    	            autoTimer.reset();
+    	            return true;
+    	    }
+    	    return false;
+    	    
+    }
 
 }
 

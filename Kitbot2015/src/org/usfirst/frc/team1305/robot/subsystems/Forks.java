@@ -17,6 +17,7 @@ public class Forks extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	private boolean IsOpen = false;
+	private boolean IsDeployed = false;
 	private Solenoid forkSol = new Solenoid(RobotMap.SOL_FORK);
 	private Solenoid stackerSol = new Solenoid(RobotMap.SOL_STACKER);
 	private Timer triggerTimer = new Timer();
@@ -59,13 +60,13 @@ public class Forks extends Subsystem {
      */
     public void ToggleStacker(){
 
-    	if (IsOpen == false){
-    		IsOpen = true;
+    	if (IsDeployed == false){
+    		IsDeployed = true;
     		SmartDashboard.putString("Stacker Status :", "Open!");
     		stackerSol.set(true);
 
     	} else {
-    		IsOpen = false;
+    		IsDeployed = false;
     		SmartDashboard.putString("Stacker Status :", "Close!");
     		stackerSol.set(false);
     	}
@@ -83,6 +84,20 @@ public class Forks extends Subsystem {
     		humanErrorTimer.start();
     	}
 
+    }
+    
+    public void AutonomousForks(){
+
+    	if (IsOpen == false){
+    		IsOpen = true;
+    		SmartDashboard.putString("Fork Status :", "Open!");
+    		forkSol.set(true);
+
+    	} else if(IsOpen == true){
+    		IsOpen = false;
+    		SmartDashboard.putString("Fork Status :", "Close!");
+    		forkSol.set(false);
+    	}
     }
 }
 

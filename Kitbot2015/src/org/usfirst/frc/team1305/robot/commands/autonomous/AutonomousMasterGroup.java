@@ -10,13 +10,19 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonomousMasterGroup extends CommandGroup {
 
+	// AutonomousMobility uses three doubles: Duration, LeftSpeed, RightSpeed.
     public AutonomousMasterGroup() {
-    	addSequential(new ToggleStackerDeployment());
-    	addParallel(new ToggleForks());
-    	addSequential(new AutonomousMobility(0.25, 0, 0));
-    	addSequential(new ToggleForks());
-    	addSequential(new AutonomousMobility(4,-0.5,-0.5));
-    	
+//    	addSequential(new ToggleStackerDeployment());
+//    	addSequential(new AutonomousMobility(1.5, 0, 0));
+//    	addSequential(new AutonomousForks());
+//    	addSequential(new AutonomousMobility(1, 0.5, 0.5));
+//    	addSequential(new AutonomousMobility(0.25, 0, 0));
+//    	addSequential(new AutonomousForks());
+//    	addSequential(new AutonomousMobility(0.5, 0, 0));
+//    	addSequential(new AutonomousElevator(0.5, -1));
+    	addSequential(new AutonomousMobility(4, -0.5, -0.5));
+    	// addSequential(new AutonomousElevator(0.5, 1));
+    	// addSequential(new AutonomousForks());
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());

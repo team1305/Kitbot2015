@@ -26,18 +26,18 @@ public class Arm extends Subsystem {
 //	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 //	private double hypot;
 //	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT       = 0.1; //0.12;
-	private int SHOULDER_ANGLE_AT_MIN_POT = 21;
-	private double MAX_SHOULDER_POT       = 0.505; //0.495;
-	private double SHOULDER_POT_MAX_LIMIT = 0.49;
-	private int SHOULDER_ANGLE_AT_MAX_POT = 84;
+	private double MIN_SHOULDER_POT       = 0.099; //0.12;
+	private int SHOULDER_ANGLE_AT_MIN_POT = 24;
+	private double MAX_SHOULDER_POT       = 0.491; //0.495;
+	private double SHOULDER_POT_MAX_LIMIT = 0.5;
+	private int SHOULDER_ANGLE_AT_MAX_POT = 88;
 	private double SHOULDER_YMXB_M 	      = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
 	private double SHOULDER_YMXB_B        = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
 
-	private double MIN_ELBOW_POT = 0.02; //0.1;
-	private int ELBOW_ANGLE_AT_MIN_POT = 133;
-	private double MAX_ELBOW_POT = 0.41; //0.46;
-	private int ELBOW_ANGLE_AT_MAX_POT = 27;
+	private double MIN_ELBOW_POT = 0.021; //0.1;
+	private int ELBOW_ANGLE_AT_MIN_POT = 142;
+	private double MAX_ELBOW_POT = 0.357; //0.46;
+	private int ELBOW_ANGLE_AT_MAX_POT = 20;
 	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
 	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
 
