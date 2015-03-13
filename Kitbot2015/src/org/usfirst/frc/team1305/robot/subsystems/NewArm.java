@@ -31,8 +31,11 @@ public class NewArm extends Subsystem {
 	private final double I_w = 0.0;
 	private final double D_w = 0.0;
 	
-	//pot-reading to angle constant values
-	//for best accuracy these values should be as far apart as possible.
+	/*
+	 * ======== POT READINGS AND ANGLES ========
+	 * These need to be updated whenever the geometry of the arm changes
+	 * If they aren't, then you'll have a bad time.
+	 */
 	private final double SHOULDER_ANGLE1   = 0.0;
 	private final double SHOULDER_READING1 = 0.0;
 	private final double SHOULDER_ANGLE2   = 0.0;
@@ -47,6 +50,7 @@ public class NewArm extends Subsystem {
 	private final double WRIST_READING1	   = 0.0;
 	private final double WRIST_ANGLE2  	   = 0.0;
 	private final double WRIST_READING2	   = 0.0;
+	//==========================================
 
 	
 	//motors, sensors, and PID objects
@@ -63,6 +67,7 @@ public class NewArm extends Subsystem {
 	private PIDController pid_w = new PIDController(P_w, I_w, D_w, pot_w, motor_w);
 	
 	//computed m and b constants for the pivots
+	//computation of values done in constructor.
 	private double m_s;
 	private double b_s;
 	private double m_e;
@@ -70,9 +75,21 @@ public class NewArm extends Subsystem {
 	private double m_w;
 	private double b_w;
 	
+	//internal state
 	private boolean isAutoWrist = false;
 	private boolean isPresetActive = false;
+	
+	public NewArm(){
+		//compute the m's and b's
+		m_s = (SHOULDER_ANGLE2 - SHOULDER_ANGLE1) / (SHOULDER_READING2 - SHOULDER_READING1);
+		b_s = SHOULDER_ANGLE2 - m_s * SHOULDER_READING2;
+		m_e = (ELBOW_ANGLE2 - ELBOW_ANGLE1) / (ELBOW_READING2 - ELBOW_READING1);
+		b_e = ELBOW_ANGLE2 - m_e * ELBOW_READING2;
+		m_w = (WRIST_ANGLE2 - WRIST_ANGLE1) / (WRIST_READING2 - WRIST_READING1);
+		b_w = WRIST_ANGLE2 - m_w * WRIST_READING2;
 
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -101,6 +118,79 @@ public class NewArm extends Subsystem {
      */
     public boolean getPresetState(){
     	return this.isPresetActive;
+    }
+    
+    /**
+     * Compute the angle of the shoulder joint given it's pot value.
+     * 
+     * @param potvalue the value of the potientiometer
+     * @return the computed angle in degrees, acute angle measured 
+     * from back of robot
+     */
+    private double shoulder_pot2angle(double potvalue){
+    	return m_s * potvalue + b_s;
+    }
+    
+    /**
+     * Convert an angle to a string pot reading for the shoulder joint
+     * 
+     * @param angle the angle of the shoulder joint, measured from the back
+     * horizontal, acute angle
+     * @return The compted pot value corresponding to this angle for the shoulder.
+     */
+    private double shoulder_angle2pot(double angle){
+    	return (angle - b_s) / m_s;
+    }
+    
+    /**
+     * Compute the bottom-angle of the elbow given a pot reading
+     * 
+     * @param potvalue the value of the string pot
+     * @return the computed angle, in degrees, of the bottom of the elbow pivot.
+     */
+    private double elbow_pot2angle(double potvalue){
+    	return m_e * potvalue + b_e;
+    }
+    
+    /**
+     * Comvert an angle to the corresponding pot reading for the elbow
+     * 
+     * @param angle the angle to compute, in degrees
+     * @return the computed elbow pot value
+     */
+    private double elbow_angle2pot(double angle){
+    	return (angle - b_e) / m_e;
+    }
+    
+    /**
+     * Compute the angle of the wrist, given the pot value.
+     * 
+     * @param potvalue the value of the pot
+     * @return the angle at the top of the wrist pivot, in degrees.
+     */
+    private double wrist_pot2angle(double potvalue){
+    	return m_w * potvalue + b_w;
+    }
+    
+    /**
+     * Convert wrist angle to pot reading
+     * 
+     * @param angle angle in degrees of the top of the wrist pivot.
+     * @return the wrist pot value.
+     */
+    private double wrist_angle2pot(double angle){
+    	return (angle - b_w) / m_w;
+    }
+    
+    /**
+     * Compute the angle required at the wrist 
+     * @return the wrist pot value required to hold the wrist horizontal.
+     */
+    public double computeAutoWristPotValue(){
+    	//by trigonometry, we have that theta_w = theta_s + theta_e
+    	double theta_s = shoulder_pot2angle(pot_s.getValue());
+    	double theta_e = elbow_pot2angle(pot_e.getValue());
+    	return wrist_angle2pot(theta_s + theta_e);
     }
     
 }
