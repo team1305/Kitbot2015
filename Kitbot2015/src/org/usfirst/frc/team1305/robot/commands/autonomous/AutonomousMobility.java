@@ -28,7 +28,6 @@ public double rmSpeed;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.autonomousMobility(duration, lmSpeed, rmSpeed);
     }
 
 

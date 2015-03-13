@@ -23,7 +23,7 @@ public class Claw extends Subsystem {
 	private Timer triggerTimer = new Timer();
 	private final double TRIGGER_LOCKOUT = 3;
 	
-	private boolean IsOpen = false;
+	private boolean isClosed = false;
 
     public Claw(){
     	triggerTimer.start();
@@ -40,16 +40,16 @@ public class Claw extends Subsystem {
      * Handles manually opening and closing claw.
      */
     public  void toggleGrab(){
-    	if (IsOpen == false){
+    	if (isClosed == true){
     		triggerTimer.reset();
-    		IsOpen = true;
+    		isClosed = false;
 //    		SmartDashboard.putString("Claw Status :", "Open!");
-    		ClawAct.set(true);
+    		ClawAct.set(false);
 
     	} else {
-    		IsOpen = false;
+    		isClosed = true;
 //    		SmartDashboard.putString("Claw Status :", "Close!");
-    		ClawAct.set(false);
+    		ClawAct.set(true);
     	}
     }
 
@@ -60,8 +60,8 @@ public class Claw extends Subsystem {
      */
     public void autoGrab(){
     	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
-    	ClawAct.set(false);
-    	IsOpen = false;
+    	ClawAct.set(true);
+    	isClosed = true;
     	}
 
     }

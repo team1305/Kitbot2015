@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 
@@ -152,11 +153,27 @@ public class Drivetrain extends Subsystem {
             currentState = 0;
             robotSetTimer.stop();
             robotSetTimer.reset();
-            return true;
+            break;
     }
-    return false;
-    }
+    if(currentState == 2){
+  		return true;
+   	}else{
+   		return false;
+   	}    
+}
 
+    public boolean autonomousTote(double leftSpeed, double rightSpeed){
+    	while(Robot.forks.trigger.get() == true){
+    		drive.tankDrive(leftSpeed, rightSpeed);
+    	}
+    	if(Robot.forks.trigger.get() == false){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+    
+    
     /**
      * Mainly just to show off in autonomous, honestly.
      * @return False while running, true when complete.

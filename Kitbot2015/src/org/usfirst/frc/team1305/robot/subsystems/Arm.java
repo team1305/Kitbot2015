@@ -321,8 +321,8 @@ public class Arm extends Subsystem {
 
     	if(preset == ARM_PRESET_EXTENDED){
 
-    		if(getShoulderPot() != 0.177){
-    			shoulderMotor.set((getShoulderPot()-0.177)*24);
+    		if(getShoulderPot() != 0.19){
+    			shoulderMotor.set((getShoulderPot()-0.19)*24);
     		}
     		if(getElbowPot() != 0.02){
     			elbowMotor.set((getElbowPot()-0.02)*24);
@@ -333,11 +333,11 @@ public class Arm extends Subsystem {
     		//0.22
     	}
     	else if(preset == ARM_PRESET_TRANSPORT){
-    		if(getShoulderPot() != 0.507){
-    			shoulderMotor.set((getShoulderPot()-0.507)*24);
+    		if(getShoulderPot() != 0.500){
+    			shoulderMotor.set((getShoulderPot()-0.500)*18);
     		}
-    		if(getElbowPot() != 0.352){
-    			elbowMotor.set((getElbowPot()-0.352)*24);
+    		if(getElbowPot() != 0.306){
+    			elbowMotor.set((getElbowPot()-0.306)*24);
     		}
 //    		if(getWristPot() != 0.352){
 //    			wristMotor.set((getWristPot()-0.352)*24);
@@ -345,7 +345,7 @@ public class Arm extends Subsystem {
     	}
     	else if(preset == ARM_PRESET_MAX_STACK){
     		if(getShoulderPot() != 0.505){
-    			shoulderMotor.set((getShoulderPot()-0.505)*24);
+    			shoulderMotor.set((getShoulderPot()-0.505)*18);
     		}
     		if(getElbowPot() != 0.02){
     			elbowMotor.set((getElbowPot()-0.02)*24);
@@ -357,5 +357,36 @@ public class Arm extends Subsystem {
     	MoveWristAutomatically();
     	updateSmartDashboard("Preset Is", preset);
     }
+    
+//    public boolean autonomousArm(){
+//    	switch (currentState){
+//        case 0:
+//            robotSetTimer.start();
+//
+//            currentState++;
+//            break;
+//        case 1:
+//            if (robotSetTimer.get()>= duration)
+//            {
+//
+//                currentState++;
+//            }
+//            drive.tankDrive(leftSpeed,rightSpeed);
+//            break;
+//        case 2:
+//            drive.tankDrive(0,0);
+//            currentState = 0;
+//            robotSetTimer.stop();
+//            robotSetTimer.reset();
+//            break;
+//    }
+//    if(currentState == 2){
+//  		return true;
+//   	}else{
+//   		return false;
+//   	}    
+//    	
+//    	
+//    }
 }
 

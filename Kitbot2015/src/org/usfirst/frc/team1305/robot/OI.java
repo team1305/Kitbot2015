@@ -73,7 +73,7 @@ public class OI {
      * same throughout.
      */
 	public OI(){
-		if(DriverStation.getInstance().getStickAxisCount(0) == 3){ //if attack 3 joystick
+//		if(DriverStation.getInstance().getStickAxisCount(0) == 3){ //if attack 3 joystick
 		    armPerspective   = new JoystickButton(driveStick, 7);
 		    stackPerspective = new JoystickButton(driveStick, 6);
 		    toggleGear       = new JoystickButton(driveStick, 5);
@@ -90,24 +90,24 @@ public class OI {
 			stackerMoveUp.whileHeld   (new ElevatorUp());
 			forkOpenClose.whenPressed (new ToggleForks());
 
-			usingAttack3 = true;
-
-		}else{
-			//driver stick functions
-			forkOpenClose    = new JoystickButton(driveStick, BUTTON_RB);
-		    armPerspective   = new JoystickButton(driveStick, BUTTON_Y);
-		    stackPerspective = new JoystickButton(driveStick, BUTTON_A);
-		    toggleGear       = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
-		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
-
-		    forkOpenClose.whenPressed (new ToggleForks());
-		    forkDeployment.whenPressed(new ToggleStackerDeployment());
-			armPerspective.whileHeld  (new SetArmPerspective());
-			stackPerspective.whileHeld(new SetStackerPerspective());
-			toggleGear.whenPressed    (new ToggleGear());
-
-			usingAttack3 = false;
-		}
+//			usingAttack3 = true;
+//
+//		}else{
+//			//driver stick functions
+//			forkOpenClose    = new JoystickButton(driveStick, BUTTON_RB);
+//		    armPerspective   = new JoystickButton(driveStick, BUTTON_Y);
+//		    stackPerspective = new JoystickButton(driveStick, BUTTON_A);
+//		    toggleGear       = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
+//		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
+//
+//		    forkOpenClose.whenPressed (new ToggleForks());
+//		    forkDeployment.whenPressed(new ToggleStackerDeployment());
+//			armPerspective.whileHeld  (new SetArmPerspective());
+//			stackPerspective.whileHeld(new SetStackerPerspective());
+//			toggleGear.whenPressed    (new ToggleGear());
+//
+//			usingAttack3 = false;
+//		}
 
 
 
