@@ -29,6 +29,8 @@ public class TotePullinSuperAuto extends CommandGroup {
     	
     	addSequential(new OpenAndDeployForks());
     	addSequential(new DriveWhileForksOpen());
+    	addSequential(new Wait(0.5));
+    	addSequential(new ElevatorUp(0.3));
     	addSequential(new AutonomousMobility(5, -0.3, -0.3));
     }
 }
