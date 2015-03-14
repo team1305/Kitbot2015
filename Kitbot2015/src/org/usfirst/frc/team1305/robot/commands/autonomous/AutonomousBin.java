@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class AutonomousElevator extends Command {
+public class AutonomousBin extends Command {
 
-public double duration;
-public double elevatorSpeed;
-    public AutonomousElevator(double time, double speed) {
+public double lmSpeed;
+public double rmSpeed;
+    public AutonomousBin(double leftSpeed, double rightSpeed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	duration = time;
-    	elevatorSpeed = speed;
-    	requires(Robot.elevator);
+    	lmSpeed = leftSpeed;
+    	rmSpeed = rightSpeed;
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +31,7 @@ public double elevatorSpeed;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.elevator.elevatorAuto(duration, elevatorSpeed)){
+    	if (Robot.drivetrain.autonomousBin(lmSpeed, rmSpeed)){
             return true;
 
         }

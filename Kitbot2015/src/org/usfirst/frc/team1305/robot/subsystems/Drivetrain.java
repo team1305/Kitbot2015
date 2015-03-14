@@ -173,6 +173,16 @@ public class Drivetrain extends Subsystem {
     	}
     }
     
+    public boolean autonomousBin(double leftSpeed, double rightSpeed){
+    	while(Robot.claw.trigger.get() == true){
+    		drive.tankDrive(leftSpeed, rightSpeed);
+    	}
+    	if(Robot.claw.trigger.get() == false){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
     
     /**
      * Mainly just to show off in autonomous, honestly.

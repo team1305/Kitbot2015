@@ -6,6 +6,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,6 +67,9 @@ public class Arm extends Subsystem {
 	public static final int ARM_PRESET_TRANSPORT = 2;
 	public static final int ARM_PRESET_MAX_STACK = 3;
 
+	private int currentState = 0;
+	private Timer armTimer = new Timer();
+	
 	public Arm(){
 
 	}
@@ -358,35 +362,74 @@ public class Arm extends Subsystem {
     	updateSmartDashboard("Preset Is", preset);
     }
     
-//    public boolean autonomousArm(){
-//    	switch (currentState){
-//        case 0:
-//            robotSetTimer.start();
-//
-//            currentState++;
-//            break;
-//        case 1:
-//            if (robotSetTimer.get()>= duration)
-//            {
-//
-//                currentState++;
-//            }
-//            drive.tankDrive(leftSpeed,rightSpeed);
-//            break;
-//        case 2:
-//            drive.tankDrive(0,0);
-//            currentState = 0;
-//            robotSetTimer.stop();
-//            robotSetTimer.reset();
-//            break;
-//    }
-//    if(currentState == 2){
-//  		return true;
-//   	}else{
-//   		return false;
-//   	}    
-//    	
-//    	
-//    }
+    public boolean autonomousArmExtend(double duration){
+    	switch (currentState){
+        case 0:
+            armTimer.start();
+
+            currentState++;
+            break;
+        case 1:
+            if (armTimer.get()>= duration)
+            {
+                currentState++;
+            }
+            if(getShoulderPot() != 0.19){
+    			shoulderMotor.set((getShoulderPot()-0.19)*24);
+    		}
+    		if(getElbowPot() != 0.02){
+    			elbowMotor.set((getElbowPot()-0.02)*24);
+    		}
+            break;
+        case 2:
+            shoulderMotor.set(0);
+            elbowMotor.set(0);
+            currentState = 0;
+            armTimer.stop();
+            armTimer.reset();
+            break;
+    }
+    if(currentState == 2){
+  		return true;
+   	}else{
+   		return false;
+   	}    
+    	
+    }
+    
+    public boolean autonomousArmUp(double duration){
+    	switch (currentState){
+        case 0:
+            armTimer.start();
+
+            currentState++;
+            break;
+        case 1:
+            if (armTimer.get()>= duration)
+            {
+                currentState++;
+            }
+            if(getShoulderPot() != 0.29){
+    			shoulderMotor.set((getShoulderPot()-0.29)*24);
+    		}
+    		if(getElbowPot() != 0.02){
+    			elbowMotor.set((getElbowPot()-0.02)*24);
+    		}
+            break;
+        case 2:
+            shoulderMotor.set(0);
+            elbowMotor.set(0);
+            currentState = 0;
+            armTimer.stop();
+            armTimer.reset();
+            break;
+    }
+    if(currentState == 2){
+  		return true;
+   	}else{
+   		return false;
+   	}    
+    	
+    }
 }
 
