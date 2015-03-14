@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 //import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
@@ -325,16 +326,22 @@ public class Arm extends Subsystem {
 
     	if(preset == ARM_PRESET_EXTENDED){
 
-    		if(getShoulderPot() != 0.19){
-    			shoulderMotor.set((getShoulderPot()-0.19)*24);
+    		if(getShoulderPot() != 0.185){
+    			shoulderMotor.set((getShoulderPot()-0.185)*24);
+    		}else{
+    			shoulderMotor.set(0);
     		}
     		if(getElbowPot() != 0.02){
     			elbowMotor.set((getElbowPot()-0.02)*24);
+    		}else{
+    			elbowMotor.set(0);
     		}
 //    		if(getWristPot() != 0.42){
 //    			wristMotor.set((getWristPot()-0.42)*24);
 //    		}
     		//0.22
+    		
+    		
     	}
     	else if(preset == ARM_PRESET_TRANSPORT){
     		if(getShoulderPot() != 0.500){
@@ -363,6 +370,7 @@ public class Arm extends Subsystem {
     }
     
     public boolean autonomousArmExtend(double duration){
+    	MoveWristAutomatically();
     	switch (currentState){
         case 0:
             armTimer.start();
@@ -370,26 +378,29 @@ public class Arm extends Subsystem {
             currentState++;
             break;
         case 1:
-            if (armTimer.get()>= duration)
+            if(armTimer.get()>=1){
+            	currentState++;
+            }
+            Robot.arm.ArmPresets(ARM_PRESET_MAX_STACK);
+            break;
+        case 2:
+        	if (armTimer.get()>= duration+1)
             {
                 currentState++;
             }
-            if(getShoulderPot() != 0.19){
-    			shoulderMotor.set((getShoulderPot()-0.19)*24);
-    		}
-    		if(getElbowPot() != 0.02){
-    			elbowMotor.set((getElbowPot()-0.02)*24);
-    		}
+            Robot.arm.ArmPresets(ARM_PRESET_EXTENDED);
             break;
-        case 2:
-            shoulderMotor.set(0);
+        case 3:
+        	shoulderMotor.set(0);
             elbowMotor.set(0);
+            wristMotor.set(0);
             currentState = 0;
             armTimer.stop();
             armTimer.reset();
             break;
     }
-    if(currentState == 2){
+    if(currentState == 3){
+    	currentState = 0;
   		return true;
    	}else{
    		return false;
@@ -398,10 +409,11 @@ public class Arm extends Subsystem {
     }
     
     public boolean autonomousArmUp(double duration){
+    	MoveWristAutomatically();
     	switch (currentState){
         case 0:
             armTimer.start();
-
+            
             currentState++;
             break;
         case 1:
@@ -409,8 +421,8 @@ public class Arm extends Subsystem {
             {
                 currentState++;
             }
-            if(getShoulderPot() != 0.29){
-    			shoulderMotor.set((getShoulderPot()-0.29)*24);
+            if(getShoulderPot() != 0.34){
+    			shoulderMotor.set((getShoulderPot()-0.34)*24);
     		}
     		if(getElbowPot() != 0.02){
     			elbowMotor.set((getElbowPot()-0.02)*24);
@@ -419,12 +431,14 @@ public class Arm extends Subsystem {
         case 2:
             shoulderMotor.set(0);
             elbowMotor.set(0);
+            wristMotor.set(0);
             currentState = 0;
             armTimer.stop();
             armTimer.reset();
             break;
     }
     if(currentState == 2){
+    	currentState = 0;
   		return true;
    	}else{
    		return false;

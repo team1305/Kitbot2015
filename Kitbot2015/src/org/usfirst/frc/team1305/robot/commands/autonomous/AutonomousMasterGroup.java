@@ -12,6 +12,7 @@ public class AutonomousMasterGroup extends CommandGroup {
 
 	// AutonomousMobility uses three doubles: Duration, LeftSpeed, RightSpeed.
     public AutonomousMasterGroup() {
+    	// TOTE GRAB
 //    	addSequential(new AutonomousMobility(-0.5, -0.5, -0.5));
 //    	addSequential(new ToggleStackerDeployment());
 //    	addSequential(new AutonomousMobility(1.5, 0, 0));
@@ -22,17 +23,19 @@ public class AutonomousMasterGroup extends CommandGroup {
 //    	addSequential(new AutonomousForks());
 //    	addSequential(new AutonomousMobility(0.5, 0, 0));
 //    	addSequential(new AutonomousElevator(0.5, -1));
-//    	addSequential(new AutonomousMobility(3.3, -0.5, -0.5)); //enable for drive auto
+//    	addSequential(new AutonomousMobility(3.3, -0.5, -0.5)); // enable for drive auto
 //    	addSequential(new AutonomousElevator(0.5, 1));
 //    	addSequential(new AutonomousForks());
 //    	addSequential(new AutonomousMobility(0.7, 0, 0));
 //    	addSequential(new AutonomousMobility(0.4, -0.5, -0.5));
     	
-    	addSequential(new AutonomousArmExtend(3));
+    	// BIN GRAB
+    	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
+    	addSequential(new AutonomousArmExtend(3.8));
     	addSequential(new AutonomousBin(-0.5,-0.5));
-    	addSequential(new AutonomousMobility(1,0,0));
-    	addSequential(new AutonomousArmUp(2));
-    	addSequential(new AutonomousMobility(2, 0.5, 0.5));
+    	addSequential(new Wait(1));
+    	addSequential(new AutonomousArmUp(1.5));
+    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());

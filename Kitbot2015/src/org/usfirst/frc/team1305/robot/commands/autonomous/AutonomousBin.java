@@ -17,6 +17,7 @@ public double rmSpeed;
     	lmSpeed = leftSpeed;
     	rmSpeed = rightSpeed;
     	requires(Robot.drivetrain);
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
@@ -40,6 +41,7 @@ public double rmSpeed;
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.claw.toggleGrab();
     }
 
     // Called when another command which requires one or more of the same

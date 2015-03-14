@@ -14,7 +14,7 @@ public double duration;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	duration = time;
-    	requires(Robot.elevator);
+    	requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
@@ -38,6 +38,9 @@ public double duration;
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same
