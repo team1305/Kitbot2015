@@ -1,35 +1,36 @@
-package org.usfirst.frc.team1305.robot.commands.elevator;
+package org.usfirst.frc.team1305.robot.commands.autonomous;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Manually sets elevator speed to an axis, used by F310 joystick.
+ * drives foreward while the forks are open
  */
-public class ManualElevator extends Command {
+public class DriveWhileForksOpen extends Command {
 
-
-    public ManualElevator() {
-    	requires(Robot.elevator);
+    public DriveWhileForksOpen() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.drivetrain);
+    	requires(Robot.forks);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevator.setMode(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
-
-
+    	Robot.drivetrain.autonomousMobility(10, 0.4, 0.4);
+    	if(Robot.forks.trigger.get() == false){
+    		Robot.forks.autoForks();
+    	}
     }
-
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (Robot.forks.getForkState() == false);
     }
 
     // Called once after isFinished returns true

@@ -1,13 +1,13 @@
 package org.usfirst.frc.team1305.robot.commands.elevator;
 
-import org.usfirst.frc.team1305.robot.Constants;
 import org.usfirst.frc.team1305.robot.Robot;
+import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 
 /**
- *
+ * Translates elevator to previous preset position.  Currently unused.
  */
 public class PreviousPreset extends Command {
 
@@ -30,7 +30,7 @@ public class PreviousPreset extends Command {
     protected boolean isFinished() {
         double dh = Robot.elevator.getHeight() - Robot.elevator.getPresetValue();
         double pd = Math.abs(dh / Robot.elevator.getPresetValue()) * 100.0;
-        if( dh < Constants.ELEVATOR_PRESET_TOLERANCE ) return true;
+        if( dh < Elevator.ELEVATOR_PRESET_TOLERANCE ) return true;
         else return false;
     }
 

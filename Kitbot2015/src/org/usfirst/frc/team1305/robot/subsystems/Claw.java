@@ -1,17 +1,12 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.accelerometer.AccelerometerDefaultCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawDoNothing;
-import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -19,36 +14,57 @@ import edu.wpi.first.wpilibj.hal.CanTalonSRX;
  *
  */
 public class Claw extends Subsystem {
-    
+
 	private Solenoid ClawAct = new Solenoid(RobotMap.SOL_CLAW);
+
+	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_CLAW_TRIGGER);
+
+	// Prevents autotrigger from closing when opened.
+	private Timer triggerTimer = new Timer();
+	private final double TRIGGER_LOCKOUT = 3;
 	
-	private boolean IsOpen = false;
-    
+	private boolean isClosed = false;
+
     public Claw(){
-    	
+    	triggerTimer.start();
     }
-    
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	//setDefaultCommand();
     	setDefaultCommand(new ClawDoNothing());
     }
-    //toggles claw
+    
+    /**
+     * Handles manually opening and closing claw.
+     */
     public  void toggleGrab(){
-    	if (IsOpen == false){
-    		IsOpen = true;
+    	if (isClosed == true){
+    		triggerTimer.reset();
+    		isClosed = false;
 //    		SmartDashboard.putString("Claw Status :", "Open!");
-    		ClawAct.set(true);
-    		
-    	} else {
-    		IsOpen = false;
-//    		SmartDashboard.putString("Claw Status :", "Close!");
     		ClawAct.set(false);
+
+    	} else {
+    		isClosed = true;
+//    		SmartDashboard.putString("Claw Status :", "Close!");
+    		ClawAct.set(true);
     	}
     }
 
-    
-    
+    /**
+     * Automatically opens claw when trigger is hit.
+     * 
+     * If TRIGGER_LOCKOUT is still in effect, this will not activate.
+     */
+    public void autoGrab(){
+    	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
+    	ClawAct.set(true);
+    	isClosed = true;
+    	}
+
+    }
+
 }
 

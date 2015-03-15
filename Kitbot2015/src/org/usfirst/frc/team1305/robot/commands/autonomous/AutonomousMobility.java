@@ -1,52 +1,51 @@
-package org.usfirst.frc.team1305.robot.commands.arm;
+package org.usfirst.frc.team1305.robot.commands.autonomous;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class MoveElbowCommand extends Command {
+public class AutonomousMobility extends Command {
 
-	
-    public MoveElbowCommand() {
+public double duration;
+public double lmSpeed;
+public double rmSpeed;
+    public AutonomousMobility(double time, double leftSpeed, double rightSpeed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.arm);
+    	duration = time;
+    	lmSpeed = leftSpeed;
+    	rmSpeed = rightSpeed;
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//TODO:  replace getArmYR with getElbowYR 
-    	//Robot.arm.MoveElbow(Robot.oi.getElbowYR());
-    	Robot.arm.MoveElbow(Robot.oi.getArmYR());
     }
 
-    private double calcShoulderPot(double targetAngle){
-    	return 0;
-        }
-    
-    
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (Robot.drivetrain.autonomousMobility(duration, lmSpeed, rmSpeed)){
+            return true;
+
+        }
         return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.StopElbow();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.StopElbow();
     }
 }

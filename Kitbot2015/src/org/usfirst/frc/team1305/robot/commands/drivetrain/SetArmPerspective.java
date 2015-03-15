@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Switches driving direction to match driver perspective.
  */
 public class SetArmPerspective extends Command {
 

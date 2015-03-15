@@ -5,13 +5,11 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Opens/Closes forks.
  */
 public class ToggleForks extends Command {
 
     public ToggleForks() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.forks);
     }
 
@@ -22,7 +20,7 @@ public class ToggleForks extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//sets Claw toggle function from claw subsystem to command
-    	Robot.forks.ToggleForks();    	
+    	Robot.forks.ToggleForks();
     }
 
     // Make this return true when this Command no longer needs to run execute()

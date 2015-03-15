@@ -3,9 +3,10 @@ package org.usfirst.frc.team1305.robot.commands.claw;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Called when claw is inactive, holds auto trigger.
  */
 public class ClawDoNothing extends Command {
 
@@ -21,6 +22,10 @@ public class ClawDoNothing extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//Handles automatic closing.
+    	if(Robot.claw.trigger.get() == false){
+    		Robot.claw.autoGrab();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

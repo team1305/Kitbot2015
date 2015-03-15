@@ -1,64 +1,40 @@
 package org.usfirst.frc.team1305.robot;
 
-
+import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
+import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleGear;
+import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
+import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
-import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveElbowCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MoveWristCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
+import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 public class OI {
-	
-
-	//TODO: clean up axis names and decide final controller configuration
 
 	// xbox axis reference
-	public static final int AXIS_XL = 0; 
+	public static final int AXIS_XL = 0;
 	public static final int AXIS_YL = 1;
 	public static final int AXIS_XR = 2;
     public static final int AXIS_YR = 3;
-
-	
-    
-    
     //Attack 3 axis reference
-	public static final int AXIS_X = 0; 
+	public static final int AXIS_X = 0;
 	public static final int AXIS_Y = 1;
-
-
-
-
-    //Drive stick button reference
-    public static final int BTN_TOGGLE_CLAW = 3;
-    public static final int BTN_LEFT_TURN = 4;
-    public static final int BTN_RIGHT_TURN = 5;
-    
-    public static final int ARM_AXIS_YR = 5;
-    public static final int ARM_AXIS_YL = 1;
-    public static final int ARM_AXIS_XR = 4;
-    
-    public static final int STACKER_AXIS_YL = 3;
-    
-    
-
-    public static final int BUTTON_RB = 6;
-    public static final int BUTTON_LB = 5;
+    //F310 Button reference
+    public static final int BUTTON_A = 1;
+    public static final int BUTTON_B = 2;
     public static final int BUTTON_X = 3;
     public static final int BUTTON_Y = 4;
-    public static final int BUTTON_B = 2;
-    public static final int BUTTON_A = 1;
+    public static final int BUTTON_LB = 5;
+    public static final int BUTTON_RB = 6;
     public static final int LEFT_JOYSTICK_CLICK = 9;
     public static final int RIGHT_JOYSTICK_CLICK = 10;
 
@@ -67,67 +43,101 @@ public class OI {
 
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
-	
-	public static final String ARM_PRESET_EXTENDED = "EXTENDED";
-	public static final String ARM_PRESET_TRANSPORT = "TRANSPORT";
-	public static final String ARM_PRESET_MAX_STACK = "MAX_STACK";
+
+	public static boolean usingAttack3;
+
 
 	//driver stick functions
-    Button forkToggle = new JoystickButton(driveStick, BUTTON_RB);
-    Button armPerspective = new JoystickButton(driveStick, BUTTON_Y);
-    Button stackPerspective = new JoystickButton(driveStick, BUTTON_A);
-    Button toggleGear = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
-    
-    
+    Button forkOpenClose;
+    Button armPerspective;
+    Button stackPerspective;
+    Button toggleGear;
+    Button forkDeployment;
+    Button stackerMoveUp;
+    Button stackerMoveDown;
+
     //arm stick functions
-    Button claw = new JoystickButton(armStick, BUTTON_RB);
-    Button shoulderButton = new JoystickButton(armStick, BUTTON_X);
-    Button elbowButton = new JoystickButton(armStick, BUTTON_Y);
-    Button wristButton = new JoystickButton(armStick, BUTTON_B);
-    Button armIdleButton = new JoystickButton(armStick, BUTTON_A);
-    Button presetButton = new JoystickButton(armStick, BUTTON_LB);
-    Button manualOverride = new JoystickButton(armStick, LEFT_JOYSTICK_CLICK);
-    Button toggleWristAutoManu = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
+    Button clawOpenClose;
+    Button presetButton;
+    Button toggleWristAutoManu;
 
-    
+    Button transportPresetButton;
+    Button maxStackPresetButton;
+    Button extendedPresetButton;
+
+
+    /**
+     * Polls drivestation for # of axis, since Attack 3 Joysticks only have
+     * 3 axis the code will automatically switch to controls for that joystick.
+     * Otherwise, defaults to F310 joystick controls.  Arm controls remain
+     * same throughout.
+     */
 	public OI(){
-			//drive stick command assignments
-			forkToggle.whenPressed(new ToggleForks());
-			armPerspective.whileHeld(new SetArmPerspective());
+//		if(DriverStation.getInstance().getStickAxisCount(0) == 3){ //if attack 3 joystick
+		    armPerspective   = new JoystickButton(driveStick, 7);
+		    stackPerspective = new JoystickButton(driveStick, 6);
+		    toggleGear       = new JoystickButton(driveStick, 5);
+		    forkDeployment   = new JoystickButton(driveStick, 4);
+		    stackerMoveDown  = new JoystickButton(driveStick, 3);
+		    stackerMoveUp    = new JoystickButton(driveStick, 2);
+		    forkOpenClose    = new JoystickButton(driveStick, 1);
+
+			forkDeployment.whenPressed(new ToggleStackerDeployment());
+			armPerspective.whileHeld  (new SetArmPerspective());
 			stackPerspective.whileHeld(new SetStackerPerspective());
-			toggleGear.whenPressed(new ToggleGear());
+			toggleGear.whenPressed    (new ToggleGear());
+			stackerMoveDown.whileHeld (new ElevatorDown());
+			stackerMoveUp.whileHeld   (new ElevatorUp());
+			forkOpenClose.whenPressed (new ToggleForks());
 
-			//arm stick command assignments
-			elbowButton.whenPressed(new MoveElbowCommand());
-			shoulderButton.whenPressed(new MoveShoulderCommand());
-			wristButton.whenPressed(new MoveWristCommand());
-			manualOverride.whileHeld(new ExtendedPresetCommand());
-			armIdleButton.whileHeld(new TransportPresetCommand());
-			presetButton.whileHeld(new MaxStackPresetCommand());
-			claw.toggleWhenPressed(new ToggleClaw());
+//			usingAttack3 = true;
+//
+//		}else{
+//			//driver stick functions
+//			forkOpenClose    = new JoystickButton(driveStick, BUTTON_RB);
+//		    armPerspective   = new JoystickButton(driveStick, BUTTON_Y);
+//		    stackPerspective = new JoystickButton(driveStick, BUTTON_A);
+//		    toggleGear       = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
+//		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
+//
+//		    forkOpenClose.whenPressed (new ToggleForks());
+//		    forkDeployment.whenPressed(new ToggleStackerDeployment());
+//			armPerspective.whileHeld  (new SetArmPerspective());
+//			stackPerspective.whileHeld(new SetStackerPerspective());
+//			toggleGear.whenPressed    (new ToggleGear());
+//
+//			usingAttack3 = false;
+//		}
+
+
+
+		    //arm stick functions
+		    Button claw                  = new JoystickButton(armStick, BUTTON_RB);
+		    Button toggleWristAutoManu   = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
+		    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
+		    Button maxStackPresetButton  = new JoystickButton(armStick, BUTTON_X);
+		    Button extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
+
+			extendedPresetButton.whileHeld (new ExtendedPresetCommand());
+			transportPresetButton.whileHeld(new TransportPresetCommand());
+			maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
+			claw.toggleWhenPressed         (new ToggleClaw());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
-			
-			
 
-	}
-	
-	public static final int ToggleSmoothing() {
-		return 0;
+
+
 	}
 
 	//getAxis functions for drivestick
-	public double getDriveXL(){     
-        //SmartDashboard.putNumber("XL", driveStick.getRawAxis(AXIS_XL));
+	public double getDriveXL(){
         return driveStick.getRawAxis(AXIS_XL);
 	}
-	
-	public double getDriveX(){     
-        //SmartDashboard.putNumber("X", driveStick.getRawAxis(AXIS_X));
+
+	public double getDriveX(){
         return driveStick.getRawAxis(AXIS_X);
     }
-	
+
     public double getDriveY(){
-        SmartDashboard.putNumber("Y", driveStick.getRawAxis(AXIS_Y));
         if (invertDriveStick)
         {
         	return driveStick.getRawAxis(AXIS_Y) * -1;
@@ -137,84 +147,61 @@ public class OI {
         	return driveStick.getRawAxis(AXIS_Y);
         }
     }
-    
 
-    
-//    public double getShoulderYL(){
-//    	SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
-//    	if (invertArmStick)
-//        {
-//    		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
-//        }
-//    	else
-//    	{
-//    		return armStick.getRawAxis(ARM_AXIS_YL);
-//    	}
-//    }
     public double getWristXR(){
-    	SmartDashboard.putNumber("Wrist XR", armStick.getRawAxis(ARM_AXIS_XR));
     	if (invertArmStick)
         {
-    		return armStick.getRawAxis(ARM_AXIS_XR) * -1;
+    		return armStick.getRawAxis(4) * -1;
         }
     	else
     	{
-    		return armStick.getRawAxis(ARM_AXIS_XR);
+    		return armStick.getRawAxis(4);
     	}
     }
-    
-    public double getShoulderYL(){
-    	//SmartDashboard.putNumber("Shoulder YL", armStick.getRawAxis(ARM_AXIS_YL));
-    	if (invertArmStick)
-        {
-    		return armStick.getRawAxis(ARM_AXIS_YL) * -1;
-        }
-    	else
-    	{
-    		return armStick.getRawAxis(ARM_AXIS_YL);
-    	}
-    }
-    
-    public double getElbowYR(){
-    	//SmartDashboard.putNumber("Elbow YR", armStick.getRawAxis(ARM_AXIS_YR));
-    	if (invertArmStick)
-        {
-    		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
-        }
-    	else
-    	{
-    		return armStick.getRawAxis(ARM_AXIS_YR);
-    	}
-    }
-    
-    public double getArmYR(){
-    	//SmartDashboard.putNumber("Arm YR", armStick.getRawAxis(ARM_AXIS_YR));
-    	if (invertArmStick)
-        {
-    		return armStick.getRawAxis(ARM_AXIS_YR) * -1;
-        }
-    	else
-    	{
-    		return armStick.getRawAxis(ARM_AXIS_YR);
-    	}
-    }
-    
 
+    public double getShoulderYL(){
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(1) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(1);
+    	}
+    }
+
+    public double getElbowYR(){
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(5) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(5);
+    	}
+    }
+
+    public double getArmYR(){
+    	if (invertArmStick)
+        {
+    		return armStick.getRawAxis(5) * -1;
+        }
+    	else
+    	{
+    		return armStick.getRawAxis(5);
+    	}
+    }
 
     public double getStackerRX(){
     	return driveStick.getRawAxis(5);
     }
-	
+
     public double getStackerZ(){
     	return driveStick.getRawAxis(4);
     }
-    
-    public double getDriveAxis(int axis){
-    	return driveStick.getRawAxis(axis);    	
-    }
-    
-    
-    
 
+    public double getDriveAxis(int axis){
+    	return driveStick.getRawAxis(axis);
+    }
 
 }

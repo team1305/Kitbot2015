@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Called when gyro is disabled.  Not used.
  */
 public class Idle extends Command {
 

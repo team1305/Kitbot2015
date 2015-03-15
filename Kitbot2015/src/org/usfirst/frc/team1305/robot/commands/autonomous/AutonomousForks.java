@@ -1,36 +1,34 @@
-package org.usfirst.frc.team1305.robot.commands.accelerometer;
+package org.usfirst.frc.team1305.robot.commands.autonomous;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class AccelerometerDefaultCommand extends Command {
+public class AutonomousForks extends Command {
 
-    public AccelerometerDefaultCommand() {
+    public AutonomousForks() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.accelerometer);
+    	requires(Robot.forks);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//puts accelerometer values to dashboard
-    	//SmartDashboard.putNumber("Accel X", Robot.accelerometer.getAccelX());
-    	//SmartDashboard.putNumber("Accel Y", Robot.accelerometer.getAccelY());
-    	//SmartDashboard.putNumber("Accel Z", Robot.accelerometer.getAccelZ());
+    	Robot.forks.AutonomousForks();
     }
+
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return true;
     }
 
     // Called once after isFinished returns true

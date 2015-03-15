@@ -5,7 +5,7 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Called when forks are inactive.  Holds auto trigger.
  */
 public class ForksDoNothing extends Command {
 
@@ -21,6 +21,10 @@ public class ForksDoNothing extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//Automatically closes forks when an object activates the bumper.
+    	if(Robot.forks.trigger.get() == false){
+    		Robot.forks.autoForks();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

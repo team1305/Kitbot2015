@@ -5,12 +5,12 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Manually sets elevator speed to an axis, used by F310 joystick.
+ * Moves elevator up at a fixed rate, used by Attack 3 joystick.
  */
-public class ManualElevator extends Command {
+public class ElevatorUp extends Command {
 
 
-    public ManualElevator() {
+    public ElevatorUp() {
     	requires(Robot.elevator);
     }
 
@@ -21,9 +21,7 @@ public class ManualElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
-
-
+    	Robot.elevator.elevatorUp();
     }
 
 

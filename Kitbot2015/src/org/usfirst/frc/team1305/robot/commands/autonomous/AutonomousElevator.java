@@ -1,34 +1,40 @@
-package org.usfirst.frc.team1305.robot.commands.elevator;
+package org.usfirst.frc.team1305.robot.commands.autonomous;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Manually sets elevator speed to an axis, used by F310 joystick.
+ * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class ManualElevator extends Command {
+public class AutonomousElevator extends Command {
 
-
-    public ManualElevator() {
+public double duration;
+public double elevatorSpeed;
+    public AutonomousElevator(double time, double speed) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	duration = time;
+    	elevatorSpeed = speed;
     	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevator.setMode(false);
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
-
-
     }
 
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (Robot.elevator.elevatorAuto(duration, elevatorSpeed)){
+            return true;
+
+        }
         return false;
     }
 
