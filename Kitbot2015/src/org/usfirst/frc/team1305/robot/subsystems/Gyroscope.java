@@ -24,7 +24,6 @@ public class Gyroscope extends Subsystem implements PIDSource {
         //setDefaultCommand(new MySpecialCommand());
     }
 
-	@Override
 	public double pidGet() {
 		return this.getAngle();
 	}
