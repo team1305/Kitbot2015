@@ -43,10 +43,11 @@ public class Arm extends Subsystem {
 	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
 	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
 
-	private double MIN_WRIST_POT = 0.2; //0.192;
-	private int WRIST_ANGLE_AT_MIN_POT = 101;
+	private double MIN_WRIST_POT = 0.175; //0.192;
+	private int WRIST_ANGLE_AT_MIN_POT = 100;
 	private double MAX_WRIST_POT = 0.429; //0.498; //0.52;
 	private int WRIST_ANGLE_AT_MAX_POT = 234;
+	private double WRIST_POT_LIMIT = 0.385;
 	//NB - wrist line (y=mx + b) has y is pot reading, not angle like shoulder and elbow
 	//because we "calc" target pot reading (rather than "reading" current value and calc'ing angle)
 	private double WRIST_YMXB_M = (MIN_WRIST_POT - MAX_WRIST_POT)/(WRIST_ANGLE_AT_MIN_POT - WRIST_ANGLE_AT_MAX_POT);
@@ -224,22 +225,10 @@ public class Arm extends Subsystem {
 		//TODO:  put min/max logic back in once
 		//potentiometer is fixed
     	if(getWristPot() <= MIN_WRIST_POT){
-    		//testing if motor dir is opposite of what we thought
-    		//if(yAxis <= 0){
-    		if(yAxis >= 0){
-    			wristMotor.set(-Math.abs(yAxis));
-    		}else{
-    			wristMotor.set(0);
-    		}
+    		wristMotor.set(Math.abs(yAxis)/4);
     	}
-    	else if(getWristPot() >= MAX_WRIST_POT){
-    		//testing if motor dir is opposite of what we thought
-    		//if(yAxis >= 0){
-    		if(yAxis <= 0){
-    			wristMotor.set(Math.abs(yAxis));
-    		}else{
-    			wristMotor.set(0);
-    		}
+    	else if(getWristPot() >= WRIST_POT_LIMIT){
+    		wristMotor.set(-Math.abs(yAxis)/4);
     	}
     	else{
     		wristMotor.set(-yAxis);

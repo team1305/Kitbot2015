@@ -31,9 +31,9 @@ public class AutonomousMasterGroup extends CommandGroup {
     	
     	// BIN GRAB
     	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
-    	addSequential(new AutonomousArmExtend(3.8));
+    	addSequential(new AutonomousArmExtend(3.6));
     	addSequential(new AutonomousBin(-0.5,-0.5));
-    	addSequential(new Wait(1));
+    	addSequential(new Wait(0.8));
     	addSequential(new AutonomousArmUp(1.5));
     	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
         }
