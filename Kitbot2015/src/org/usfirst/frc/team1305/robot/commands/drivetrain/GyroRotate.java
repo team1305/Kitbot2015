@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GyroRotate extends Command {
 	//PID constants
 	//TODO: figure out constants.
-	private final double P = 0.0;
-	private final double I = 0.0;
-	private final double D = 0.0;
+	private final double P = 1.0;
+	private final double I = 0.05;
+	private final double D = 0.5;
 
 	private final double AUTO_TIMEOUT_PERIOD = 0.5; //seconds
 	private final double TOLERANCE           = 1.0; //degrees
@@ -24,7 +24,7 @@ public class GyroRotate extends Command {
 	private PIDController pid;
 	
 	//timeout timer
-	private Timer t;
+	private Timer t = new Timer();
 	
 	private double originalAngle;
 	private double offset;
@@ -49,7 +49,7 @@ public class GyroRotate extends Command {
     							D, 
     							Robot.gyroscope, 
     							new DriveTrainPIDOutput());
-    	pid.setOutputRange(-1.0,  1.0);
+    	pid.setOutputRange(-0.6,  0.6);
     }
     
 	/**
@@ -70,7 +70,7 @@ public class GyroRotate extends Command {
     							I,
     							D, 
     							Robot.gyroscope, new DriveTrainPIDOutput());
-    	pid.setOutputRange(-1.0,  1.0);
+    	pid.setOutputRange(-0.6,  0.6);
     }
     
 
