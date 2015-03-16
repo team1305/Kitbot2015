@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
+ * @deprecated use drivetrain.gyroRotate
  */
 public class AutonomousGyroTurn extends Command {
 

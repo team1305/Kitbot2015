@@ -24,7 +24,7 @@ public class Gyroscope extends Subsystem implements PIDSource {
     }
 
 	public double pidGet() {
-		return this.getAngle();
+		return gyro.getAngle();
 	}
 
 	public double getRate(){

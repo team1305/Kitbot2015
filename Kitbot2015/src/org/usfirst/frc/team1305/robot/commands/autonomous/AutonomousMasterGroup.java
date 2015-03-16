@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
+import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
 
@@ -38,7 +39,7 @@ public class AutonomousMasterGroup extends CommandGroup {
 //    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
     	
     	//TURN
-    	addSequential(new AutonomousGyroTurn(90));
+    	addSequential(new GyroRotate(90.0));
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());

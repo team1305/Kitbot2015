@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * 90 degree turning drive system.  Currently not used.
+ * @deprecated must fix to use unconstrained values.
  */
 public class PacmanDrive extends Command {
 
