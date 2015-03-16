@@ -53,10 +53,12 @@ public class Robot extends IterativeRobot {
         //starts camera feed
         //TODO: REMEMBER THIS
         //server.startAutomaticCapture("cam0");
+		
     }
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
 
     public void autonomousInit() {
@@ -86,6 +88,7 @@ public class Robot extends IterativeRobot {
     public void disabledInit(){
     	//TODO: check if this is correct or just do command.start()
     	//Scheduler.getInstance().add(new ReInit());
+    	gyroscope.gyroInit();
     }
 
     /**

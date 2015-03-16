@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.commands.gyroscope.Idle;
 
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -19,7 +20,7 @@ public class Gyroscope extends Subsystem implements PIDSource {
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new Idle());
     }
 
 	public double pidGet() {
@@ -43,6 +44,10 @@ public class Gyroscope extends Subsystem implements PIDSource {
 		return gyro.getAngle() - 360.0 * fullTurns;
 	}
 
+	public double getRawAngle() {
+		return this.gyro.getAngle();
+	}
+	
 	public void gyroInit(){
 		gyro.initGyro();
 	}

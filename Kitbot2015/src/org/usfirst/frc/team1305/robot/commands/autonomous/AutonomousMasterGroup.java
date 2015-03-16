@@ -30,12 +30,15 @@ public class AutonomousMasterGroup extends CommandGroup {
 //    	addSequential(new AutonomousMobility(0.4, -0.5, -0.5));
     	
     	// BIN GRAB
-    	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
-    	addSequential(new AutonomousArmExtend(3.6));
-    	addSequential(new AutonomousBin(-0.5,-0.5));
-    	addSequential(new Wait(0.8));
-    	addSequential(new AutonomousArmUp(1.5));
-    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
+//    	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
+//    	addSequential(new AutonomousArmExtend(3.3));
+//    	addSequential(new AutonomousBin(-0.6,-0.6));
+//    	addSequential(new Wait(0.1));
+//    	addSequential(new AutonomousArmUp(1.5));
+//    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
+    	
+    	//TURN
+    	addSequential(new AutonomousGyroTurn(90));
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());
