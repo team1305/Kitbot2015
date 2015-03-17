@@ -221,6 +221,9 @@ public class NewArm extends Subsystem {
     	   (axisval < 0 && pot_s.getValue() < SHOULDER_MIN)){
     		motor_s.set(0.0);
     	}
+    	else{
+    		motor_s.set(SHOULDER_MOTORDIR * axisval);
+    	}
     }
 
 }
