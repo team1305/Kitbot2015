@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.autonomous;
+package org.usfirst.frc.team1305.robot.commands.forks;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -7,15 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class AutonomousMobility extends Command {
+public class AutonomousTote extends Command {
 
-public double duration;
 public double lmSpeed;
 public double rmSpeed;
-    public AutonomousMobility(double time, double leftSpeed, double rightSpeed) {
+    public AutonomousTote(double leftSpeed, double rightSpeed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	duration = time;
     	lmSpeed = leftSpeed;
     	rmSpeed = rightSpeed;
     	requires(Robot.drivetrain);
@@ -33,7 +31,7 @@ public double rmSpeed;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.autonomousMobility(duration, lmSpeed, rmSpeed)){
+    	if (Robot.drivetrain.autonomousTote(lmSpeed, rmSpeed)){
             return true;
 
         }

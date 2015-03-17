@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
+import org.usfirst.frc.team1305.robot.commands.drivetrain.AutonomousMobility;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *Does auto things
+ *@deprecated use smartdashboard chooser now.
  */
 public class AutonomousMasterGroup extends CommandGroup {
 

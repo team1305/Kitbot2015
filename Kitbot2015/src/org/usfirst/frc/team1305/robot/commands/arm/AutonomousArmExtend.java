@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.autonomous;
+package org.usfirst.frc.team1305.robot.commands.arm;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
@@ -7,17 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
  */
-public class AutonomousBin extends Command {
+public class AutonomousArmExtend extends Command {
 
-public double lmSpeed;
-public double rmSpeed;
-    public AutonomousBin(double leftSpeed, double rightSpeed) {
+public double duration;
+    public AutonomousArmExtend(double time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	lmSpeed = leftSpeed;
-    	rmSpeed = rightSpeed;
-    	requires(Robot.drivetrain);
-    	requires(Robot.claw);
+    	duration = time;
+    	requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
@@ -32,7 +29,7 @@ public double rmSpeed;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.autonomousBin(lmSpeed, rmSpeed)){
+    	if (Robot.arm.autonomousArmExtend(duration)){
             return true;
 
         }
@@ -41,7 +38,9 @@ public double rmSpeed;
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.claw.toggleGrab();
+    	Robot.arm.StopElbow();
+    	Robot.arm.StopShoulder();
+    	Robot.arm.StopWrist();
     }
 
     // Called when another command which requires one or more of the same

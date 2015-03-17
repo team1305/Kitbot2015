@@ -1,7 +1,11 @@
 
 package org.usfirst.frc.team1305.robot;
 
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
+import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
@@ -15,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 
 /**
@@ -36,7 +41,9 @@ public class Robot extends IterativeRobot {
 
 	//camera server aka camera declaration
 	CameraServer server;
-    Command autonomousCommand = new AutonomousMasterGroup();
+    //Command autonomousCommand = new AutonomousMasterGroup();
+	Command autonomousCommand;
+	SendableChooser autoChooser = new SendableChooser();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -54,6 +61,12 @@ public class Robot extends IterativeRobot {
         //TODO: REMEMBER THIS
         //server.startAutomaticCapture("cam0");
 		
+		//===Add options for autonomous commands here.===
+		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
+		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
+		autoChooser.addObject("Dance auto", new AutonomousDance());
+		autoChooser.addObject("Null auto", new Wait(1));
+		
     }
 
 	public void disabledPeriodic() {
@@ -63,6 +76,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	autonomousCommand = (Command) autoChooser.getSelected();
+    	
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
