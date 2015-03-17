@@ -34,7 +34,7 @@ public double rmSpeed;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.autonomousMobility(duration)){
+    	if (Robot.drivetrain.autonomousMobility(duration, 0.5, 0.5)){
             return true;
 
         }
