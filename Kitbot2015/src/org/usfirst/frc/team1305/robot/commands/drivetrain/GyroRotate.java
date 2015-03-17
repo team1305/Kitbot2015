@@ -14,22 +14,22 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GyroRotate extends Command {
 	//PID constants
 	//TODO: figure out constants.
-	private final double P = 1.0;
-	private final double I = 0.05;
-	private final double D = 0.5;
+	private final double P = 0.055; //0.03 //0.055
+	private final double I = 0.00045; //0.00045;
+	private final double D = 0.15; //0.09  //0.15
 
-	private final double AUTO_TIMEOUT_PERIOD = 0.5; //seconds
-	private final double TOLERANCE           = 1.0; //degrees
+	private final double AUTO_TIMEOUT_PERIOD = 1.0; //seconds
+	private final double TOLERANCE           = 2.5; //degrees
 	
 	private PIDController pid;
 	
 	//timeout timer
-	private Timer t = new Timer();
-	
+	private Timer autoTimer = new Timer();
+	private Timer manuTimer = new Timer();
 	private double originalAngle;
 	private double offset;
 	private double timeout;
-	private boolean usingAutoTimeout;
+	private boolean usingManualTimeout;
 
 	/**
 	 * Rotate the robot a specified number of degrees. The command will never
@@ -40,16 +40,15 @@ public class GyroRotate extends Command {
     public GyroRotate(double offset) {
     	requires(Robot.drivetrain);
     	this.offset        = offset;
-    	this.originalAngle = Robot.gyroscope.getRawAngle();
     	this.timeout       = 0.0;
-    	usingAutoTimeout   = true;
+    	usingManualTimeout   = false;
     	
     	pid = new PIDController(P, 
     							I, 
     							D, 
     							Robot.gyroscope, 
     							new DriveTrainPIDOutput());
-    	pid.setOutputRange(-0.6,  0.6);
+    	pid.setOutputRange(-0.7,  0.7);
     }
     
 	/**
@@ -62,24 +61,27 @@ public class GyroRotate extends Command {
     public GyroRotate(double offset, double timeout) {
     	requires(Robot.drivetrain);
     	this.offset        = offset;
-    	this.originalAngle = Robot.gyroscope.getRawAngle();
     	this.timeout 	   = timeout;
-    	usingAutoTimeout   = false;
+    	usingManualTimeout   = true;
     	
     	pid = new PIDController(P,
     							I,
     							D, 
     							Robot.gyroscope, new DriveTrainPIDOutput());
-    	pid.setOutputRange(-0.6,  0.6);
+    	pid.setOutputRange(-0.7,  0.7);
     }
     
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	this.originalAngle = Robot.gyroscope.getRawAngle();
     	pid.setSetpoint(originalAngle + offset);
     	pid.enable();
-    	t.reset();
-    	t.start();
+    	autoTimer.reset();
+    	autoTimer.start();
+    	manuTimer.reset();
+    	manuTimer.start();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -87,11 +89,11 @@ public class GyroRotate extends Command {
     	//take the computed output value of the pid controller and apply
     	//to the wheels.
     	double val = pid.get();
-    	Robot.drivetrain.tankDrive(val, -val);
+    	Robot.drivetrain.tankDrive(-val, +val);
     	
     	//if we leave the tolerance zone, then we reset the auto timer
-    	if(usingAutoTimeout && Math.abs(pid.getError()) > TOLERANCE ){
-    		t.reset();
+    	if(Math.abs(pid.getError()) > TOLERANCE ){
+    		autoTimer.reset();
     	}
     }
 
@@ -99,28 +101,32 @@ public class GyroRotate extends Command {
     protected boolean isFinished() {
     	//if we're using auto timeout and we've gone long enough without 
     	//leaving the tolerance zone
-        if(usingAutoTimeout && t.get() > AUTO_TIMEOUT_PERIOD) return true;
+        if(autoTimer.get() > AUTO_TIMEOUT_PERIOD) return true;
         
         //if the manual timer has expired
-        else if(!usingAutoTimeout && t.get() > timeout) return true;
+        else if(usingManualTimeout && manuTimer.get() > timeout) return true;
         
         else return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	t.stop();
+    	autoTimer.stop();
     	pid.disable();
-    	t.reset();
+    	autoTimer.reset();
+    	manuTimer.stop();
+    	manuTimer.reset();
     	Robot.drivetrain.tankDrive(0.0, 0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	t.stop();
+    	autoTimer.stop();
     	pid.disable();
-    	t.reset();
+    	autoTimer.reset();
+    	manuTimer.stop();
+    	manuTimer.reset();
     	Robot.drivetrain.tankDrive(0.0, 0.0);
     }
 }

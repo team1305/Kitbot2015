@@ -39,7 +39,24 @@ public class AutonomousMasterGroup extends CommandGroup {
 //    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
     	
     	//TURN
-    	addSequential(new GyroRotate(90.0));
+    	addSequential(new GyroRotate(-60.0, 1.0));
+    	addSequential(new AutonomousMobility(0.2, 0, 0));
+    	addSequential(new GyroRotate(-42.0, 1.0));
+    	addSequential(new AutonomousMobility(0.2, 0, 0));
+    	addSequential(new GyroRotate(-65.0, 1.1));
+    	addSequential(new AutonomousMobility(0.7, 0.8, 0.8));
+    	addSequential(new GyroRotate(60.0, 1.0));
+    	
+    	//DOUBLE BIN GRAB [THEORETICAL]
+//    	addSequential(new GyroRotate(-60.0, 1.4));
+//    	addParallel(new AutonomousArmExtend(0.5));
+//    	addSequential(new AutonomousMobility(1.5, 0, 0));
+//    	addSequential(new GyroRotate(-42.0, 2));
+//    	addSequential(new AutonomousMobility(1.5, 0, 0));
+//    	addSequential(new GyroRotate(-68.0, 2));
+//    	addSequential(new AutonomousMobility(0.7, 0.8, 0.8));
+//    	addSequential(new GyroRotate(60.0, 2.2));
+    	
         }
         // Add Commands here:
         // e.g. addSequential(new Command1());
