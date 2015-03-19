@@ -162,6 +162,12 @@ public class Drivetrain extends Subsystem {
    	}    
 }
 
+    /**
+     * Drives forward until sneezeguard sensor is triggered.
+     * @param leftSpeed Controls speed of left motors
+     * @param rightSpeed Controls speed of right motors
+     * @return Returns true when finished
+     */
     public boolean autonomousTote(double leftSpeed, double rightSpeed){
     	while(Robot.forks.trigger.get() == true){
     		drive.tankDrive(leftSpeed, rightSpeed);
@@ -173,6 +179,12 @@ public class Drivetrain extends Subsystem {
     	}
     }
     
+    /**
+     * Drives forward until claw sensor is triggered.
+     * @param leftSpeed Controls speed of left motors
+     * @param rightSpeed Controls speed of right motors
+     * @return Returns true when finished
+     */
     public boolean autonomousBin(double leftSpeed, double rightSpeed){
     	while(Robot.claw.trigger.get() == true){
     		drive.tankDrive(leftSpeed, rightSpeed);

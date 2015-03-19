@@ -4,6 +4,7 @@ import org.usfirst.frc.team1305.robot.DriveTrainPIDOutput;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,11 +15,11 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GyroRotate extends Command {
 	//PID constants
 	//TODO: figure out constants.
-	private final double P = 0.055; //0.03 //0.055
-	private final double I = 0.00045; //0.00045;
-	private final double D = 0.15; //0.09  //0.15
+	private final double P = 0.08; //0.03 //0.055
+	private final double I = 0.0068; //0.00045;
+	private final double D = 0.18; //0.09  //0.15
 
-	private final double AUTO_TIMEOUT_PERIOD = 1.0; //seconds
+	private final double AUTO_TIMEOUT_PERIOD = 0.4; //seconds
 	private final double TOLERANCE           = 2.5; //degrees
 	
 	private PIDController pid;
@@ -75,6 +76,9 @@ public class GyroRotate extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	this.originalAngle = Robot.gyroscope.getRawAngle();
+//    	Preferences prefs = Preferences.getInstance();
+//    	prefs.save();
+//    	pid.setPID(prefs.getDouble("P",0), prefs.getDouble("I", 0), prefs.getDouble("D", 0));
     	pid.setSetpoint(originalAngle + offset);
     	pid.enable();
     	autoTimer.reset();

@@ -102,6 +102,9 @@ public class Forks extends Subsystem {
 
     }
     
+    /**
+     * Opens/Closes forks in auto.
+     */
     public void AutonomousForks(){
 
     	if (isOpen == false){

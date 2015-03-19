@@ -2,6 +2,8 @@
 package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -64,9 +67,11 @@ public class Robot extends IterativeRobot {
 		//===Add options for autonomous commands here.===
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
+		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
 		autoChooser.addObject("Dance auto", new AutonomousDance());
+		autoChooser.addObject("Tote Auto", new AutoOneTote());
 		autoChooser.addObject("Null auto", new Wait(1));
-		
+		SmartDashboard.putData("Autochooser", autoChooser);
     }
 
 	public void disabledPeriodic() {

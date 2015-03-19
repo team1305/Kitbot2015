@@ -387,13 +387,42 @@ public class Arm extends Subsystem {
             armTimer.stop();
             armTimer.reset();
             break;
+    	}
+    	if(currentState == 3){
+    		currentState = 0;
+  			return true;
+   		}else{
+   			return false;
+   		}    
+    	
     }
-    if(currentState == 3){
-    	currentState = 0;
-  		return true;
-   	}else{
-   		return false;
-   	}    
+    
+    public boolean autonomousArmTransport(double duration){
+    	MoveWristAutomatically();
+    	switch (currentState){
+        case 0:
+            currentState++;
+            break;
+        case 1:
+        	if (armTimer.get()>= duration)
+            {
+                currentState++;
+            }
+            Robot.arm.ArmPresets(ARM_PRESET_TRANSPORT);
+            break;
+        case 2:
+        	shoulderMotor.set(0);
+            elbowMotor.set(0);
+            wristMotor.set(0);
+            currentState = 0;
+            break;
+	    }
+	    if(currentState == 2){
+	    	currentState = 0;
+	  		return true;
+	   	}else{
+	   		return false;
+	   	}    
     	
     }
     
