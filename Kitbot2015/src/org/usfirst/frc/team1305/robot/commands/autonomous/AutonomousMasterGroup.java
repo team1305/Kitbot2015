@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
 import org.usfirst.frc.team1305.robot.commands.drivetrain.AutonomousMobility;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
+//import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
 import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
 
@@ -41,13 +41,13 @@ public class AutonomousMasterGroup extends CommandGroup {
 //    	addSequential(new AutonomousMobility(3.5, 0.5, 0.5));
     	
     	//TURN
-    	addSequential(new GyroRotate(-60.0, 1.0));
-    	addSequential(new AutonomousMobility(0.2, 0, 0));
-    	addSequential(new GyroRotate(-42.0, 1.0));
-    	addSequential(new AutonomousMobility(0.2, 0, 0));
-    	addSequential(new GyroRotate(-65.0, 1.1));
-    	addSequential(new AutonomousMobility(0.7, 0.8, 0.8));
-    	addSequential(new GyroRotate(60.0, 1.0));
+//    	addSequential(new GyroRotate(-60.0, 1.0));
+//    	addSequential(new AutonomousMobility(0.2, 0, 0));
+//    	addSequential(new GyroRotate(-42.0, 1.0));
+//    	addSequential(new AutonomousMobility(0.2, 0, 0));
+//    	addSequential(new GyroRotate(-65.0, 1.1));
+//    	addSequential(new AutonomousMobility(0.7, 0.8, 0.8));
+//    	addSequential(new GyroRotate(60.0, 1.0));
     	
     	//DOUBLE BIN GRAB [THEORETICAL]
 //    	addSequential(new GyroRotate(-60.0, 1.4));

@@ -28,26 +28,26 @@ public class Arm extends Subsystem {
 //	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
 //	private double hypot;
 //	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT       = 0.099; //0.12;
-	private int SHOULDER_ANGLE_AT_MIN_POT = 24;
-	private double MAX_SHOULDER_POT       = 0.491; //0.495;
-	private double SHOULDER_POT_MAX_LIMIT = 0.5;
-	private int SHOULDER_ANGLE_AT_MAX_POT = 88;
+	private double MIN_SHOULDER_POT       = 0.107; //0.099;
+	private int SHOULDER_ANGLE_AT_MIN_POT = 34;
+	private double MAX_SHOULDER_POT       = 0.496; //0.491;
+	private double SHOULDER_POT_MAX_LIMIT = 0.48;
+	private int SHOULDER_ANGLE_AT_MAX_POT = 98;
 	private double SHOULDER_YMXB_M 	      = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
 	private double SHOULDER_YMXB_B        = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
 
-	private double MIN_ELBOW_POT = 0.021; //0.1;
-	private int ELBOW_ANGLE_AT_MIN_POT = 142;
-	private double MAX_ELBOW_POT = 0.357; //0.46;
-	private int ELBOW_ANGLE_AT_MAX_POT = 20;
+	private double MIN_ELBOW_POT = 0.317; //0.019; //0.025
+	private int ELBOW_ANGLE_AT_MIN_POT = 135;
+	private double MAX_ELBOW_POT = 0.637; //0.357;
+	private int ELBOW_ANGLE_AT_MAX_POT = 23;
 	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
 	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
 
-	private double MIN_WRIST_POT = 0.175; //0.192;
-	private int WRIST_ANGLE_AT_MIN_POT = 100;
-	private double MAX_WRIST_POT = 0.429; //0.498; //0.52;
-	private int WRIST_ANGLE_AT_MAX_POT = 234;
-	private double WRIST_POT_LIMIT = 0.385;
+	private double MIN_WRIST_POT = 0.169; //0.175;
+	private int WRIST_ANGLE_AT_MIN_POT = 116;
+	private double MAX_WRIST_POT = 0.391; //0.386;
+	private int WRIST_ANGLE_AT_MAX_POT = 238;
+	private double WRIST_POT_LIMIT = 0.39;
 	//NB - wrist line (y=mx + b) has y is pot reading, not angle like shoulder and elbow
 	//because we "calc" target pot reading (rather than "reading" current value and calc'ing angle)
 	private double WRIST_YMXB_M = (MIN_WRIST_POT - MAX_WRIST_POT)/(WRIST_ANGLE_AT_MIN_POT - WRIST_ANGLE_AT_MAX_POT);
@@ -315,13 +315,13 @@ public class Arm extends Subsystem {
 
     	if(preset == ARM_PRESET_EXTENDED){
 
-    		if(getShoulderPot() != 0.185){
-    			shoulderMotor.set((getShoulderPot()-0.185)*24);
+    		if(getShoulderPot() != 0.12){
+    			shoulderMotor.set((getShoulderPot()-0.12)*24);
     		}else{
     			shoulderMotor.set(0);
     		}
-    		if(getElbowPot() != 0.02){
-    			elbowMotor.set((getElbowPot()-0.02)*24);
+    		if(getElbowPot() != 0.317){
+    			elbowMotor.set((getElbowPot()-0.317)*24);
     		}else{
     			elbowMotor.set(0);
     		}
@@ -333,22 +333,22 @@ public class Arm extends Subsystem {
     		
     	}
     	else if(preset == ARM_PRESET_TRANSPORT){
-    		if(getShoulderPot() != 0.500){
-    			shoulderMotor.set((getShoulderPot()-0.500)*18);
+    		if(getShoulderPot() != 0.420){
+    			shoulderMotor.set((getShoulderPot()-0.480)*18);
     		}
-    		if(getElbowPot() != 0.306){
-    			elbowMotor.set((getElbowPot()-0.306)*24);
+    		if(getElbowPot() != 0.6){
+    			elbowMotor.set((getElbowPot()-0.6)*24);
     		}
 //    		if(getWristPot() != 0.352){
 //    			wristMotor.set((getWristPot()-0.352)*24);
 //    		}
     	}
     	else if(preset == ARM_PRESET_MAX_STACK){
-    		if(getShoulderPot() != 0.505){
-    			shoulderMotor.set((getShoulderPot()-0.505)*18);
+    		if(getShoulderPot() != 0.48){
+    			shoulderMotor.set((getShoulderPot()-0.48)*18);
     		}
-    		if(getElbowPot() != 0.02){
-    			elbowMotor.set((getElbowPot()-0.02)*24);
+    		if(getElbowPot() != 0.337){
+    			elbowMotor.set((getElbowPot()-0.337)*24);
     		}
 //    		if(getWristPot() != 0.52){
 //    			wristMotor.set((getWristPot()-0.52)*24);
@@ -439,11 +439,11 @@ public class Arm extends Subsystem {
             {
                 currentState++;
             }
-            if(getShoulderPot() != 0.34){
-    			shoulderMotor.set((getShoulderPot()-0.34)*24);
+            if(getShoulderPot() != 0.326){
+    			shoulderMotor.set((getShoulderPot()-0.326)*24);
     		}
-    		if(getElbowPot() != 0.02){
-    			elbowMotor.set((getElbowPot()-0.02)*24);
+    		if(getElbowPot() != 0.351){
+    			elbowMotor.set((getElbowPot()-0.351)*24);
     		}
             break;
         case 2:

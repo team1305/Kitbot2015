@@ -4,7 +4,7 @@ import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmExtend;
 import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmUp;
 import org.usfirst.frc.team1305.robot.commands.claw.AutonomousBin;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.AutonomousMobility;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
+//import org.usfirst.frc.team1305.robot.commands.drivetrain.GyroRotate;
 import org.usfirst.frc.team1305.robot.commands.elevator.AutonomousElevator;
 import org.usfirst.frc.team1305.robot.commands.forks.AutonomousForks;
 import org.usfirst.frc.team1305.robot.commands.forks.AutonomousTote;

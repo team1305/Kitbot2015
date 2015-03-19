@@ -13,7 +13,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
-import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
+//import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Gyroscope gyroscope   = new Gyroscope();
+//	public static final Gyroscope gyroscope   = new Gyroscope();
 	public static final Claw claw             = new Claw();
 	public static final Arm arm               = new Arm();
 	public static final Forks forks           = new Forks();
@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
     public void disabledInit(){
     	//TODO: check if this is correct or just do command.start()
     	//Scheduler.getInstance().add(new ReInit());
-    	gyroscope.gyroInit();
+//    	gyroscope.gyroInit();
     }
 
     /**
