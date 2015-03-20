@@ -169,14 +169,31 @@ public class Drivetrain extends Subsystem {
      * @return Returns true when finished
      */
     public boolean autonomousTote(double leftSpeed, double rightSpeed){
-    	while(Robot.forks.trigger.get() == true){
-    		drive.tankDrive(leftSpeed, rightSpeed);
-    	}
-    	if(Robot.forks.trigger.get() == false){
-    		return true;
-    	}else{
-    		return false;
-    	}
+    	switch (currentState){
+        case 0:
+            robotSetTimer.start();
+
+            currentState++;
+            break;
+        case 1:
+            if (robotSetTimer.get()>= 2)
+            {
+
+                currentState++;
+            }else if(Robot.forks.trigger.get() == false){
+	    		currentState++;
+            }else{
+            	drive.tankDrive(leftSpeed, rightSpeed);
+            }
+            break;
+        case 2:
+            drive.tankDrive(0,0);
+            currentState = 0;
+            robotSetTimer.stop();
+            robotSetTimer.reset();
+            return true;
+    } 
+    	return false;
     }
     
     /**
