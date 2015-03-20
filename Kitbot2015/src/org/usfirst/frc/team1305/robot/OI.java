@@ -58,7 +58,6 @@ public class OI {
 
     //arm stick functions
     Button clawOpenClose;
-    Button presetButton;
     Button toggleWristAutoManu;
 
     Button transportPresetButton;
@@ -73,59 +72,34 @@ public class OI {
      * same throughout.
      */
 	public OI(){
-//		if(DriverStation.getInstance().getStickAxisCount(0) == 3){ //if attack 3 joystick
-		    armPerspective   = new JoystickButton(driveStick, 7);
-		    stackPerspective = new JoystickButton(driveStick, 6);
-		    toggleGear       = new JoystickButton(driveStick, 5);
-		    forkDeployment   = new JoystickButton(driveStick, 4);
-		    stackerMoveDown  = new JoystickButton(driveStick, 3);
-		    stackerMoveUp    = new JoystickButton(driveStick, 2);
-		    forkOpenClose    = new JoystickButton(driveStick, 1);
+	    armPerspective   = new JoystickButton(driveStick, 7);
+	    stackPerspective = new JoystickButton(driveStick, 6);
+	    toggleGear       = new JoystickButton(driveStick, 5);
+	    forkDeployment   = new JoystickButton(driveStick, 4);
+	    stackerMoveDown  = new JoystickButton(driveStick, 3);
+	    stackerMoveUp    = new JoystickButton(driveStick, 2);
+	    forkOpenClose    = new JoystickButton(driveStick, 1);
 
-			forkDeployment.whenPressed(new ForksToggleDeployment());
-			armPerspective.whileHeld  (new DriveSetArmPerspective());
-			stackPerspective.whileHeld(new DriveSetStackerPerspective());
-			toggleGear.whenPressed    (new DriveToggleGear());
-			stackerMoveDown.whileHeld (new ElevatorDown());
-			stackerMoveUp.whileHeld   (new ElevatorUp());
-			forkOpenClose.whenPressed (new ForksToggle());
+		forkDeployment.whenPressed(new ForksToggleDeployment());
+		armPerspective.whileHeld  (new DriveSetArmPerspective());
+		stackPerspective.whileHeld(new DriveSetStackerPerspective());
+		toggleGear.whenPressed    (new DriveToggleGear());
+		stackerMoveDown.whileHeld (new ElevatorDown());
+		stackerMoveUp.whileHeld   (new ElevatorUp());
+		forkOpenClose.whenPressed (new ForksToggle());
 
-//			usingAttack3 = true;
-//
-//		}else{
-//			//driver stick functions
-//			forkOpenClose    = new JoystickButton(driveStick, BUTTON_RB);
-//		    armPerspective   = new JoystickButton(driveStick, BUTTON_Y);
-//		    stackPerspective = new JoystickButton(driveStick, BUTTON_A);
-//		    toggleGear       = new JoystickButton(driveStick, LEFT_JOYSTICK_CLICK);
-//		    forkDeployment   = new JoystickButton(driveStick, BUTTON_LB);
-//
-//		    forkOpenClose.whenPressed (new ToggleForks());
-//		    forkDeployment.whenPressed(new ToggleStackerDeployment());
-//			armPerspective.whileHeld  (new SetArmPerspective());
-//			stackPerspective.whileHeld(new SetStackerPerspective());
-//			toggleGear.whenPressed    (new ToggleGear());
-//
-//			usingAttack3 = false;
-//		}
+	    //arm stick functions
+	    clawOpenClose         = new JoystickButton(armStick, BUTTON_RB);
+	    toggleWristAutoManu   = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
+	    transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
+	    maxStackPresetButton  = new JoystickButton(armStick, BUTTON_X);
+	    extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
 
-
-
-		    //arm stick functions
-		    Button claw                  = new JoystickButton(armStick, BUTTON_RB);
-		    Button toggleWristAutoManu   = new JoystickButton(armStick, RIGHT_JOYSTICK_CLICK);
-		    Button transportPresetButton = new JoystickButton(armStick, BUTTON_Y);
-		    Button maxStackPresetButton  = new JoystickButton(armStick, BUTTON_X);
-		    Button extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
-
-			extendedPresetButton.whileHeld (new ExtendedPresetCommand());
-			transportPresetButton.whileHeld(new TransportPresetCommand());
-			maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
-			claw.toggleWhenPressed         (new ClawToggle());
-			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
-
-
-
+		clawOpenClose.whenPressed      (new ClawToggle());
+		toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
+		extendedPresetButton.whileHeld (new ExtendedPresetCommand());
+		transportPresetButton.whileHeld(new TransportPresetCommand());
+		maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
 	}
 
 	//getAxis functions for drivestick

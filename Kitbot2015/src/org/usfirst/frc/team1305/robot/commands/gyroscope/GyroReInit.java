@@ -1,20 +1,22 @@
+package org.usfirst.frc.team1305.robot.commands.gyroscope;
 //package org.usfirst.frc.team1305.robot.commands.gyroscope;
 //
 //import org.usfirst.frc.team1305.robot.Robot;
 //
 //import edu.wpi.first.wpilibj.command.Command;
-////import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //
 ///**
-// * Called when gyro is disabled.  Not used.
+// * Activates gyro.  Currently unused.
 // */
-//public class Idle extends Command {
+//public class ReInit extends Command {
 //
-//    public Idle() {
+//
+//
+//    public ReInit() {
 //        // Use requires() here to declare subsystem dependencies
 //        // eg. requires(chassis);
 //    	requires(Robot.gyroscope);
+//    	setRunWhenDisabled(true);
 //    }
 //
 //    // Called just before this Command runs the first time
@@ -23,7 +25,7 @@
 //
 //    // Called repeatedly when this Command is scheduled to run
 //    protected void execute() {
-//    	SmartDashboard.putNumber("Gyroscope Angle", Robot.gyroscope.getAngle());
+//    	Robot.gyroscope.gyroInit();
 //    }
 //
 //    // Make this return true when this Command no longer needs to run execute()
