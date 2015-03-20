@@ -182,7 +182,7 @@ public class Drivetrain extends Subsystem {
                 currentState++;
             }else if(Robot.forks.trigger.get() == false){
 	    		currentState++;
-            }else{
+            }else{ 
             	drive.tankDrive(leftSpeed, rightSpeed);
             }
             break;
