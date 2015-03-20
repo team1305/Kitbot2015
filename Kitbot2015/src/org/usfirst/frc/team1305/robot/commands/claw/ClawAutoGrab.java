@@ -1,32 +1,37 @@
-package org.usfirst.frc.team1305.robot.commands.drivetrain;
+package org.usfirst.frc.team1305.robot.commands.claw;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Toggles between digital low gear and high gear.
+ * Called when claw is inactive, holds auto trigger.
  */
-public class ToggleGear extends Command {
+public class ClawAutoGrab extends Command {
 
-    public ToggleGear() {
+	/**
+	 * run when the claw is not being explicitly controlled. Listens to the
+	 * trigger to auto-grab.
+	 */
+    public ClawAutoGrab() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.drivetrain);
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.toggleGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		Robot.claw.autoGrab();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

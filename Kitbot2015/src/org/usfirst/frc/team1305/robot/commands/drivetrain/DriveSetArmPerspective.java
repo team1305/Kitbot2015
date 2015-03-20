@@ -1,25 +1,23 @@
-package org.usfirst.frc.team1305.robot.commands.elevator;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1305.robot.Robot;
-import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 /**
- * Translates elevator to next preset position.  Currently unused.
+ * Switches driving direction to match driver perspective.
  */
-public class NextPreset extends Command {
+public class DriveSetArmPerspective extends Command {
 
-    public NextPreset() {
-        requires(Robot.elevator);
+    public DriveSetArmPerspective() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevator.setMode(true);
-    	int preset = Robot.elevator.getPreset();
-    	Robot.elevator.setPreset(preset+1);
+    	Robot.drivetrain.setArmPerspective(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,10 +26,7 @@ public class NextPreset extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        double dh = Robot.elevator.getHeight() - Robot.elevator.getPresetValue();
-        double pd = Math.abs(dh / Robot.elevator.getPresetValue()) * 100.0;
-        if( dh < Elevator.ELEVATOR_PRESET_TOLERANCE ) return true;
-        else return false;
+    	return true;
     }
 
     // Called once after isFinished returns true

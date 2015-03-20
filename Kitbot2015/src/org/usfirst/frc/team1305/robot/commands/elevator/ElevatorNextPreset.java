@@ -1,41 +1,37 @@
 package org.usfirst.frc.team1305.robot.commands.elevator;
 
 import org.usfirst.frc.team1305.robot.Robot;
+import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * Moves robot forward in autonomous, calls Drivetrain subsystem.
- */
-public class AutonomousElevator extends Command {
 
-public double duration;
-public double elevatorSpeed;
-    public AutonomousElevator(double time, double speed) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	duration = time;
-    	elevatorSpeed = speed;
-    	requires(Robot.elevator);
+/**
+ * Translates elevator to next preset position.  Currently unused.
+ */
+public class ElevatorNextPreset extends Command {
+
+    public ElevatorNextPreset() {
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
+    	Robot.elevator.setMode(true);
+    	int preset = Robot.elevator.getPreset();
+    	Robot.elevator.setPreset(preset+1);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     }
 
-
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.elevator.elevatorAuto(duration, elevatorSpeed)){
-            return true;
-
-        }
-        return false;
+        double dh = Robot.elevator.getHeight() - Robot.elevator.getPresetValue();
+        double pd = Math.abs(dh / Robot.elevator.getPresetValue()) * 100.0;
+        if( dh < Elevator.ELEVATOR_PRESET_TOLERANCE ) return true;
+        else return false;
     }
 
     // Called once after isFinished returns true

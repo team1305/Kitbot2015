@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 5. The corrected stick values are passed along to the motor controllers and
  * 	remembered for the next iteration of the loop.
  */
-public class SmoothDrive extends Command {
+public class DriveSmooth extends Command {
 
 
 	private static final double MAX_RATE = 33.3; // units %/second
@@ -50,7 +50,7 @@ public class SmoothDrive extends Command {
 	private double moveValue = 0;
 	private double rotateValue = 0;
 
-    public SmoothDrive() {
+    public DriveSmooth() {
     	requires(Robot.drivetrain);
     }
 
@@ -139,7 +139,7 @@ public class SmoothDrive extends Command {
     	l0 = 0;
     	l1 = 0;
     	r0 = 0;
-    	r1 = 1;
+    	r1 = 0;
     	Robot.drivetrain.tankDrive(0.0, 0.0);
     }
 
@@ -151,7 +151,7 @@ public class SmoothDrive extends Command {
     	l0 = 0;
     	l1 = 0;
     	r0 = 0;
-    	r1 = 1;
+    	r1 = 0;
     	Robot.drivetrain.tankDrive(0.0, 0.0);
     }
 

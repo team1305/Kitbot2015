@@ -5,13 +5,11 @@ import org.usfirst.frc.team1305.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Called when forks are inactive.  Holds auto trigger.
+ * Deploys/Retracts forks.
  */
-public class ForksDoNothing extends Command {
+public class ForksToggleDeployment extends Command {
 
-    public ForksDoNothing() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public ForksToggleDeployment() {
     	requires(Robot.forks);
     }
 
@@ -21,15 +19,13 @@ public class ForksDoNothing extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Automatically closes forks when an object activates the bumper.
-    	if(Robot.forks.trigger.get() == false){
-    		Robot.forks.autoForks();
-    	}
+    	//sets Claw toggle function from claw subsystem to command
+    	Robot.forks.toggleDeployment();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

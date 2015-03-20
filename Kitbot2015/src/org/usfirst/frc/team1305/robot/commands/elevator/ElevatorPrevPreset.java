@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Translates elevator to previous preset position.  Currently unused.
  */
-public class PreviousPreset extends Command {
+public class ElevatorPrevPreset extends Command {
 
-    public PreviousPreset() {
+    public ElevatorPrevPreset() {
         requires(Robot.elevator);
     }
 
