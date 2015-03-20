@@ -22,7 +22,7 @@ public class Forks extends Subsystem {
 	private Solenoid stackerSol = new Solenoid(RobotMap.SOL_STACKER);
 	private Timer triggerTimer = new Timer();
 	private Timer humanErrorTimer = new Timer();
-	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_STACKER_TRIGGER);
+	private DigitalInput trigger = new DigitalInput(RobotMap.DIO_STACKER_TRIGGER);
 
 	private double TRIGGER_TIMEOUT = 1.5;
 	private double TRIGGER_TIMEOUT_HUMAN_ERROR = 0.8;

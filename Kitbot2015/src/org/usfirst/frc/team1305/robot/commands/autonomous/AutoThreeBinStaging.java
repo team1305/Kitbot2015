@@ -12,6 +12,11 @@ import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorAuto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * @deprecated need to fix this
+ * @author paul
+ *
+ */
 
 public class AutoThreeBinStaging extends CommandGroup {
     /**

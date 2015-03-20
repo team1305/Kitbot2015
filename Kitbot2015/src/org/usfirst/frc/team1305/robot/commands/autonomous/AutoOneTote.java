@@ -12,7 +12,7 @@ import org.usfirst.frc.team1305.robot.commands.forks.ForksToggleDeployment;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * @deprecated need to fix this.
  */
 public class AutoOneTote extends CommandGroup {
     
