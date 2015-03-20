@@ -52,13 +52,11 @@ public class Forks extends Subsystem {
     	if (isOpen == false &&
     			humanErrorTimer.get() >= TRIGGER_TIMEOUT_HUMAN_ERROR){
     		isOpen = true;
-    		SmartDashboard.putString("Fork Status :", "Open!");
     		forkSol.set(true);
     		triggerTimer.reset();
 
     	} else if(isOpen == true){
     		isOpen = false;
-    		SmartDashboard.putString("Fork Status :", "Close!");
     		forkSol.set(false);
     	}
     }
@@ -86,12 +84,10 @@ public class Forks extends Subsystem {
 
     	if (isDeployed == false){
     		isDeployed = true;
-    		SmartDashboard.putString("Stacker Status :", "Open!");
     		stackerSol.set(true);
 
     	} else {
     		isDeployed = false;
-    		SmartDashboard.putString("Stacker Status :", "Close!");
     		stackerSol.set(false);
     	}
     }

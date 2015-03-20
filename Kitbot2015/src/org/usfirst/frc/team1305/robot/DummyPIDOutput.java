@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.PIDOutput;
 /**
  * This is a dummy class used to emulate a PIDOutput, used in PacmanDrive.java
  */
-public class DriveTrainPIDOutput implements PIDOutput{
+public class DummyPIDOutput implements PIDOutput{
 
 	double value;
-	public DriveTrainPIDOutput(){
+	public DummyPIDOutput(){
 
 	}
 
