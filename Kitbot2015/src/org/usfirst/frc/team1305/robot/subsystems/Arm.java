@@ -315,13 +315,13 @@ public class Arm extends Subsystem {
 
     	if(preset == ARM_PRESET_EXTENDED){
 
-    		if(getShoulderPot() != 0.12){
+    		if(getShoulderPot() != 0.153){
     			shoulderMotor.set((getShoulderPot()-0.12)*24);
     		}else{
     			shoulderMotor.set(0);
     		}
-    		if(getElbowPot() != 0.317){
-    			elbowMotor.set((getElbowPot()-0.317)*24);
+    		if(getElbowPot() != 0.277){
+    			elbowMotor.set((getElbowPot()-0.277)*24);
     		}else{
     			elbowMotor.set(0);
     		}
