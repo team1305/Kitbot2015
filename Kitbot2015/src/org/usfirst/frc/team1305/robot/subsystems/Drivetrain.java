@@ -114,7 +114,6 @@ public class Drivetrain extends Subsystem {
     public boolean getLowGear(){
     	return this.isLowGear;
     }
-
     
     /**
      * stop all robot movement
