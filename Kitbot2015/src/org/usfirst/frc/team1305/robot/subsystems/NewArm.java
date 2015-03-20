@@ -34,7 +34,7 @@ public class NewArm extends Subsystem {
 	/*
 	 * ======== POT READINGS AND ANGLES ========
 	 * These need to be updated whenever the geometry of the arm changes
-	 * If they aren't, then you'll have a bad time.
+	 * If they aren't, then you're gonna have a bad time.
 	 */
 	private final double SHOULDER_ANGLE1   = 0.0;
 	private final double SHOULDER_READING1 = 0.0;
@@ -52,7 +52,7 @@ public class NewArm extends Subsystem {
 	private final double WRIST_READING2	   = 0.0;
 	//==========================================
 	
-	//Motor directions. 1 if +motor implies +pot, false otherwise.
+	//Motor directions. 1 if +motor => +pot, false if +mot => -pot
 	private final int WRIST_MOTORDIR    = 1;
 	private final int ELBOW_MOTORDIR    = 1;
 	private final int SHOULDER_MOTORDIR = 1;
@@ -84,6 +84,11 @@ public class NewArm extends Subsystem {
 	private boolean isAutoWrist = false;
 	private boolean isPresetActive = false;
 	
+	public enum ControlMode{
+		automatic,
+		manual
+	}
+		
 	public NewArm(){
 		//compute the m's and b's
 		m_s = (SHOULDER_ANGLE2 - SHOULDER_ANGLE1) / (SHOULDER_READING2 - SHOULDER_READING1);
@@ -215,7 +220,12 @@ public class NewArm extends Subsystem {
     	pid_w.setSetpoint(computeAutoWristPotValue());
     }
     
+    /**
+     * Manually controls the shoulder motor. Does nothing if a preset is active
+     * @param axisval The axis value to pass to the motor.
+     */
     public void shoulder_manual(double axisval){
+    	if(pid_s.isEnable()) return;
     	//make sure we don't go past limits ever
     	if((axisval > 0 && pot_s.getValue() > SHOULDER_MAX) ||
     	   (axisval < 0 && pot_s.getValue() < SHOULDER_MIN)){
@@ -225,6 +235,41 @@ public class NewArm extends Subsystem {
     		motor_s.set(SHOULDER_MOTORDIR * axisval);
     	}
     }
-
+    
+    /**
+     * Manually controls the elbow motor. Does nothing if a preset is active
+     * @param axisval The axis value to pass to the motor.
+     */
+    public void elbow_manual(double axisval){
+    	if(isPresetActive) return;
+    	//make sure we don't go past limits ever
+    	if((axisval > 0 && pot_e.getValue() > ELBOW_MAX) ||
+    	   (axisval < 0 && pot_e.getValue() < ELBOW_MIN)){
+    			motor_e.set(0.0);
+    	}
+		else{
+			motor_e.set(SHOULDER_MOTORDIR * axisval);
+		}
+    }
+    
+    /**
+     * Manually controls the wrist motor. Does nothing if the wrist auto-
+     * levelling is active.
+     * @param axisval The axis value to pass to the motor.
+     */
+    public void wrist_manual(double axisval){
+    	if(isAutoWrist) return;
+    	//make sure we don't go past limits ever
+    	if((axisval > 0 && pot_w.getValue() > WRIST_MAX) ||
+    	   (axisval < 0 && pot_w.getValue() < WRIST_MIN)){
+    			motor_w.set(0.0);
+    	}
+		else{
+			motor_w.set(WRIST_MOTORDIR * axisval);
+		}
+    }
+    
+    
+    
 }
 
