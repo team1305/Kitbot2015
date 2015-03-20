@@ -57,7 +57,7 @@ public class DriveUntilClawTrig extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.tankDrive(lmSpeed, rmSpeed);
+    	Robot.drivetrain.tankDrive_raw(lmSpeed, rmSpeed);
     }
 
 

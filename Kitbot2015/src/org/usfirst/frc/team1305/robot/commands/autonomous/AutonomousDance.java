@@ -39,7 +39,7 @@ public class AutonomousDance extends Command {
                 t.reset();
                 t.start();
             }
-            Robot.drivetrain.tankDrive(-0.5,0.5);
+            Robot.drivetrain.tankDrive_raw(-0.5,0.5);
             break;
         case 2:
         	if (t.get()>=ROBOT_DANCE_DURATION)
@@ -48,7 +48,7 @@ public class AutonomousDance extends Command {
                 t.reset();
                 t.start();
             }
-            Robot.drivetrain.tankDrive(0.5,-0.5);
+            Robot.drivetrain.tankDrive_raw(0.5,-0.5);
         	break;
         case 3:
         	if (t.get()>=ROBOT_DANCE_DURATION)
@@ -57,7 +57,7 @@ public class AutonomousDance extends Command {
                 t.reset();
                 t.start();
             }
-        	Robot.drivetrain.tankDrive(-0.3,0.3);
+        	Robot.drivetrain.tankDrive_raw(-0.3,0.3);
         	break;
         case 4:
         	break;

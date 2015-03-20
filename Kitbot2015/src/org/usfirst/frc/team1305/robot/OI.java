@@ -44,9 +44,6 @@ public class OI {
 	private final Joystick driveStick = new Joystick(0);
 	private final Joystick armStick = new Joystick(1);
 
-	public static boolean usingAttack3;
-
-
 	//driver stick functions
     Button forkOpenClose;
     Button armPerspective;

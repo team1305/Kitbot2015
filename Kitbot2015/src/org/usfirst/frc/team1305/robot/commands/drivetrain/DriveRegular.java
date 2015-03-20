@@ -22,21 +22,14 @@ public class DriveRegular extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.drivetrain.isLowGear == false){
-    	//sets values from drivestick for arcade drive
-    	double XL = Robot.oi.getDriveX()/0.8;
+
+		//sets values from drivestick for arcade drive
+    	double XL = Robot.oi.getDriveX();
     	double YL = Robot.oi.getDriveY();
 
     	//apply stick values to the arcadedrive function
-    	Robot.drivetrain.arcadeDrive(YL, XL);
-    	}else{
-    		//sets values from drivestick for arcade drive
-        	double XL = Robot.oi.getDriveX();
-        	double YL = Robot.oi.getDriveY();
-
-        	//apply stick values to the arcadedrive function
-        	Robot.drivetrain.arcadeDrive(YL, XL);
-    	}
+    	Robot.drivetrain.arcadeDrive(YL, XL, false);
+    	
 
 	}
 

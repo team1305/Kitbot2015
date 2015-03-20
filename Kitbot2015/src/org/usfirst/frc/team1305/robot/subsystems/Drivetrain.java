@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.AxisSmoother;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
@@ -13,6 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Handles all base movement of the robot.
  */
 public class Drivetrain extends Subsystem {
+	private final double SMOOTHING_MAX_RATE = 33.3;
+	
+	private final double LOWGEAR_MULTIPLIER = 0.6;
+	private final double DRIVE_MULTIPLIER   = 0.75;
 
 	CANTalon ml1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L1);
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
@@ -20,6 +25,9 @@ public class Drivetrain extends Subsystem {
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
 
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
+	
+	private AxisSmoother leftSmoother = new AxisSmoother(SMOOTHING_MAX_RATE);
+	private AxisSmoother rightSmoother = new AxisSmoother(SMOOTHING_MAX_RATE);
 
 	// true if arm-perspective, false if stacker-perspective
 	private boolean armPerspective = false;
@@ -34,45 +42,72 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Handles manual driving when smooth drive is not active.
+     * Handles manual driving from regular drive commands.
      * @param moveValue Y-value of joystick passed to method.
      * @param rotateValue X-value of joystick passed to method.
+     * @param smoothing whether or not to use smoothing on the value.
      */
-    public void arcadeDrive(double moveValue, double rotateValue){
-    	//check for low gear
-    	if(isLowGear){
-    		moveValue /= 2.0;
-    		rotateValue /= 2.0;
-    	}
-    	//check perspective and apply
-    	if(armPerspective){
-    		drive.arcadeDrive(-moveValue/1.7, rotateValue/2);
-    	}
-    	else{
-    		drive.arcadeDrive(moveValue/1.7, rotateValue/2);
-    	}
+    public void arcadeDrive(double moveValue, double rotateValue, boolean smoothing){
+    	double left;
+    	double right;
+    	//Decode the move and rotate values into left- and right- tank drive
+    	//values. This if-else block is taken from WPILib RobotDrive.java
+        if (moveValue > 0.0) {
+            if (rotateValue > 0.0) {
+                left = moveValue - rotateValue;
+                right = Math.max(moveValue, rotateValue);
+            } else {
+                left = Math.max(moveValue, -rotateValue);
+                right = moveValue + rotateValue;
+            }
+        } else {
+            if (rotateValue > 0.0) {
+                left = -Math.max(-moveValue, rotateValue);
+                right = moveValue + rotateValue;
+            } else {
+                left = moveValue - rotateValue;
+                right = -Math.max(-moveValue, -rotateValue);
+            }
+        }
+        //now pass on to tankDrive
+        tankDrive(left, right, smoothing);
     }
 
     /**
-     * Handles all movement on the robot base.
-     *
-     * Takes commands from both smooth driving and normal driving,
-     * if overridden manually.  leftValue and rightValue are passed from
-     * the command Drive.
+     * Handles all regular movement from the robot commands
      * @param leftValue Handles left base movement of robot.
      * @param rightValue Handles right base movement of robot.
+     * @param smoothing whether or not to use smooting on the value.
      */
-    public void tankDrive(double leftValue, double rightValue){
+    public void tankDrive(double leftValue, double rightValue, boolean smoothing){
+    	//do smoothing calculations
+    	if(smoothing){
+    		leftValue = leftSmoother.process(leftValue);
+    		rightValue = rightSmoother.process(rightValue);
+    	}
+    	//constant multiple
+    	leftValue *= DRIVE_MULTIPLIER;
+    	rightValue *= DRIVE_MULTIPLIER;
+    	//computing low gear
     	if(isLowGear){
-    		leftValue /= 1.6;
-    		rightValue /= 1.6;
+    		leftValue /= LOWGEAR_MULTIPLIER;
+    		rightValue /= LOWGEAR_MULTIPLIER;
     	}
     	if(armPerspective){
-        	drive.tankDrive(-rightValue/1.3, -leftValue/1.3);
+        	drive.tankDrive(-rightValue, -leftValue);
     	}
     	else{
-        	drive.tankDrive(leftValue/1.3, rightValue/1.3);
+        	drive.tankDrive(leftValue, rightValue);
     	}
+    }
+    
+    /**
+     * Drive the robot without any sort of special processing. 
+     * @param leftValue
+     * @param rightValue
+     */
+    public void tankDrive_raw(double leftValue, double rightValue){
+    	drive.tankDrive(leftValue, rightValue);
     }
     /**
      * Set whether the driving perspective should be of the stacker or the arm.
@@ -120,6 +155,8 @@ public class Drivetrain extends Subsystem {
      */
     public void stop(){
     	drive.tankDrive(0.0, 0.0);
+    	leftSmoother.reset();
+    	rightSmoother.reset();
     }
 
 
