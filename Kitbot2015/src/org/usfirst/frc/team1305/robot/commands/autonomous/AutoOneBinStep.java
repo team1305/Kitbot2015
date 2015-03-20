@@ -6,6 +6,7 @@ import org.usfirst.frc.team1305.robot.commands.claw.AutonomousBin;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.AutonomousMobility;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

@@ -23,6 +23,7 @@ public class ClawDoNothing extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Handles automatic closing.
+    	SmartDashboard.putBoolean("Claw Limit Switch", Robot.claw.trigger.get());
     	if(Robot.claw.trigger.get() == false){
     		Robot.claw.autoGrab();
     	}

@@ -6,14 +6,14 @@ import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
-//import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
+import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
+
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
-//	public static final Gyroscope gyroscope   = new Gyroscope();
+	public static final Gyroscope gyroscope   = new Gyroscope();
 	public static final Claw claw             = new Claw();
 	public static final Arm arm               = new Arm();
 	public static final Forks forks           = new Forks();
@@ -63,7 +63,7 @@ public class Robot extends IterativeRobot {
         //starts camera feed
         //TODO: REMEMBER THIS
         //server.startAutomaticCapture("cam0");
-		
+		gyroscope.gyroInit();
 		//===Add options for autonomous commands here.===
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());

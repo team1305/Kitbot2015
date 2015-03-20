@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.commands.claw;
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
@@ -22,7 +23,7 @@ public double rmSpeed;
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
+    	SmartDashboard.putString("Auto Status", "About to go into Bin");
     }
 
     // Called repeatedly when this Command is scheduled to run

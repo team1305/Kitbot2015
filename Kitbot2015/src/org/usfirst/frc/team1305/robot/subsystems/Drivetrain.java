@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Handles all base movement of the robot.
@@ -24,6 +25,7 @@ public class Drivetrain extends Subsystem {
 	private static final double ROBOT_SET_DURATION = 1;
 	private static final double ROBOT_DANCE_DURATION = 1;
 	private static final double ROBOT_DELAY = 0.25;
+	private static final double ROBOT_TIMEOUT = 5;
     private int currentState = 0;
 
 
@@ -176,7 +178,7 @@ public class Drivetrain extends Subsystem {
             currentState++;
             break;
         case 1:
-            if (robotSetTimer.get()>= 2)
+            if (robotSetTimer.get()>= ROBOT_TIMEOUT)
             {
 
                 currentState++;
@@ -191,9 +193,13 @@ public class Drivetrain extends Subsystem {
             currentState = 0;
             robotSetTimer.stop();
             robotSetTimer.reset();
-            return true;
+            break;
     } 
-    	return false;
+    	if(currentState == 2){
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     
     /**
@@ -203,14 +209,38 @@ public class Drivetrain extends Subsystem {
      * @return Returns true when finished
      */
     public boolean autonomousBin(double leftSpeed, double rightSpeed){
-    	while(Robot.claw.trigger.get() == true){
-    		drive.tankDrive(leftSpeed, rightSpeed);
-    	}
-    	if(Robot.claw.trigger.get() == false){
+    	switch (currentState){
+        case 0:
+        	currentState = 0;
+        	robotSetTimer.reset();
+            robotSetTimer.start();
+            currentState++;
+            break;
+        case 1:
+            if (robotSetTimer.get()>= ROBOT_TIMEOUT)
+            {
+
+                currentState++;
+            }else if(Robot.claw.trigger.get() == false){
+	    		currentState++;
+            }else{ 
+            	drive.tankDrive(leftSpeed, rightSpeed);
+            }
+            break;
+        case 2:
+            drive.tankDrive(0,0);
+            currentState = 0;
+            robotSetTimer.stop();
+            robotSetTimer.reset();
+            break;
+    } 
+    	if(currentState == 2){
     		return true;
     	}else{
     		return false;
     	}
+    	
+    
     }
     
 
