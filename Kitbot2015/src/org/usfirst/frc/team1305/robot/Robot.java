@@ -6,7 +6,6 @@ import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousMasterGroup;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;

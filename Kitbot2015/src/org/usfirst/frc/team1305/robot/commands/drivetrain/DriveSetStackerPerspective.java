@@ -1,24 +1,23 @@
-package org.usfirst.frc.team1305.robot.commands.forks;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * opens and deploys the forks for the beginning of auto mode.
+ * Switches movement direction to match stacker perspective.
  */
-public class OpenAndDeployForks extends Command {
+public class DriveSetStackerPerspective extends Command {
 
-    public OpenAndDeployForks() {
+    public DriveSetStackerPerspective() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.forks);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.forks.deployStacker();
-    	Robot.forks.openForks();
+    	Robot.drivetrain.setArmPerspective(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -27,7 +26,7 @@ public class OpenAndDeployForks extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+    	return true;
     }
 
     // Called once after isFinished returns true

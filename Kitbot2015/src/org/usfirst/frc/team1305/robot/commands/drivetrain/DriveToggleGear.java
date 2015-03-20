@@ -1,26 +1,27 @@
-package org.usfirst.frc.team1305.robot.commands.forks;
+package org.usfirst.frc.team1305.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Deploys/Retracts forks.
+ * Toggles between digital low gear and high gear.
  */
-public class ToggleStackerDeployment extends Command {
+public class DriveToggleGear extends Command {
 
-    public ToggleStackerDeployment() {
-    	requires(Robot.forks);
+    public DriveToggleGear() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.toggleGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//sets Claw toggle function from claw subsystem to command
-    	Robot.forks.ToggleStacker();
     }
 
     // Make this return true when this Command no longer needs to run execute()

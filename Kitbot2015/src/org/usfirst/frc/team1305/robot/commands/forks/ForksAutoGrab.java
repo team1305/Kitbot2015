@@ -1,19 +1,23 @@
-package org.usfirst.frc.team1305.robot.commands.claw;
+package org.usfirst.frc.team1305.robot.commands.forks;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Called when claw is inactive, holds auto trigger.
+ * Called when the forks are not being explicitly controlled. Handles 
+ * auto-closing on trigger input
  */
-public class ClawDoNothing extends Command {
+public class ForksAutoGrab extends Command {
 
-    public ClawDoNothing() {
+	/**
+	 * Called when the forks are not being explicitly controlled. Handles 
+	 * auto-closing on trigger input
+	 */
+    public ForksAutoGrab() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	requires(Robot.forks);
     }
 
     // Called just before this Command runs the first time
@@ -22,10 +26,7 @@ public class ClawDoNothing extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Handles automatic closing.
-    	if(Robot.claw.trigger.get() == false){
-    		Robot.claw.autoGrab();
-    	}
+    		Robot.forks.autoForks();
     }
 
     // Make this return true when this Command no longer needs to run execute()

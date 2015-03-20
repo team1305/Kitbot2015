@@ -1,34 +1,34 @@
-package org.usfirst.frc.team1305.robot.commands.forks;
+package org.usfirst.frc.team1305.robot.commands.claw;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Moves robot forward in autonomous, calls Drivetrain subsystem.
+ * Opens/Closes claw.
  */
-public class AutonomousForks extends Command {
+public class ClawToggle extends Command {
 
-    public AutonomousForks() {
+    public ClawToggle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.forks);
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.forks.AutonomousForks();
-    }
+    	//sets Claw toggle function from claw subsystem to command
+    	Robot.claw.toggleGrab();
 
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return true;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -40,3 +40,4 @@ public class AutonomousForks extends Command {
     protected void interrupted() {
     }
 }
+

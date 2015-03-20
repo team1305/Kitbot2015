@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.forks.ForksDoNothing;
+import org.usfirst.frc.team1305.robot.commands.forks.ForksAutoGrab;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -41,7 +41,7 @@ public class Forks extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ForksDoNothing());
+        setDefaultCommand(new ForksAutoGrab());
     }
 
     /**
@@ -64,7 +64,7 @@ public class Forks extends Subsystem {
     }
 
     /**
-     * deploy the forks.
+     * Explicitly deploy the stacker.
      */
     public void deployStacker(){
     	isDeployed = true;
@@ -72,9 +72,17 @@ public class Forks extends Subsystem {
     }
     
     /**
+     * explicitly retract the stacker.
+     */
+    public void retractStacker(){
+    	isDeployed = false;
+    	stackerSol.set(false);
+    }
+    
+    /**
      * Deploys/Retracts the stacker.
      */
-    public void ToggleStacker(){
+    public void toggleDeployment(){
 
     	if (isDeployed == false){
     		isDeployed = true;
@@ -94,39 +102,37 @@ public class Forks extends Subsystem {
      * If TRIGGER_TIMEOUT is still active, 
      */
     public void autoForks(){
-    	if(triggerTimer.get() >= TRIGGER_TIMEOUT){
-    		forkSol.set(false);
-    		isOpen = false;
-    		humanErrorTimer.start();
+    	if(getTrigger() == true){
+	    	if(triggerTimer.get() >= TRIGGER_TIMEOUT){
+	    		forkSol.set(false);
+	    		isOpen = false;
+	    		humanErrorTimer.start();
+	    	}
     	}
-
     }
     
     /**
-     * Opens/Closes forks in auto.
+     * explicitly open the forks
      */
-    public void AutonomousForks(){
-
-    	if (isOpen == false){
-    		isOpen = true;
-    		SmartDashboard.putString("Fork Status :", "Open!");
-    		forkSol.set(true);
-
-    	} else if(isOpen == true){
-    		isOpen = false;
-    		SmartDashboard.putString("Fork Status :", "Close!");
-    		forkSol.set(false);
-    	}
-    }
-    
     public void openForks(){
     	isOpen = true;
     	forkSol.set(true);
     }
     
+    /**
+     * explicitly close the forks
+     */
     public void closeForks(){
     	isOpen = false;
     	forkSol.set(false);
+    }
+    
+    /**
+     * Get the state of the sneezeguard trigger.
+     * @return true if the trigger is activated. False otherwise.
+     */
+    public boolean getTrigger(){
+    	return !this.trigger.get();
     }
 }
 

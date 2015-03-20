@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Standard scrub drive for scrubs.
  */
-public class Drive extends Command {
+public class DriveRegular extends Command {
 
-    public Drive() {
+    public DriveRegular() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(Drive);
     	requires(Robot.drivetrain);

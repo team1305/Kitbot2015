@@ -1,32 +1,37 @@
-package org.usfirst.frc.team1305.robot.commands.drivetrain;
+package org.usfirst.frc.team1305.robot.commands.claw;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Switches movement direction to match stacker perspective.
+ * Opens claw.
  */
-public class SetStackerPerspective extends Command {
+public class ClawOpen extends Command {
 
-    public SetStackerPerspective() {
+	/**
+	 * Opens the claw.
+	 */
+    public ClawOpen() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.drivetrain);
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.setArmPerspective(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//sets Claw toggle function from claw subsystem to command
+    	Robot.claw.open();
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return true;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -38,3 +43,4 @@ public class SetStackerPerspective extends Command {
     protected void interrupted() {
     }
 }
+

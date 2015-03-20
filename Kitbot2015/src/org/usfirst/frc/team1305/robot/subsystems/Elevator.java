@@ -2,7 +2,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.OI;
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.elevator.ManualElevator;
+import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorManual;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
@@ -57,7 +57,7 @@ public class Elevator extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ManualElevator());
+        setDefaultCommand(new ElevatorManual());
         autoTimer.start();
     }
 

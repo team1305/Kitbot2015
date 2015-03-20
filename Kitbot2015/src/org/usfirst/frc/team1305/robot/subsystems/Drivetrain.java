@@ -2,7 +2,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,15 +19,6 @@ public class Drivetrain extends Subsystem {
 	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
 
-	// Timer handles all drive auto movement.
-	private Timer robotSetTimer = new Timer();
-	private static final double ROBOT_SET_DURATION = 1;
-	private static final double ROBOT_DANCE_DURATION = 1;
-	private static final double ROBOT_DELAY = 0.25;
-    private int currentState = 0;
-
-
-
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
 
 	// true if arm-perspective, false if stacker-perspective
@@ -38,9 +29,7 @@ public class Drivetrain extends Subsystem {
 
     @Override
 	public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new SmoothDrive());
+    	setDefaultCommand(new DriveSmooth());
 //    	setDefaultCommand(new PacmanDrive());
     }
 
@@ -126,142 +115,15 @@ public class Drivetrain extends Subsystem {
     	return this.isLowGear;
     }
 
-    /**
-     * Handles forward movement over bump into auto zone in auto.
-     *
-     * Sets speed using tankDrive method, uses constant ROBOT_SET_DURATION
-     * to determine length of drive.  robotSetTimer causes method to proceed.
-     * @return Returns true when finished, false while running.
-     */
-    public boolean autonomousMobility(double duration, double leftSpeed, double rightSpeed){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
-
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>= duration)
-            {
-
-                currentState++;
-            }
-            drive.tankDrive(leftSpeed,rightSpeed);
-            break;
-        case 2:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            break;
-    }
-    if(currentState == 2){
-  		return true;
-   	}else{
-   		return false;
-   	}    
-}
-
-    /**
-     * Drives forward until sneezeguard sensor is triggered.
-     * @param leftSpeed Controls speed of left motors
-     * @param rightSpeed Controls speed of right motors
-     * @return Returns true when finished
-     */
-    public boolean autonomousTote(double leftSpeed, double rightSpeed){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
-
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>= 2)
-            {
-
-                currentState++;
-            }else if(Robot.forks.trigger.get() == false){
-	    		currentState++;
-            }else{
-            	drive.tankDrive(leftSpeed, rightSpeed);
-            }
-            break;
-        case 2:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            return true;
-    } 
-    	return false;
-    }
     
     /**
-     * Drives forward until claw sensor is triggered.
-     * @param leftSpeed Controls speed of left motors
-     * @param rightSpeed Controls speed of right motors
-     * @return Returns true when finished
+     * stop all robot movement
      */
-    public boolean autonomousBin(double leftSpeed, double rightSpeed){
-    	while(Robot.claw.trigger.get() == true){
-    		drive.tankDrive(leftSpeed, rightSpeed);
-    	}
-    	if(Robot.claw.trigger.get() == false){
-    		return true;
-    	}else{
-    		return false;
-    	}
+    public void stop(){
+    	drive.tankDrive(0.0, 0.0);
     }
-    
 
-    /**
-     * Mainly just to show off in autonomous, honestly.
-     * @return False while running, true when complete.
-     */
-    public boolean autonomousDance(){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
 
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(-0.5,0.5);
-            break;
-        case 2:
-        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(0.5,-0.5);
-        	break;
-        case 3:
-        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(-0.3,0.3);
-        	break;
-        case 4:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            return true;
-    }
-    return false;
-    }
 
 }
 

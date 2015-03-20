@@ -4,14 +4,14 @@ import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
 import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.claw.ToggleClaw;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.SetArmPerspective;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.SetStackerPerspective;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.ToggleGear;
+import org.usfirst.frc.team1305.robot.commands.claw.ClawToggle;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetArmPerspective;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetStackerPerspective;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveToggleGear;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
-import org.usfirst.frc.team1305.robot.commands.forks.ToggleForks;
-import org.usfirst.frc.team1305.robot.commands.forks.ToggleStackerDeployment;
+import org.usfirst.frc.team1305.robot.commands.forks.ForksToggle;
+import org.usfirst.frc.team1305.robot.commands.forks.ForksToggleDeployment;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -82,13 +82,13 @@ public class OI {
 		    stackerMoveUp    = new JoystickButton(driveStick, 2);
 		    forkOpenClose    = new JoystickButton(driveStick, 1);
 
-			forkDeployment.whenPressed(new ToggleStackerDeployment());
-			armPerspective.whileHeld  (new SetArmPerspective());
-			stackPerspective.whileHeld(new SetStackerPerspective());
-			toggleGear.whenPressed    (new ToggleGear());
+			forkDeployment.whenPressed(new ForksToggleDeployment());
+			armPerspective.whileHeld  (new DriveSetArmPerspective());
+			stackPerspective.whileHeld(new DriveSetStackerPerspective());
+			toggleGear.whenPressed    (new DriveToggleGear());
 			stackerMoveDown.whileHeld (new ElevatorDown());
 			stackerMoveUp.whileHeld   (new ElevatorUp());
-			forkOpenClose.whenPressed (new ToggleForks());
+			forkOpenClose.whenPressed (new ForksToggle());
 
 //			usingAttack3 = true;
 //
@@ -121,7 +121,7 @@ public class OI {
 			extendedPresetButton.whileHeld (new ExtendedPresetCommand());
 			transportPresetButton.whileHeld(new TransportPresetCommand());
 			maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
-			claw.toggleWhenPressed         (new ToggleClaw());
+			claw.toggleWhenPressed         (new ClawToggle());
 			toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
 
 
