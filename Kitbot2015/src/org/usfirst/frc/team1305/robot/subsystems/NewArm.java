@@ -25,9 +25,11 @@ public class NewArm extends Subsystem {
 	public static class Preset{
 		public final double shoulderAngle;
 		public final double elbowAngle;
-		public Preset(double shoulderAngle, double elbowAngle){
+		public final String name;
+		public Preset(double shoulderAngle, double elbowAngle, String name){
 			this.shoulderAngle = shoulderAngle;
 			this.elbowAngle = elbowAngle;
+			this.name = name;
 		}
 	
 	
@@ -45,9 +47,9 @@ public class NewArm extends Subsystem {
 		 * The elbow angle is the bottom angle, measured between the first and 
 		 * second beams.
 		 */
-		public static final Preset PRESET_TRANSPORT = new Preset(0, 0);
-		public static final Preset PRESET_EXTENDED  = new Preset(0, 0);
-		public static final Preset PRESET_MAXSTACK  = new Preset(0, 0);
+		public static final Preset PRESET_TRANSPORT = new Preset(0, 0, "Transport");
+		public static final Preset PRESET_EXTENDED  = new Preset(0, 0, "Extended");
+		public static final Preset PRESET_MAXSTACK  = new Preset(0, 0, "Max Stack");
 		//=====================================================================
 	}
 	
@@ -126,7 +128,8 @@ public class NewArm extends Subsystem {
 	//internal state
 	private ArmMode mode = ArmMode.automaticWrist;
 	private Preset preset = new Preset(shoulder_pot2angle(pot_s.pidGet()),
-			                           elbow_pot2angle(pot_e.pidGet()) );
+			                           elbow_pot2angle(pot_e.pidGet()),
+			                           "Null");
 		
 	public NewArm(){
 		//compute the m's and b's
