@@ -13,8 +13,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
-//import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
-
+import org.usfirst.frc.team1305.robot.subsystems.NewArm;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -43,6 +42,7 @@ public class Robot extends IterativeRobot {
 	public static final Forks forks           = new Forks();
 	public static final Elevator elevator     = new Elevator();
 	public static final Dash dash 			  = new Dash();
+	public static final NewArm newArm 		  = new NewArm();
 
 	//camera server aka camera declaration
 	CameraServer server;

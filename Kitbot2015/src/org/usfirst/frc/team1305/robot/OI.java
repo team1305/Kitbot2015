@@ -13,7 +13,6 @@ import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
 import org.usfirst.frc.team1305.robot.commands.forks.ForksToggle;
 import org.usfirst.frc.team1305.robot.commands.forks.ForksToggleDeployment;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -38,6 +37,11 @@ public class OI {
     public static final int LEFT_JOYSTICK_CLICK = 9;
     public static final int RIGHT_JOYSTICK_CLICK = 10;
 
+    //axis definitions for the arm 
+    public static final int ARM_SHOULDER_AXIS = AXIS_YL;
+    public static final int ARM_ELBOW_AXIS = AXIS_YR;
+    public static final int ARM_WRIST_AXIS = AXIS_XR;
+    
     private final boolean invertArmStick = true;
     private final boolean invertDriveStick = true;
 
@@ -97,6 +101,19 @@ public class OI {
 		extendedPresetButton.whileHeld (new ExtendedPresetCommand());
 		transportPresetButton.whileHeld(new TransportPresetCommand());
 		maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
+	}
+	
+	//axis functions for the arm
+	public double getShoulderAxis(){
+		return armStick.getRawAxis(ARM_SHOULDER_AXIS);
+	}
+	
+	public double getElbowAxis(){
+		return armStick.getRawAxis(ARM_ELBOW_AXIS);
+	}
+	
+	public double getWristAxis(){
+		return armStick.getRawAxis(ARM_WRIST_AXIS);
 	}
 
 	//getAxis functions for drivestick

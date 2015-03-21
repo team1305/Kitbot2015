@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //	public double getRate(){
 ////		return gyro.getRate();
 //	}
+
 	/**
 	 * Get the angle of the gyroscope, constrained to the range [0, 360]
 	 * @return the measured angle of the gyro.
