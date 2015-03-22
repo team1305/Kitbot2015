@@ -5,6 +5,7 @@ import org.usfirst.frc.team1305.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * SmoothDrive - Drive with smoothing by attempting to clip maximum
@@ -66,6 +67,8 @@ public class SmoothDrive extends Command {
     	//get move and rotate values from the drive stick
     	moveValue = -Robot.oi.getDriveAxis(RobotMap.AXIS_DRIVETRAIN_MOVE);
     	rotateValue = Robot.oi.getDriveAxis(RobotMap.AXIS_DRIVETRAIN_ROTATE);
+    	SmartDashboard.putNumber("RightDrive", rightValue);
+    	SmartDashboard.putNumber("LeftDrive", leftValue);
 
     	//Decode the move and rotate values into left- and right- tank drive
     	//values. This if-else block is taken from WPILib RobotDrive.java

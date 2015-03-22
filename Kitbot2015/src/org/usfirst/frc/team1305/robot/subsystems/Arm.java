@@ -40,6 +40,7 @@ public class Arm extends Subsystem {
 	private int ELBOW_ANGLE_AT_MIN_POT = 135;
 	private double MAX_ELBOW_POT = 0.637; //0.357;
 	private int ELBOW_ANGLE_AT_MAX_POT = 23;
+	private double ELBOW_POT_MAX_LIMIT = 0.312;
 	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
 	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
 
@@ -159,7 +160,7 @@ public class Arm extends Subsystem {
     public void MoveElbow(double yAxis){
     	//min 0.1 max 0.5
 
-    	if(getElbowPot() <= MIN_ELBOW_POT){
+    	if(getElbowPot() <= ELBOW_POT_MAX_LIMIT){
     		if(yAxis >= 0){
     			elbowMotor.set(-Math.abs(yAxis));
     		}else{
@@ -347,8 +348,8 @@ public class Arm extends Subsystem {
     		if(getShoulderPot() != 0.48){
     			shoulderMotor.set((getShoulderPot()-0.48)*18);
     		}
-    		if(getElbowPot() != 0.337){
-    			elbowMotor.set((getElbowPot()-0.337)*24);
+    		if(getElbowPot() != 0.314){
+    			elbowMotor.set((getElbowPot()-0.314)*30);
     		}
 //    		if(getWristPot() != 0.52){
 //    			wristMotor.set((getWristPot()-0.52)*24);

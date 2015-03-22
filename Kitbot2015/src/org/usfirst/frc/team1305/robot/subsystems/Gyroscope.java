@@ -49,7 +49,7 @@ public class Gyroscope extends Subsystem implements PIDSource {
 	}
 	
 	public void gyroInit(){
-		//gyro.initGyro();
+//		gyro.initGyro();
 	}
 }
 

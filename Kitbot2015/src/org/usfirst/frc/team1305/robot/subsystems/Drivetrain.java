@@ -60,6 +60,8 @@ public class Drivetrain extends Subsystem {
     	//check perspective and apply
     	if(armPerspective){
     		drive.arcadeDrive(-moveValue/1.7, rotateValue/2);
+    		SmartDashboard.putNumber("RightDrive", moveValue);
+        	SmartDashboard.putNumber("LeftDrive", rotateValue);
     	}
     	else{
     		drive.arcadeDrive(moveValue/1.7, rotateValue/2);
@@ -82,6 +84,8 @@ public class Drivetrain extends Subsystem {
     	}
     	if(armPerspective){
         	drive.tankDrive(-rightValue/1.3, -leftValue/1.3);
+        	SmartDashboard.putNumber("RightDrive", rightValue);
+        	SmartDashboard.putNumber("LeftDrive", leftValue);
     	}
     	else{
         	drive.tankDrive(leftValue/1.3, rightValue/1.3);
