@@ -13,7 +13,8 @@ import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm;
+import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,13 +37,12 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
-//	public static final Gyroscope gyroscope   = new Gyroscope();
+	public static final Gyroscope gyroscope   = new Gyroscope();
 	public static final Claw claw             = new Claw();
-	public static final Arm arm               = new Arm();
 	public static final Forks forks           = new Forks();
 	public static final Elevator elevator     = new Elevator();
 	public static final Dash dash 			  = new Dash();
-	public static final NewArm newArm 		  = new NewArm();
+	public static final Arm arm       		  = new Arm();
 
 	//camera server aka camera declaration
 	CameraServer server;
@@ -65,6 +65,8 @@ public class Robot extends IterativeRobot {
         //starts camera feed
         //TODO: REMEMBER THIS
         //server.startAutomaticCapture("cam0");
+		
+		gyroscope.gyroInit();
 		
 		//===Add options for autonomous commands here.===
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());

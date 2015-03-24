@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1305.robot.commands.newarm;
 
 import org.usfirst.frc.team1305.robot.Robot;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.ArmMode;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.Preset;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.ArmMode;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Utility;
@@ -21,24 +21,24 @@ public class ArmDisplacementControl extends Command {
 	private long t_x;
 	private long t_y;
 	
-	private final double x_0 = Robot.newArm.GEO_X0;
-	private final double y_0 = Robot.newArm.GEO_Y0;
+	private final double x_0 = Robot.arm.GEO_X0;
+	private final double y_0 = Robot.arm.GEO_Y0;
 	
-	private final double l1 = Robot.newArm.GEO_LINK1_LENGTH;
-	private final double l2 = Robot.newArm.GEO_LINK2_LENGTH;
+	private final double l1 = Robot.arm.GEO_LINK1_LENGTH;
+	private final double l2 = Robot.arm.GEO_LINK2_LENGTH;
 	/**
 	 * Coommand which manually controls the arm. This command does not distinguish
 	 * between manual wrist control and automatic wrist control.
 	 */
     public ArmDisplacementControl() {
-       requires(Robot.newArm);
+       requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	//Put the arm in Preset Mode and tell it to 
-    	Robot.newArm.setPreset(Robot.newArm.getCurrentPosition());
-    	Robot.newArm.setMode(ArmMode.preset);
+    	Robot.arm.setPreset(Robot.arm.getCurrentPosition());
+    	Robot.arm.setMode(ArmMode.preset);
     	//we assume that the arm is not in a preset mode.
     	t_x = Utility.getFPGATime(); //in microseconds.
     	t_y = Utility.getFPGATime(); //in microseconds.
@@ -63,9 +63,9 @@ public class ArmDisplacementControl extends Command {
     	Preset p = new Preset(theta_s, phi, "Displacement x:" + x + " y:" + y);
     	//assign the computed preset.
     	
-    	Robot.newArm.setPreset(p);
+    	Robot.arm.setPreset(p);
     	//call update to actually move the arm.
-    	Robot.newArm.update(0,  0,  0);
+    	Robot.arm.update(0,  0,  0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -75,13 +75,13 @@ public class ArmDisplacementControl extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.newArm.stopMotors();
+    	Robot.arm.stopMotors();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.newArm.stopMotors();
+    	Robot.arm.stopMotors();
     }
     
     /**

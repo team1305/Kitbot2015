@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.commands.dash.DashUpdate;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.ArmMode;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.Preset;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.ArmMode;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.Joint;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +40,7 @@ public class Dash extends Subsystem {
 	//**Drivetrain**
 	boolean drive_isarmPerspective;
 	boolean drive_isLowGear;
+	double  drive_tiltAngle;
 	
 	//**Elevator**
 	
@@ -55,10 +58,20 @@ public class Dash extends Subsystem {
         setDefaultCommand(new DashUpdate());
     }
     
-    public void update(){
-    	//**NewArm**
+    private void update_arm(){
+    	arm_preset 				   = Robot.arm.getPreset();
+    	arm_mode				   = Robot.arm.getMode();
+    	arm_calculatedWristAngle   = Robot.arm.getAngle(Joint.calculatedWrist);
+    	arm_calculatedWristReading = Robot.arm.getRaw(Joint.calculatedWrist);
+    	arm_elbowAngle             = Robot.arm.getAngle(Joint.elbow);
+    	arm_elbowReading           = Robot.arm.getRaw(Joint.elbow);
+    	arm_shoulderAngle          = Robot.arm.getAngle(Joint.shoulder);
+    	arm_shoulderReading        = Robot.arm.getRaw(Joint.shoulder);
+    	arm_wristAngle			   = Robot.arm.getAngle(Joint.wrist);
+    	arm_wristReading		   = Robot.arm.getRaw(Joint.wrist);
+    	
     	//arm preset
-    	if(arm_preset == null){
+    	if(arm_preset != null){
     		SmartDashboard.putString("Arm Preset", arm_preset.name);
     	}
     	else{
@@ -92,23 +105,63 @@ public class Dash extends Subsystem {
     	
     	SmartDashboard.putNumber("Arm Calculated Wrist Angle", arm_calculatedWristAngle);
     	SmartDashboard.putNumber("Arm Calculated Wrist Reading", arm_calculatedWristReading);
+    }
+    
+    private void update_claw(){
+    	claw_isOpen = !Robot.claw.getClosed();
+    	claw_limitState = Robot.claw.getTrigger();
     	
-    	
-    	//**claw**
     	if(claw_isOpen) SmartDashboard.putString("Claw State", "Open");
-    	else 			SmartDashboard.putString("Claw State", "Closed");
+    	else            SmartDashboard.putString("Claw State", "Closed");
     	
-    	if(claw_limitState) SmartDashboard.putString("Claw trigger", "Triggered");
-    	else 				SmartDashboard.putString("Claw Trigger", "Not Triggered");
+    	if(claw_limitState) SmartDashboard.putString("Claw Trigger", "Triggered");
+    	else				SmartDashboard.putString("Claw Trigger", "Not triggered");
+    }
+    
+    private void update_drivetrain(){
+    	drive_isarmPerspective = Robot.drivetrain.getArmPerspective();
+    	drive_isLowGear = Robot.drivetrain.getLowGear();
+    	drive_tiltAngle = Robot.drivetrain.getTilt();
     	
-    	
-    	//**Drivetrain**
     	if(drive_isarmPerspective) SmartDashboard.putString("Drive Perspective", "Arm");
     	else					   SmartDashboard.putString("Drive Perspective", "Stacker");
     	
     	if(drive_isLowGear) SmartDashboard.putString("Drive gear", "Low Gear");
     	else				SmartDashboard.putString("Drive gear", "High gear");
     	
+    	SmartDashboard.putNumber("Drive tilt", drive_tiltAngle);
+
+    }
+    
+    private void update_forks(){
+    	forks_isOpen = Robot.forks.getForkState();
+    	forks_isDeployed = Robot.forks.getDepoloyed();
+    	forks_LimitState = Robot.forks.getTrigger();
+    	
+    	if(forks_isOpen) SmartDashboard.putString("Fork State", "Open");
+    	else			 SmartDashboard.putString("Fork State", "Closed");
+    	
+    	if(forks_isDeployed) SmartDashboard.putString("Fork Deployment", "Deployed");
+    	else				 SmartDashboard.putString("Fork Deployment", "Not deployed");
+    	
+    	if(forks_LimitState) SmartDashboard.putString("Fork Limit", "Triggered");
+    	else				 SmartDashboard.putString("Fork Limit", "Not triggered");
+    }
+    
+    private void update_gyroscope(){
+    	gyro_rawAngle = Robot.gyroscope.getRawAngle();
+    	gyro_constrainedAngle = Robot.gyroscope.getAngle();
+    	
+    	SmartDashboard.putNumber("Gyroscope Raw Angle", gyro_rawAngle);
+    	SmartDashboard.putNumber("Gyroscope Angle", gyro_constrainedAngle);
+
+    }
+    public void update(){
+    	update_arm();
+    	update_claw();
+    	update_drivetrain();
+    	update_forks();
+    	update_gyroscope();
     }
     
 }

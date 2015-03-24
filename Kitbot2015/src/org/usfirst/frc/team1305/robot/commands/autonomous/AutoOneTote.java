@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
-import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmExtend;
-import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmUp;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveUntilForkTrig;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveUntilClawTrig;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveAuto;

@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1305.robot.commands.newarm;
 
 import org.usfirst.frc.team1305.robot.Robot;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.ArmMode;
+import org.usfirst.frc.team1305.robot.subsystems.Arm;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.ArmMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmToggleAutoWrist extends Command {
     public ArmToggleAutoWrist() {
-       requires(Robot.newArm);
+       requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(Robot.newArm.getMode() == ArmMode.automaticWrist){
-    		Robot.newArm.setMode(NewArm.ArmMode.manualWrist);
+    	if(Robot.arm.getMode() == ArmMode.automaticWrist){
+    		Robot.arm.setMode(Arm.ArmMode.manualWrist);
     	}
-    	else if(Robot.newArm.getMode() == ArmMode.manualWrist){
-    		Robot.newArm.setMode(ArmMode.automaticWrist);
+    	else if(Robot.arm.getMode() == ArmMode.manualWrist){
+    		Robot.arm.setMode(ArmMode.automaticWrist);
     	}
     	//otherwise we're actually in preset mode and shouldn't do anything.
     }

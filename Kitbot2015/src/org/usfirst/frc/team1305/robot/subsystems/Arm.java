@@ -1,467 +1,440 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
-import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
-//import org.usfirst.frc.team1305.robot.commands.arm.MoveShoulderCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.ArmDefaultCommand;
 
+import com.sun.javafx.css.CalculatedValue;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Controls all arm movement. Holds algorithm for keeping claw horizontal.
+ * New arm class which uses proper PID controllers to control the joints.
  */
 public class Arm extends Subsystem {
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	private AnalogPotentiometer potShoulder = new AnalogPotentiometer(RobotMap.ANALOG_POT_SHOULDER);
-	private AnalogPotentiometer potElbow = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
-	private AnalogPotentiometer potWrist = new AnalogPotentiometer(RobotMap.ANALOG_POT_WRIST);
-
-//	private int newXClawPosition, prevXClawPosition;
-//	private int newYClawPosition, prevYClawPosition;
-//	private int X_AXIS_MAX = 30, X_AXIS_MIN = 0, Y_AXIS_MIN = -14, Y_AXIS_MAX = 30;
-//	private int X_AXIS_FACTOR = 10, Y_AXIS_FACTOR = 10;
-//	private double hypot;
-//	private double BICEP_LENGTH = 38, FOREARM_LEN = 33;
-	private double MIN_SHOULDER_POT       = 0.107; //0.099;
-	private int SHOULDER_ANGLE_AT_MIN_POT = 34;
-	private double MAX_SHOULDER_POT       = 0.496; //0.491;
-	private double SHOULDER_POT_MAX_LIMIT = 0.48;
-	private int SHOULDER_ANGLE_AT_MAX_POT = 98;
-	private double SHOULDER_YMXB_M 	      = (SHOULDER_ANGLE_AT_MIN_POT - SHOULDER_ANGLE_AT_MAX_POT)/(MIN_SHOULDER_POT - MAX_SHOULDER_POT);
-	private double SHOULDER_YMXB_B        = SHOULDER_ANGLE_AT_MAX_POT - (SHOULDER_YMXB_M * MAX_SHOULDER_POT);
-
-	private double MIN_ELBOW_POT = 0.317; //0.019; //0.025
-	private int ELBOW_ANGLE_AT_MIN_POT = 135;
-	private double MAX_ELBOW_POT = 0.637; //0.357;
-	private int ELBOW_ANGLE_AT_MAX_POT = 23;
-	private double ELBOW_YMXB_M = (ELBOW_ANGLE_AT_MIN_POT - ELBOW_ANGLE_AT_MAX_POT)/(MIN_ELBOW_POT - MAX_ELBOW_POT);
-	private double ELBOW_YMXB_B = ELBOW_ANGLE_AT_MAX_POT - (ELBOW_YMXB_M * MAX_ELBOW_POT);
-
-	private double MIN_WRIST_POT = 0.169; //0.175;
-	private int WRIST_ANGLE_AT_MIN_POT = 116;
-	private double MAX_WRIST_POT = 0.391; //0.386;
-	private int WRIST_ANGLE_AT_MAX_POT = 238;
-	private double WRIST_POT_LIMIT = 0.39;
-	//NB - wrist line (y=mx + b) has y is pot reading, not angle like shoulder and elbow
-	//because we "calc" target pot reading (rather than "reading" current value and calc'ing angle)
-	private double WRIST_YMXB_M = (MIN_WRIST_POT - MAX_WRIST_POT)/(WRIST_ANGLE_AT_MIN_POT - WRIST_ANGLE_AT_MAX_POT);
-	private double WRIST_YMXB_B = MAX_WRIST_POT - (WRIST_YMXB_M * WRIST_ANGLE_AT_MAX_POT);
-
-	private double ELBOW_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative elbow dir
-	private double SHOULDER_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative shoulder dir
-	private double WRIST_DIR_TO_MOTOR_DIR = 1; // -1 if positive motor causes negative wrist dir
-	private CANTalon shoulderMotor = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
-	private CANTalon elbowMotor = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
-	private CANTalon wristMotor = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
-//	private double WristAngleToPotRatio = 180;
-//	private double ShoulderAngleToPotRatio = 180;
-//	private double ElbowAngleToPotRatio = 180;
-	private double targetWristPot;
-	private double targetWristAngle;
-	private boolean isWristAuto = true;
-	public static final int ARM_PRESET_EXTENDED = 1;
-	public static final int ARM_PRESET_TRANSPORT = 2;
-	public static final int ARM_PRESET_MAX_STACK = 3;
-
-	private int currentState = 0;
-	private Timer armTimer = new Timer();
+	//Represents the possible states of the arm subsystem
+	public static enum ArmMode{
+		automaticWrist,
+		manualWrist,
+		preset
+	}
+	//represents the three joints and the virtual joint for getAngle and getRaw
+	public static enum Joint{
+		shoulder,
+		elbow,
+		wrist,
+		calculatedWrist
+	}
+	//class representing a single preset.
+	public static class Preset{
+		public final double shoulderAngle;
+		public final double elbowAngle;
+		public final String name;
+		public Preset(double shoulderAngle, double elbowAngle, String name){
+			this.shoulderAngle = shoulderAngle;
+			this.elbowAngle = elbowAngle;
+			this.name = name;
+		}
 	
+	
+		/*
+		 * ====================================================================
+		 * ==== Arm Presets go here ===========================================
+		 * ====================================================================
+		 * Arm presets are specified by their desired angles for both the 
+		 * shoulder and the elbow in terms of degrees, meeasured in the usual
+		 * way. 
+		 * 
+		 * Therefore, shoulder angle is measured to be the usually acute angle 
+		 * b/n the back of the robot and the underside of the first beam.
+		 * 
+		 * The elbow angle is the bottom angle, measured between the first and 
+		 * second beams.
+		 */
+		public static final Preset PRESET_TRANSPORT = new Preset(0, 0, "Transport");
+		public static final Preset PRESET_EXTENDED  = new Preset(0, 0, "Extended");
+		public static final Preset PRESET_MAXSTACK  = new Preset(0, 0, "Max Stack");
+		//=====================================================================
+	}
+	
+	//Max and min extents for joints: potientiometer readings.
+	private final double SHOULDER_MIN = 0.0;
+	private final double SHOULDER_MAX = 0.0;
+	private final double ELBOW_MIN    = 0.0;
+	private final double ELBOW_MAX    = 0.0;
+	private final double WRIST_MIN    = 0.0;
+	private final double WRIST_MAX    = 0.0;
+	//PID Constants
+	private final double P_s = 24.0;
+	private final double I_s = 0.0;
+	private final double D_s = 0.0;
+	
+	private final double P_e = 24.0;
+	private final double I_e = 0.0;
+	private final double D_e = 0.0;
+	
+	private final double P_w = 24.0;
+	private final double I_w = 0.0;
+	private final double D_w = 0.0;
+	
+	/*
+	 * ========================================================================
+	 * ======== POT READINGS AND ANGLES =======================================
+	 * ========================================================================
+	 * These need to be updated whenever the geometry of the arm changes
+	 * If they aren't, then you're gonna have a bad time.
+	 * The Pot readings should be the values obtained with pot.pidGet().
+	 */
+	private final double SHOULDER_ANGLE1   = 0.0;
+	private final double SHOULDER_READING1 = 0.0;
+	private final double SHOULDER_ANGLE2   = 0.0;
+	private final double SHOULDER_READING2 = 0.0;
+
+	private final double ELBOW_ANGLE1  	   = 0.0;
+	private final double ELBOW_READING1	   = 0.0;
+	private final double ELBOW_ANGLE2  	   = 0.0;
+	private final double ELBOW_READING2	   = 0.0;
+
+	private final double WRIST_ANGLE1 	   = 0.0;
+	private final double WRIST_READING1	   = 0.0;
+	private final double WRIST_ANGLE2  	   = 0.0;
+	private final double WRIST_READING2	   = 0.0;
+	//=========================================================================
+	
+	//Motor directions. 1 if +motor => +pot, false if +mot => -pot
+	private final int WRIST_MOTORDIR    = 1;
+	private final int ELBOW_MOTORDIR    = 1;
+	private final int SHOULDER_MOTORDIR = 1;
+	
+	//Arm geometry constants
+	//lengths of the arm segments
+	//All units are in FEET.
+	public final double GEO_LINK1_LENGTH = 0.0;
+	public final double GEO_LINK2_LENGTH = 0.0;
+	//horizontal distance from the front of the robot to the shoulder pivot
+	public final double GEO_X0 = 0.0;
+	//vertical distance from the floor to the shoulder pivot.
+	public final double GEO_Y0 = 0.0;
+	
+	
+	//motors, sensors, and PID objects
+	private AnalogPotentiometer pot_s = new AnalogPotentiometer(RobotMap.ANALOG_POT_SHOULDER);
+	private AnalogPotentiometer pot_e = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
+	private AnalogPotentiometer pot_w = new AnalogPotentiometer(RobotMap.ANALOG_POT_WRIST);
+	
+	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
+	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
+	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	
+	private PIDController pid_s = new PIDController(P_s, I_s, D_s, pot_s, motor_s);
+	private PIDController pid_e = new PIDController(P_e, I_e, D_e, pot_e, motor_e);
+	private PIDController pid_w = new PIDController(P_w, I_w, D_w, pot_w, motor_w);
+	
+	//computed m and b constants for the pivots
+	//computation of values done in constructor.
+	private double m_s;
+	private double b_s;
+	private double m_e;
+	private double b_e;
+	private double m_w;
+	private double b_w;
+	
+	//internal state
+	private ArmMode mode = ArmMode.automaticWrist;
+	private Preset preset = new Preset(shoulder_pot2angle(pot_s.pidGet()),
+			                           elbow_pot2angle(pot_e.pidGet()),
+			                           "Null");
+		
 	public Arm(){
+		//compute the m's and b's
+		m_s = (SHOULDER_ANGLE2 - SHOULDER_ANGLE1) / (SHOULDER_READING2 - SHOULDER_READING1);
+		b_s = SHOULDER_ANGLE2 - m_s * SHOULDER_READING2;
+		m_e = (ELBOW_ANGLE2 - ELBOW_ANGLE1) / (ELBOW_READING2 - ELBOW_READING1);
+		b_e = ELBOW_ANGLE2 - m_e * ELBOW_READING2;
+		m_w = (WRIST_ANGLE2 - WRIST_ANGLE1) / (WRIST_READING2 - WRIST_READING1);
+		b_w = WRIST_ANGLE2 - m_w * WRIST_READING2;
+		
+		//set up parameters for the pids
+		pid_s.setInputRange(SHOULDER_MIN, SHOULDER_MAX);
+		pid_e.setInputRange(ELBOW_MIN, ELBOW_MAX);
+		pid_w.setInputRange(WRIST_MIN, WRIST_MAX);
+		
+		//Make sure the motors spin in the right direction.
+		pid_s.setPID(P_s * SHOULDER_MOTORDIR,
+					 I_s * SHOULDER_MOTORDIR,
+					 D_s * SHOULDER_MOTORDIR);
+		
+		pid_e.setPID(P_e * ELBOW_MOTORDIR,
+					 I_e * ELBOW_MOTORDIR,
+					 D_e * ELBOW_MOTORDIR);
+		
+		pid_w.setPID(P_w * WRIST_MOTORDIR,
+				 	 I_w * WRIST_MOTORDIR,
+				 	 D_w * WRIST_MOTORDIR);
+		
+		//enable the proper pids.
+		setMode(mode);
 
 	}
-
-	// Called just before this Command runs the first time
-    protected void initialize() {
-    	System.out.println("Arm is Initialized");
-    	SmartDashboard.putNumber("Shoulder MIN Pot", MIN_SHOULDER_POT);
-    	SmartDashboard.putNumber("Shoulder MAX Pot", MAX_SHOULDER_POT);
-    	SmartDashboard.putNumber("Elbow MIN Pot", MIN_ELBOW_POT);
-    	SmartDashboard.putNumber("Elbow MAX Pot", MAX_ELBOW_POT);
-    	SmartDashboard.putNumber("Wrist MIN Pot", MIN_WRIST_POT);
-    	SmartDashboard.putNumber("Wrist MAX Pot", MAX_WRIST_POT);
-    }
-
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ArmDefaultCommand());
-    }
-
-    private double GetShoulderAngle()
-    {
-    	//xxxmeasurement of pot to angle produced following formula =178 * G2 - 3.53
-    	//measurement of pot to angle produced following formula = =(-178 * C8) + 125.83
-
-    	//updateSmartDashboard("Shoulder Angle Calc", -178 * getShoulderPot() + 130.00); //125.83);
-    	updateSmartDashboard("Shoulder Angle Calc", SHOULDER_YMXB_M * getShoulderPot() + SHOULDER_YMXB_B);
-    	return (SHOULDER_YMXB_M * potShoulder.get() + SHOULDER_YMXB_B);
-    }
-
-    private double GetElbowAngle()
-    {
-    	//measurement of pot to angle produced following formula =(-274  * G11) + 162
-
-    	//updateSmartDashboard("Elbow Angle Calc", (-274  * getElbowPot()) + 165);
-    	updateSmartDashboard("Elbow Angle Calc", ELBOW_YMXB_M * getElbowPot() + ELBOW_YMXB_B);
-    	return (ELBOW_YMXB_M * potElbow.get() + ELBOW_YMXB_B);
-    	//inverse formula....return -.0036 * getElbowPot() + .5891;
-    }
-
-    private double getShoulderPot(){
-    	return potShoulder.get();
-    }
-
-    private double getElbowPot(){
-    	return potElbow.get();
-    }
-
-    public double getWristPot(){
-    	return potWrist.get();
-    }
-
-    private double calcTargetWristPot()
-    {
-    	targetWristAngle = GetElbowAngle() + GetShoulderAngle(); // - 90;
-    	updateSmartDashboard();
-    	return ConvertWristAngleToPot(targetWristAngle);
-    }
-
-    private double ConvertWristAngleToPot(double wristAngle)
-    {
-    	//measurement of pot to angle produced following formula = .0019x + .0991
-    	//return (0.0019 * wristAngle) + 0.0991; //-  WristAngleToPotRatio;
-    	SmartDashboard.putNumber("Wrist M", WRIST_YMXB_M);
-    	SmartDashboard.putNumber("Wrist B", WRIST_YMXB_B);
-    	SmartDashboard.putNumber("Full Wrist Calc", (WRIST_YMXB_M * getWristPot()) + WRIST_YMXB_B);
-    	return (WRIST_YMXB_M * wristAngle) + WRIST_YMXB_B; //-  WristAngleToPotRatio;
-    }
-
-    public void MoveShoulder(double yAxis){
-    	//min extension 0.12, max extension 0.465
-
-    	if(getShoulderPot() <= MIN_SHOULDER_POT){
-    		shoulderMotor.set(-Math.abs(yAxis)/4);
-    	}
-    	else if(getShoulderPot() >= SHOULDER_POT_MAX_LIMIT){
-    		shoulderMotor.set(Math.abs(yAxis)/4);
-    	}
-    	else{
-    		shoulderMotor.set(yAxis);
-    	}
-    	updateSmartDashboard("Shoulder Joystick", yAxis);
-    }
-
-    public void MoveElbow(double yAxis){
-    	//min 0.1 max 0.5
-
-    	if(getElbowPot() <= MIN_ELBOW_POT){
-    		if(yAxis >= 0){
-    			elbowMotor.set(-Math.abs(yAxis));
-    		}else{
-    			elbowMotor.set(0);
-    		}
-    	}
-    	else if(getElbowPot() >= MAX_ELBOW_POT){
-    		if(yAxis <= 0){
-    			elbowMotor.set(Math.abs(yAxis));
-    		}else{
-    			elbowMotor.set(0);
-    		}
-    	}
-    	else{
-    		elbowMotor.set(yAxis);
-    	}
-    	updateSmartDashboard("Elbow Joystick", yAxis);
-    	System.out.println("ShoulderPot = " + getShoulderPot());
-    	System.out.println("ElbowPot = " + getElbowPot());
-
-    }
-
-    private void updateSmartDashboard()
-    {
-    	SmartDashboard.putNumber("Shoulder Pot", getShoulderPot());
-    	SmartDashboard.putNumber("Elbow Pot", getElbowPot());
-    	SmartDashboard.putNumber("Wrist Pot", getWristPot());
-    	SmartDashboard.putBoolean("Is Wrist Auto?", isWristAuto);
-
-    	SmartDashboard.putNumber("Target Wrist Angle", targetWristAngle);
-    	SmartDashboard.putNumber("Wrist Pot Calc", targetWristPot);
-		SmartDashboard.putNumber("Wrist Motor Suggestion", (getWristPot()-targetWristPot)/getWristPot());
-
-		SmartDashboard.putNumber("Shoulder Speed", shoulderMotor.get());
-		SmartDashboard.putNumber("Elbow Speed", elbowMotor.get());
-		SmartDashboard.putNumber("Extended Wrist Speed", wristMotor.get());
-    }
-
-    private void updateSmartDashboard(String itemLabel, double itemValue)
-    {
-    	SmartDashboard.putNumber(itemLabel, itemValue);
-    	updateSmartDashboard();
-    }
-
-    private void updateSmartDashboard(String itemLabel, String itemValue)
-    {
-    	SmartDashboard.putString(itemLabel, itemValue);
-    	updateSmartDashboard();
-    }
-
-    public void MoveWrist(double yAxis){
-    	//if in auto, ignore; otherwise respond
-    	if (! isWristAuto)
-    	{
-    	 	moveWristDirectly(yAxis);
-    	}
-
-    }
-
-    private void moveWristDirectly(double yAxis){
-    	//min 0.12 max 0.37
-    	targetWristPot = calcTargetWristPot();
-		//TODO:  put min/max logic back in once
-		//potentiometer is fixed
-    	if(getWristPot() <= MIN_WRIST_POT){
-    		wristMotor.set(Math.abs(yAxis)/4);
-    	}
-    	else if(getWristPot() >= WRIST_POT_LIMIT){
-    		wristMotor.set(-Math.abs(yAxis)/4);
-    	}
-    	else{
-    		wristMotor.set(-yAxis);
-    	}
-    	updateSmartDashboard();
-    }
-
-    public void MoveWristAutomatically()
-    {
-    	//if wrist is not in auto mode, just ignore
-    	if (isWristAuto){
-    		targetWristPot = calcTargetWristPot();
-
-        	if(getWristPot() != targetWristPot){
-        		wristMotor.set(-(getWristPot()-targetWristPot)*36);
-        		//calc fraction it is away, and send as joystick signal
-        		//moveWristDirectly(-20 * (getWristPot()-targetWristPot)/getWristPot());
-    		}
-        	updateSmartDashboard();
-    	}
-
-    }
-
-    public void toggleWristAutoManu(){
-    	isWristAuto = !isWristAuto;
-    }
-
-    private boolean isBetween(double value1, double value2)
-    {
-    	return value1 == value2;
-    }
-
-    public void StopShoulder()
-    {
-    	shoulderMotor.set(0);
-    }
-
-    public void StopElbow()
-    {
-    	elbowMotor.set(0);
-    }
-
-    public void StopWrist()
-    {
-    	wristMotor.set(0);
-    }
-
-    public void MoveArm(int xAxisDir, int yAxisDir)
-    {
-//    	newXClawPosition = prevXClawPosition + xAxisDir * X_AXIS_FACTOR;
-//    	if (newXClawPosition > X_AXIS_MAX) {newXClawPosition = X_AXIS_MAX;}
-//    		else if (newXClawPosition < X_AXIS_MIN) {newXClawPosition = X_AXIS_MIN;}
-//
-//    	newYClawPosition = prevYClawPosition + yAxisDir * Y_AXIS_FACTOR;
-//    	if (newYClawPosition > Y_AXIS_MAX) {newXClawPosition = Y_AXIS_MAX;}
-//    		else if (newYClawPosition < Y_AXIS_MIN) {newXClawPosition = Y_AXIS_MIN;}
-//
-//    	hypot = Math.sqrt(newXClawPosition * newXClawPosition + newYClawPosition * newYClawPosition);
-//
-//    	CalcElbowPot(newXClawPosition, newYClawPosition, hypot);
-//    	CalcShoulderPot(newXClawPosition, newYClawPosition, hypot);
-    }
-
-    private void CalcElbowPot(int newX, int newY, double hypotenuse)
-    {
-    	//hypotenuse is opposite elbow, so
-    	//SSS theorem says elbow angle = invCos (bicep ^ 2 + forearm ^ 2 - hypot ^ 2) / (2 * bicep *forearm)
-    	//double newElbowAngleTarget;
-    	//newElbowAngleTarget = Math.acos((BICEP_LENGTH * BICEP_LENGTH + FOREARM_LEN * FOREARM_LEN - hypotenuse * hypotenuse)/
-    	//		(2 * BICEP_LENGTH * FOREARM_LEN));
-    }
-
-    private void CalcShoulderPot(int newX, int newY, double hypotenuse)
-    {
-    	//forearm is opposite shoulder, so
-    	//SSS theorem says shoulder angle = invCos ((bicep ^ 2 + hypot ^ 2 - forearm ^ 2) / (2 * bicep * hypot))
-    	//double newShoulderAngleTarget;
-    	//newShoulderAngleTarget = Math.acos((BICEP_LENGTH * BICEP_LENGTH + hypotenuse * hypotenuse - FOREARM_LEN * FOREARM_LEN)/
-    	//		(2 * BICEP_LENGTH * hypotenuse));
-
-    }
-
-    public void ArmPresets(int preset){
-
-    	if(preset == ARM_PRESET_EXTENDED){
-
-    		if(getShoulderPot() != 0.13){
-    			shoulderMotor.set((getShoulderPot()-0.13)*24);
-    		}else{
-    			shoulderMotor.set(0);
-    		}
-    		if(getElbowPot() != 0.305){
-    			elbowMotor.set((getElbowPot()-0.305)*24);
-    		}else{
-    			elbowMotor.set(0);
-    		}
-//    		if(getWristPot() != 0.42){
-//    			wristMotor.set((getWristPot()-0.42)*24);
-//    		}
-    		//0.22
-    		
-    		
-    	}
-    	else if(preset == ARM_PRESET_TRANSPORT){
-    		if(getShoulderPot() != 0.420){
-    			shoulderMotor.set((getShoulderPot()-0.480)*18);
-    		}
-    		if(getElbowPot() != 0.6){
-    			elbowMotor.set((getElbowPot()-0.6)*24);
-    		}
-//    		if(getWristPot() != 0.352){
-//    			wristMotor.set((getWristPot()-0.352)*24);
-//    		}
-    	}
-    	else if(preset == ARM_PRESET_MAX_STACK){
-    		if(getShoulderPot() != 0.48){
-    			shoulderMotor.set((getShoulderPot()-0.48)*18);
-    		}
-    		if(getElbowPot() != 0.337){
-    			elbowMotor.set((getElbowPot()-0.337)*24);
-    		}
-//    		if(getWristPot() != 0.52){
-//    			wristMotor.set((getWristPot()-0.52)*24);
-//    		}
-    	}
-    	MoveWristAutomatically();
-    	updateSmartDashboard("Preset Is", preset);
+        //setDefaultCommand(new MySpecialCommand());
     }
     
-    public boolean autonomousArmExtend(double duration){
-    	MoveWristAutomatically();
-    	switch (currentState){
-        case 0:
-            armTimer.start();
-
-            currentState++;
-            break;
-        case 1:
-            if(armTimer.get()>=1){
-            	currentState++;
-            }
-            Robot.arm.ArmPresets(ARM_PRESET_MAX_STACK);
-            break;
-        case 2:
-        	if (armTimer.get()>= duration+1)
-            {
-                currentState++;
-            }
-            Robot.arm.ArmPresets(ARM_PRESET_EXTENDED);
-            break;
-        case 3:
-        	shoulderMotor.set(0);
-            elbowMotor.set(0);
-            wristMotor.set(0);
-            currentState = 0;
-            armTimer.stop();
-            armTimer.reset();
-            break;
+    /**
+     * Compute the angle of the shoulder joint given it's pot value.
+     * 
+     * @param potvalue the value of the potientiometer
+     * @return the computed angle in degrees, acute angle measured 
+     * from back of robot
+     */
+    private double shoulder_pot2angle(double potvalue){
+    	return m_s * potvalue + b_s;
+    }
+    
+    /**
+     * Convert an angle to a string pot reading for the shoulder joint
+     * 
+     * @param angle the angle of the shoulder joint, measured from the back
+     * horizontal, acute angle
+     * @return The compted pot value corresponding to this angle for the shoulder.
+     */
+    private double shoulder_angle2pot(double angle){
+    	return (angle - b_s) / m_s;
+    }
+    
+    /**
+     * Compute the bottom-angle of the elbow given a pot reading
+     * 
+     * @param potvalue the value of the string pot
+     * @return the computed angle, in degrees, of the bottom of the elbow pivot.
+     */
+    private double elbow_pot2angle(double potvalue){
+    	return m_e * potvalue + b_e;
+    }
+    
+    /**
+     * Comvert an angle to the corresponding pot reading for the elbow
+     * 
+     * @param angle the angle to compute, in degrees
+     * @return the computed elbow pot value
+     */
+    private double elbow_angle2pot(double angle){
+    	return (angle - b_e) / m_e;
+    }
+    
+    /**
+     * Compute the angle of the wrist, given the pot value.
+     * 
+     * @param potvalue the value of the pot
+     * @return the angle at the top of the wrist pivot, in degrees.
+     */
+    private double wrist_pot2angle(double potvalue){
+    	return m_w * potvalue + b_w;
+    }
+    
+    /**
+     * Convert wrist angle to pot reading
+     * 
+     * @param angle angle in degrees of the top of the wrist pivot.
+     * @return the wrist pot value.
+     */
+    private double wrist_angle2pot(double angle){
+    	return (angle - b_w) / m_w;
+    }
+    
+    /**
+     * Compute the angle required at the wrist 
+     * 
+     * @return the wrist pot value required to hold the wrist horizontal.
+     * Value returned is the pot value, not the angle.
+     */
+    public double computeAutoWristPotValue(){
+    	//by trigonometry, we have that theta_w = theta_s + theta_e
+    	double theta_s = shoulder_pot2angle(pot_s.pidGet());
+    	double theta_e = elbow_pot2angle(pot_e.pidGet());
+    	return wrist_angle2pot(theta_s + theta_e);
+    }
+    
+    /**
+     * Function which handles applying manual values to motors as well as 
+     * keeping the wrist level in the preset and autowrist modes. 
+     * 
+     * This function should be called from all commands that use the arm
+     * subsystem. 
+     * 
+     *  The function will act differently depending on which mode is activated:
+     *  - If we are in automaticWrist mode, then the shoulder and elbow are set
+     *  manually using an axis value. The target wrist value is calculated and
+     *  applied to the PID controller.
+     *  - If we are in manualWrist mode, then manual axis values are passed to 
+     *  all three motors. 
+     *  - If we are in preset mode, then the pre-delcared preset is applied to 
+     *  the shoulder and elbow motors, and the desired wrist position is
+     *  calculated and then applied.
+     * 
+     * @param shoulderAxis Value to apply to the shoulder motor. This value
+     * is ignored when in preset mode.
+     * @param elbowAxis Value to apply to the elbow motor. This value is 
+     * ignored when in preset mode.
+     * @param wristAxis Value to apply to the wrist motor. This value is ignored 
+     * except when in manualWrist mode.
+     */
+    public void update(double shoulderAxis, double elbowAxis, double wristAxis){
+    	//first, flip the values if necessary to line up with pot direction
+    	shoulderAxis *= SHOULDER_MOTORDIR;
+    	elbowAxis    *= ELBOW_MOTORDIR;
+    	wristAxis    *= WRIST_MOTORDIR;
+    	
+    	//second, we must handle the cases where the joints are at the end of 
+    	//their travels. 
+    	if(shoulderAxis < 0 && pot_s.pidGet() < SHOULDER_MIN ) shoulderAxis = 0;
+    	if(shoulderAxis > 0 && pot_s.pidGet() > SHOULDER_MAX ) shoulderAxis = 0;
+    	if(elbowAxis    < 0 && pot_e.pidGet() < ELBOW_MIN)     elbowAxis    = 0;
+    	if(elbowAxis    > 0 && pot_e.pidGet() > ELBOW_MAX)     elbowAxis    = 0;
+    	if(wristAxis    < 0 && pot_w.pidGet() < ELBOW_MIN)     wristAxis    = 0;
+    	if(wristAxis    > 0 && pot_w.pidGet() > ELBOW_MAX)     wristAxis    = 0;
+    	
+    	//now dispatch based on current mode.
+    	switch(mode){  
+		case automaticWrist:
+			motor_s.set(shoulderAxis);
+			motor_e.set(elbowAxis);
+			pid_w.setSetpoint(computeAutoWristPotValue());
+			break;
+		case manualWrist:
+			motor_s.set(shoulderAxis);
+			motor_e.set(elbowAxis);
+			motor_w.set(wristAxis);
+			break;
+		case preset:
+			pid_s.setSetpoint(shoulder_angle2pot(preset.shoulderAngle));
+			pid_e.setSetpoint(elbow_angle2pot(preset.elbowAngle));
+			pid_w.setSetpoint(computeAutoWristPotValue());
+			break;
     	}
-    	if(currentState == 3){
-    		currentState = 0;
-  			return true;
-   		}else{
-   			return false;
-   		}    
-    	
+    
     }
     
-    public boolean autonomousArmTransport(double duration){
-    	MoveWristAutomatically();
-    	switch (currentState){
-        case 0:
-            currentState++;
-            break;
-        case 1:
-        	if (armTimer.get()>= duration)
-            {
-                currentState++;
-            }
-            Robot.arm.ArmPresets(ARM_PRESET_TRANSPORT);
-            break;
-        case 2:
-        	shoulderMotor.set(0);
-            elbowMotor.set(0);
-            wristMotor.set(0);
-            currentState = 0;
-            break;
-	    }
-	    if(currentState == 2){
-	    	currentState = 0;
-	  		return true;
-	   	}else{
-	   		return false;
-	   	}    
-    	
+   /**
+    * Set the mode of the arm subsystem.
+    * @param mode The mode to set.
+    */
+    public void setMode(ArmMode mode){
+    	stopMotors();
+    	this.mode = mode;
+    	switch(mode){
+    	case automaticWrist:
+    		pid_w.setSetpoint(pot_w.pidGet());
+    		pid_w.enable();
+    		pid_s.disable();
+    		pid_e.disable();
+    		break;
+		case manualWrist:
+			pid_w.disable();
+			pid_s.disable();
+			pid_e.disable();
+			break;
+		case preset:
+			pid_w.setSetpoint(pot_w.pidGet());
+			pid_s.setSetpoint(pot_s.pidGet());
+			pid_e.setSetpoint(pot_e.pidGet());
+			pid_w.enable();
+			pid_s.enable();
+			pid_e.enable();
+			break;	
+    	}
     }
     
-    public boolean autonomousArmUp(double duration){
-    	MoveWristAutomatically();
-    	switch (currentState){
-        case 0:
-            armTimer.start();
-            
-            currentState++;
-            break;
-        case 1:
-            if (armTimer.get()>= duration)
-            {
-                currentState++;
-            }
-            if(getShoulderPot() != 0.326){
-    			shoulderMotor.set((getShoulderPot()-0.326)*24);
-    		}
-    		if(getElbowPot() != 0.351){
-    			elbowMotor.set((getElbowPot()-0.351)*24);
-    		}
-            break;
-        case 2:
-            shoulderMotor.set(0);
-            elbowMotor.set(0);
-            wristMotor.set(0);
-            currentState = 0;
-            armTimer.stop();
-            armTimer.reset();
-            break;
+    /**
+     * Get the current mode of the arm.
+     * @return the current mode of the arm.
+     */
+    public ArmMode getMode(){
+    	return this.mode;
     }
-    if(currentState == 2){
-    	currentState = 0;
-  		return true;
-   	}else{
-   		return false;
-   	}    
-    	
+    
+    /**
+     * Set the desired preset
+     * @param p the preset to go to.
+     */
+    public void setPreset(Preset p){
+    	this.preset = p;
+    }
+    
+    /**
+     * Get the selected preset.
+     * @return the current preset.
+     */
+    public Preset getPreset(){
+    	return this.preset;
+    }
+    
+    /**
+     * stop all motors
+     */
+    public void stopMotors(){
+    	motor_s.set(0);
+    	motor_e.set(0);
+    	motor_w.set(0);
+    }
+    
+    /**
+     * Get the current position of the arm as a preset
+     * @return A preset object representing the current position of hte arm.
+     */
+    public Preset getCurrentPosition(){
+    	double s = shoulder_pot2angle(pot_s.get());
+    	double e = elbow_pot2angle(pot_e.get());
+    	return new Preset(s, e, "Current Position");
+    }
+    
+    /**
+     * Get the angle of the specified joint
+     * @param j The joint to get
+     * @return the angle in degrees.
+     */
+    public double getAngle(Joint j){
+    	switch(j){
+		case calculatedWrist:
+			return wrist_pot2angle(computeAutoWristPotValue());
+		case elbow:
+			return elbow_pot2angle(pot_e.get());
+		case shoulder:
+			return shoulder_pot2angle(pot_s.get());
+		case wrist:
+			return wrist_pot2angle(pot_w.get());
+		default:
+			return Double.NaN;    	
+    	}
+    }
+    
+    /**
+     * Get the raw potientiometer value for the specified joint
+     * @param j the joint to get
+     * @return The potientiometer value 
+     */
+    public double getRaw(Joint j){
+    	switch(j){
+		case calculatedWrist:
+			return computeAutoWristPotValue();
+		case elbow:
+			return pot_e.get();
+		case shoulder:
+			return pot_s.get();
+		case wrist:
+			return pot_w.get();
+		default:
+			return Double.NaN;
+    	}
     }
 }
+    
+    
+    
+
 

@@ -14,7 +14,7 @@ public class ArmManualControl extends Command {
 	 * between manual wrist control and automatic wrist control.
 	 */
     public ArmManualControl() {
-       requires(Robot.newArm);
+       requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
@@ -27,7 +27,7 @@ public class ArmManualControl extends Command {
     	double as = Robot.oi.getShoulderAxis();
     	double ae = Robot.oi.getElbowAxis();
     	double aw = Robot.oi.getWristAxis();
-    	Robot.newArm.update(as, ae, aw);
+    	Robot.arm.update(as, ae, aw);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,12 +37,12 @@ public class ArmManualControl extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.newArm.stopMotors();
+    	Robot.arm.stopMotors();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.newArm.stopMotors();
+    	Robot.arm.stopMotors();
     }
 }

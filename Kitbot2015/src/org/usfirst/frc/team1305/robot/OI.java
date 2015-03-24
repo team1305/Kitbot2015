@@ -1,9 +1,5 @@
 package org.usfirst.frc.team1305.robot;
 
-import org.usfirst.frc.team1305.robot.commands.arm.ExtendedPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.MaxStackPresetCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.ToggleWristAutoManuCommand;
-import org.usfirst.frc.team1305.robot.commands.arm.TransportPresetCommand;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawToggle;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetStackerPerspective;
@@ -12,6 +8,9 @@ import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
 import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
 import org.usfirst.frc.team1305.robot.commands.forks.ForksToggle;
 import org.usfirst.frc.team1305.robot.commands.forks.ForksToggleDeployment;
+import org.usfirst.frc.team1305.robot.commands.newarm.ArmGoPreset;
+import org.usfirst.frc.team1305.robot.commands.newarm.ArmToggleAutoWrist;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -97,10 +96,10 @@ public class OI {
 	    extendedPresetButton  = new JoystickButton(armStick, BUTTON_B);
 
 		clawOpenClose.whenPressed      (new ClawToggle());
-		toggleWristAutoManu.whenPressed(new ToggleWristAutoManuCommand());
-		extendedPresetButton.whileHeld (new ExtendedPresetCommand());
-		transportPresetButton.whileHeld(new TransportPresetCommand());
-		maxStackPresetButton.whileHeld (new MaxStackPresetCommand());
+		toggleWristAutoManu.whenPressed(new ArmToggleAutoWrist());
+		extendedPresetButton.whileHeld (new ArmGoPreset(Preset.PRESET_EXTENDED));
+		transportPresetButton.whileHeld(new ArmGoPreset(Preset.PRESET_TRANSPORT));
+		maxStackPresetButton.whileHeld (new ArmGoPreset(Preset.PRESET_MAXSTACK));
 	}
 	
 	//axis functions for the arm

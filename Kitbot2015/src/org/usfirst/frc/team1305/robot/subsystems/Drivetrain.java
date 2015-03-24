@@ -168,23 +168,25 @@ public class Drivetrain extends Subsystem {
     
     /**
      * Compute the tilt of the robot, in the forward-backwards orientation.
+     * 
+     * If the robot is tilting so that the arm is down, the returned angle 
      * @return The tilt of the robot, in degrees from the vertical.
      */
     public double getTilt(){
-    	//z is the unit vector pointing down the vertical axis of the robot
+    	// z is the unit vector pointing down the vertical axis of the robot
     	// z = [0, 1]
-    	//u is the vector pointing down the true "down" direction
+    	// u is the vector pointing down the true "down" direction
     	// u = [accel.getY, accel.getZ]
-    	//the dot product z.u is the value u.getZ
+    	// the dot product z.u is the value u.getZ
     	double ZdotU = accel.getZ();
-    	//magnitude of Z is 1, 
-    	//compute the magnitude of U
+    	// magnitude of Z is 1, 
+    	// compute the magnitude of U
     	double u1 = accel.getY();
     	double u2 = accel.getZ();
     	double magU = Math.sqrt(u1*u1 + u2*u2);
-    	//now compute theta
+    	// now compute theta
     	double theta = Math.acos(ZdotU / (magU * 1)) * 180.0 / Math.PI;
-    	//now if the y direction is positive, report a positive angle, otherwise negative
+    	// now if the y direction is positive, report a positive angle, otherwise negative
     	return Math.signum(u1) * theta;
     }
 

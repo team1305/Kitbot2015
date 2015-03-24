@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1305.robot.commands.newarm;
 
 import org.usfirst.frc.team1305.robot.Robot;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.ArmMode;
-import org.usfirst.frc.team1305.robot.subsystems.NewArm.Preset;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.ArmMode;
+import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +26,7 @@ public class ArmGoPreset extends Command {
 	 * @param p the preset to apply.
 	 */
     public ArmGoPreset(Preset p) {
-       requires(Robot.newArm);
+       requires(Robot.arm);
        preset = p;
        usingTimer = false;
     }
@@ -40,7 +40,7 @@ public class ArmGoPreset extends Command {
 	 * @param timeout the maximum time to run the command.
 	 */
     public ArmGoPreset(Preset p, double timeout){
-    	requires(Robot.newArm);
+    	requires(Robot.arm);
     	preset = p;
     	usingTimer = true;
     	this.timeout = timeout;
@@ -49,14 +49,14 @@ public class ArmGoPreset extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	t.start();
-    	oldMode = Robot.newArm.getMode();
-    	Robot.newArm.setMode(ArmMode.preset);
-    	Robot.newArm.setPreset(preset);
+    	oldMode = Robot.arm.getMode();
+    	Robot.arm.setMode(ArmMode.preset);
+    	Robot.arm.setPreset(preset);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.newArm.update(0, 0, 0);
+    	Robot.arm.update(0, 0, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -67,16 +67,16 @@ public class ArmGoPreset extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.newArm.stopMotors();
-    	Robot.newArm.setMode(oldMode);
+    	Robot.arm.stopMotors();
+    	Robot.arm.setMode(oldMode);
     	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.newArm.stopMotors();
-    	Robot.newArm.setMode(oldMode);
+    	Robot.arm.stopMotors();
+    	Robot.arm.setMode(oldMode);
 
     }
 }

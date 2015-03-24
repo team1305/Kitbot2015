@@ -130,5 +130,9 @@ public class Forks extends Subsystem {
     public boolean getTrigger(){
     	return !this.trigger.get();
     }
+    
+    public boolean getDepoloyed(){
+    	return this.isDeployed;
+    }
 }
 

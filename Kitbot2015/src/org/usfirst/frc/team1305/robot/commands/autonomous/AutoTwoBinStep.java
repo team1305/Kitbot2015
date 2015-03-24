@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1305.robot.commands.autonomous;
 
-import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmExtend;
-import org.usfirst.frc.team1305.robot.commands.arm.AutonomousArmUp;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawToggle;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveUntilClawTrig;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveAuto;
@@ -17,17 +15,17 @@ public class AutoTwoBinStep extends CommandGroup {
     
     public  AutoTwoBinStep() {
 //    	addSequential(new GyroRotate(-60.0, 1.0));
-    	addParallel(new AutonomousArmExtend(1));
+//    	addParallel(new AutonomousArmExtend(1));
     	addSequential(new DriveUntilClawTrig(-0.6,-0.6));
-    	addSequential(new AutonomousArmUp(0.5));
+//    	addSequential(new AutonomousArmUp(0.5));
     	addSequential(new DriveAuto(0.3, 0.8, 0.8));
     	addSequential(new ClawToggle());
     	addSequential(new DriveAuto(0.1, 0, 0));
     	addSequential(new DriveAuto(0.3, 0.8, 0.8));
 //    	addSequential(new GyroRotate(-42.0, 1.0));
-    	addParallel(new AutonomousArmExtend(1));
+//    	addParallel(new AutonomousArmExtend(1));
     	addSequential(new DriveUntilClawTrig(-0.6,-0.6));
-    	addSequential(new AutonomousArmUp(0.5));
+//    	addSequential(new AutonomousArmUp(0.5));
     	addSequential(new DriveAuto(0.3, 0.8, 0.8));
     	addSequential(new ClawToggle());
     	addSequential(new DriveAuto(0.1, 0, 0));
@@ -36,7 +34,7 @@ public class AutoTwoBinStep extends CommandGroup {
     	addSequential(new DriveAuto(0.7, 0.8, 0.8));
 //    	addSequential(new GyroRotate(60.0, 1.0));
     	addSequential(new DriveUntilClawTrig(-0.6,-0.6));
-    	addSequential(new AutonomousArmUp(0.5));
+//    	addSequential(new AutonomousArmUp(0.5));
     	addSequential(new DriveAuto(0.3, 0.8, 0.8));
     	
     	//DOUBLE BIN GRAB [THEORETICAL]
