@@ -101,7 +101,17 @@ public class NewArm extends Subsystem {
 	private final int WRIST_MOTORDIR    = 1;
 	private final int ELBOW_MOTORDIR    = 1;
 	private final int SHOULDER_MOTORDIR = 1;
-
+	
+	//Arm geometry constants
+	//lengths of the arm segments
+	//All units are in FEET.
+	public final double GEO_LINK1_LENGTH = 0.0;
+	public final double GEO_LINK2_LENGTH = 0.0;
+	//horizontal distance from the front of the robot to the shoulder pivot
+	public final double GEO_X0 = 0.0;
+	//vertical distance from the floor to the shoulder pivot.
+	public final double GEO_Y0 = 0.0;
+	
 	
 	//motors, sensors, and PID objects
 	private AnalogPotentiometer pot_s = new AnalogPotentiometer(RobotMap.ANALOG_POT_SHOULDER);
@@ -363,6 +373,16 @@ public class NewArm extends Subsystem {
     	motor_s.set(0);
     	motor_e.set(0);
     	motor_w.set(0);
+    }
+    
+    /**
+     * Get the current position of the arm as a preset
+     * @return A preset object representing the current position of hte arm.
+     */
+    public Preset getCurrentPosition(){
+    	double s = shoulder_pot2angle(pot_s.get());
+    	double e = elbow_pot2angle(pot_e.get());
+    	return new Preset(s, e, "Current Position");
     }
 }
     

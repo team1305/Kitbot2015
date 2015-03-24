@@ -191,5 +191,8 @@ public class OI {
     public double getDriveAxis(int axis){
     	return driveStick.getRawAxis(axis);
     }
+    public double getArmAxis(int axis){
+    	return armStick.getRawAxis(axis);
+    }
 
 }
