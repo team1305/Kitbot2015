@@ -5,10 +5,12 @@ import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 
 /**
  * Handles all base movement of the robot.
@@ -23,6 +25,8 @@ public class Drivetrain extends Subsystem {
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
 	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
+	
+	BuiltInAccelerometer accel = new BuiltInAccelerometer();
 
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
 	
@@ -33,6 +37,9 @@ public class Drivetrain extends Subsystem {
 	private boolean armPerspective = false;
 	public boolean isLowGear = false;
 
+	public Drivetrain() {
+		accel.setRange(Range.k2G);
+	}
 
 
     @Override
@@ -157,6 +164,28 @@ public class Drivetrain extends Subsystem {
     	drive.tankDrive(0.0, 0.0);
     	leftSmoother.reset();
     	rightSmoother.reset();
+    }
+    
+    /**
+     * Compute the tilt of the robot, in the forward-backwards orientation.
+     * @return The tilt of the robot, in degrees from the vertical.
+     */
+    public double getTilt(){
+    	//z is the unit vector pointing down the vertical axis of the robot
+    	// z = [0, 1]
+    	//u is the vector pointing down the true "down" direction
+    	// u = [accel.getY, accel.getZ]
+    	//the dot product z.u is the value u.getZ
+    	double ZdotU = accel.getZ();
+    	//magnitude of Z is 1, 
+    	//compute the magnitude of U
+    	double u1 = accel.getY();
+    	double u2 = accel.getZ();
+    	double magU = Math.sqrt(u1*u1 + u2*u2);
+    	//now compute theta
+    	double theta = Math.acos(ZdotU / (magU * 1)) * 180.0 / Math.PI;
+    	//now if the y direction is positive, report a positive angle, otherwise negative
+    	return Math.signum(u1) * theta;
     }
 
 
