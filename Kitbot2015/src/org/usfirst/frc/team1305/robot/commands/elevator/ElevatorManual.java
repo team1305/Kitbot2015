@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Manually sets elevator speed to an axis, used by F310 joystick.
+ * @deprecated do not use. 
  */
 public class ElevatorManual extends Command {
 
@@ -21,7 +22,7 @@ public class ElevatorManual extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.manualHeight(Robot.oi.getStackerRX());
+    	//Robot.elevator.manualHeight(Robot.oi.getStackerRX());
 
 
     }

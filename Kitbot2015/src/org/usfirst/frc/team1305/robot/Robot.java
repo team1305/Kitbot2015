@@ -11,6 +11,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1305.robot.subsystems.EJSmasher;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
@@ -34,15 +35,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+	public static final boolean USING_EJSMASHER = false;
 
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Gyroscope gyroscope   = new Gyroscope();
-	public static final Claw claw             = new Claw();
-	public static final Forks forks           = new Forks();
-	public static final Elevator elevator     = new Elevator();
-	public static final Dash dash 			  = new Dash();
-	public static final Arm arm       		  = new Arm();
+	public static Drivetrain drivetrain;
+	public static Gyroscope gyroscope;
+	public static Claw claw;
+	public static Forks forks;
+	public static Elevator elevator;
+	public static Dash dash;
+	public static Arm arm;
+	public static EJSmasher ejSmasher;
 
 	//camera server aka camera declaration
 	CameraServer server;
@@ -55,26 +59,35 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	//set oi
+    	//instantiating all them subsystems.
 		oi = new OI();
-		//Gets instances of camera from camera server
-		//server = CameraServer.getInstance();
-		//set quality of video feed
-        //server.setQuality(80);
-        //the camera name (ex "cam0") can be found through the roborio web interface
-        //starts camera feed
-        //TODO: REMEMBER THIS
-        //server.startAutomaticCapture("cam0");
+		drivetrain = new Drivetrain();
+		gyroscope  = new Gyroscope();
+		claw       = new Claw();
+		dash 	   = new Dash();
+		arm        = new Arm();
+		//Only the EJ Smasher or the stacker is connected at once.
+		if(!USING_EJSMASHER){
+			forks    = new Forks();
+			elevator = new Elevator();
+		}
+		else{
+			ejSmasher = new EJSmasher();
+		}
 		
 		gyroscope.gyroInit();
 		
 		//===Add options for autonomous commands here.===
-		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
-		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
-		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
-		autoChooser.addObject("Dance auto", new AutonomousDance());
-		autoChooser.addObject("Tote Auto", new AutoOneTote());
+		//TODO: gray out autos that rely on the stacker being present.
 		autoChooser.addObject("Null auto", new Wait(1));
+		autoChooser.addObject("Dance auto", new AutonomousDance());
+		autoChooser.addObject("One Bin step auto", new AutoOneBinStep());
+		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
+		if(!USING_EJSMASHER){
+			autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
+			autoChooser.addObject("Tote Auto", new AutoOneTote());
+		}
+		//send the chooser to the dash to get user input.
 		SmartDashboard.putData("Autochooser", autoChooser);
     }
 
@@ -110,9 +123,6 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	//TODO: check if this is correct or just do command.start()
-    	//Scheduler.getInstance().add(new ReInit());
-//    	gyroscope.gyroInit();
     }
 
     /**
@@ -120,7 +130,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-//        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     /**

@@ -1,5 +1,6 @@
-package org.usfirst.frc.team1305.robot.commands.newarm;
+package org.usfirst.frc.team1305.robot.commands.arm;
 
+import org.usfirst.frc.team1305.robot.OI.F310;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.ArmMode;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
@@ -11,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Coommand which manually controls the arm. This command does not distinguish
  * between manual wrist control and automatic wrist control.
+ * 
+ * This command has not been tested yet.
  */
 public class ArmDisplacementControl extends Command {
 	
@@ -47,8 +50,8 @@ public class ArmDisplacementControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//First we get the desired x and y values from the axes
-    	calculateX(Robot.oi.getArmAxis(Robot.oi.AXIS_XL));
-    	calculateY(Robot.oi.getArmAxis(Robot.oi.AXIS_YL));
+    	calculateX(Robot.oi.getArmAxis(F310.AXIS_XL));
+    	calculateY(Robot.oi.getArmAxis(F310.AXIS_YL));
     	//compute c and theta_0
     	double c = Math.sqrt(Math.pow(x + x_0, 2) + Math.pow(y - y_0, 2)); //in feet
     	double theta_0 = Math.atan((y - y_0)/(x + x_0)) * 180.0 / Math.PI; //in degrees

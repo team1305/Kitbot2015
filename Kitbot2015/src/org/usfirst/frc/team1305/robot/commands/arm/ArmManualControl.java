@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1305.robot.commands.newarm;
+package org.usfirst.frc.team1305.robot.commands.arm;
 
 import org.usfirst.frc.team1305.robot.Robot;
 

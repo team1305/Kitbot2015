@@ -24,8 +24,8 @@ public class DriveSmooth extends Command {
     protected void execute() {
 
 		//sets values from drivestick for arcade drive
-    	double XL = Robot.oi.getDriveX();
-    	double YL = Robot.oi.getDriveY();
+    	double XL = Robot.oi.getSteerAxis();
+    	double YL = Robot.oi.getMoveAxis();
 
     	//apply stick values to the arcadedrive function
     	Robot.drivetrain.arcadeDrive(YL, XL, true);

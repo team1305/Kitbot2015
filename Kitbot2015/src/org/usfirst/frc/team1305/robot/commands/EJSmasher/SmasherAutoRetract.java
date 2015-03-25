@@ -1,39 +1,41 @@
-package org.usfirst.frc.team1305.robot.commands.dash;
+package org.usfirst.frc.team1305.robot.commands.EJSmasher;
 
 import org.usfirst.frc.team1305.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Automatically retract the smasher by winching until the limit trigger is hit.
+ * 
  */
-public class DashUpdate extends Command {
+public class SmasherAutoRetract extends Command {
 
-    public DashUpdate() {
-    	requires(Robot.dash);
-    	this.setRunWhenDisabled(true);
+    public SmasherAutoRetract() {
+    	requires(Robot.ejSmasher);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(!Robot.ejSmasher.getTrigger()) Robot.ejSmasher.winch_up();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dash.update();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.ejSmasher.getTrigger();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.ejSmasher.winch_stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.ejSmasher.winch_stop();
     }
 }
