@@ -391,6 +391,12 @@ public class Arm extends Subsystem {
     	}
     	if(currentState == 3){
     		currentState = 0;
+    		shoulderMotor.set(0);
+            elbowMotor.set(0);
+            wristMotor.set(0);
+            currentState = 0;
+            armTimer.stop();
+            armTimer.reset();
   			return true;
    		}else{
    			return false;
@@ -402,7 +408,9 @@ public class Arm extends Subsystem {
     	MoveWristAutomatically();
     	switch (currentState){
         case 0:
+        	armTimer.start();
             currentState++;
+            SmartDashboard.putString("Auto Status", "Going into Transport");
             break;
         case 1:
         	if (armTimer.get()>= duration)
@@ -420,6 +428,12 @@ public class Arm extends Subsystem {
 	    }
 	    if(currentState == 2){
 	    	currentState = 0;
+	    	shoulderMotor.set(0);
+            elbowMotor.set(0);
+            wristMotor.set(0);
+            currentState = 0;
+            armTimer.stop();
+            armTimer.reset();
 	  		return true;
 	   	}else{
 	   		return false;
@@ -432,7 +446,7 @@ public class Arm extends Subsystem {
     	switch (currentState){
         case 0:
             armTimer.start();
-            
+            SmartDashboard.putString("Auto Status", "Moving Arm Up");
             currentState++;
             break;
         case 1:
