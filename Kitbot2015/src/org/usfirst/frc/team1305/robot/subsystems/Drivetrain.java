@@ -185,6 +185,7 @@ public class Drivetrain extends Subsystem {
     	double u2 = accel.getZ();
     	double magU = Math.sqrt(u1*u1 + u2*u2);
     	// now compute theta
+    	if (ZdotU / (magU * 1) == 0) return 0;
     	double theta = Math.acos(ZdotU / (magU * 1)) * 180.0 / Math.PI;
     	// now if the y direction is positive, report a positive angle, otherwise negative
     	return Math.signum(u1) * theta;
