@@ -61,12 +61,12 @@ public class Arm extends Subsystem {
 	}
 	
 	//Max and min extents for joints: potientiometer readings.
-	private final double SHOULDER_MIN = 0.0;
-	private final double SHOULDER_MAX = 0.0;
-	private final double ELBOW_MIN    = 0.0;
-	private final double ELBOW_MAX    = 0.0;
-	private final double WRIST_MIN    = 0.0;
-	private final double WRIST_MAX    = 0.0;
+	private final double SHOULDER_MIN = 0.107;
+	private final double SHOULDER_MAX = 0.48;
+	private final double ELBOW_MIN    = 0.317;
+	private final double ELBOW_MAX    = 0.637;
+	private final double WRIST_MIN    = 0.169;
+	private final double WRIST_MAX    = 0.39;
 	//PID Constants
 	private final double P_s = 24.0;
 	private final double I_s = 0.0;
@@ -88,20 +88,20 @@ public class Arm extends Subsystem {
 	 * If they aren't, then you're gonna have a bad time.
 	 * The Pot readings should be the values obtained with pot.pidGet().
 	 */
-	private final double SHOULDER_ANGLE1   = 0.0;
-	private final double SHOULDER_READING1 = 0.0;
-	private final double SHOULDER_ANGLE2   = 0.0;
-	private final double SHOULDER_READING2 = 0.0;
+	private final double SHOULDER_ANGLE1   = 34;
+	private final double SHOULDER_READING1 = 0.107;
+	private final double SHOULDER_ANGLE2   = 98;
+	private final double SHOULDER_READING2 = 0.496;
 
-	private final double ELBOW_ANGLE1  	   = 0.0;
-	private final double ELBOW_READING1	   = 0.0;
-	private final double ELBOW_ANGLE2  	   = 0.0;
-	private final double ELBOW_READING2	   = 0.0;
+	private final double ELBOW_ANGLE1  	   = 135;
+	private final double ELBOW_READING1	   = 0.317;
+	private final double ELBOW_ANGLE2  	   = 23;
+	private final double ELBOW_READING2	   = 0.637;
 
-	private final double WRIST_ANGLE1 	   = 0.0;
-	private final double WRIST_READING1	   = 0.0;
-	private final double WRIST_ANGLE2  	   = 0.0;
-	private final double WRIST_READING2	   = 0.0;
+	private final double WRIST_ANGLE1 	   = 116;
+	private final double WRIST_READING1	   = 0.169;
+	private final double WRIST_ANGLE2  	   = 238;
+	private final double WRIST_READING2	   = 0.391;
 	//=========================================================================
 	
 	//Motor directions. 1 if +motor => +pot, false if +mot => -pot
@@ -143,7 +143,7 @@ public class Arm extends Subsystem {
 	private double b_w;
 	
 	//internal state
-	private ArmMode mode = ArmMode.automaticWrist;
+	private ArmMode mode = ArmMode.manualWrist;
 	private Preset preset = new Preset(shoulder_pot2angle(pot_s.pidGet()),
 			                           elbow_pot2angle(pot_e.pidGet()),
 			                           "Null");
