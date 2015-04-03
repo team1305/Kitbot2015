@@ -133,20 +133,7 @@ public class Dash extends Subsystem {
 
     }
     
-    private void update_forks(){
-    	forks_isOpen = Robot.forks.getForkState();
-    	forks_isDeployed = Robot.forks.getDepoloyed();
-    	forks_LimitState = Robot.forks.getTrigger();
-    	
-    	if(forks_isOpen) SmartDashboard.putString("Fork State", "Open");
-    	else			 SmartDashboard.putString("Fork State", "Closed");
-    	
-    	if(forks_isDeployed) SmartDashboard.putString("Fork Deployment", "Deployed");
-    	else				 SmartDashboard.putString("Fork Deployment", "Not deployed");
-    	
-    	if(forks_LimitState) SmartDashboard.putString("Fork Limit", "Triggered");
-    	else				 SmartDashboard.putString("Fork Limit", "Not triggered");
-    }
+    
     
     private void update_gyroscope(){
     	gyro_rawAngle = Robot.gyroscope.getRawAngle();
@@ -160,7 +147,6 @@ public class Dash extends Subsystem {
     	update_arm();
     	update_claw();
     	update_drivetrain();
-    	update_forks();
     	update_gyroscope();
     }
     

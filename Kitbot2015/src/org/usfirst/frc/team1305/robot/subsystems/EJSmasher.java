@@ -20,8 +20,8 @@ public class EJSmasher extends Subsystem {
 	// The EJ Smasher re-uses the winch system, as well as the sneezeguard 
 	// trigger that is already present for the EJ Stacker subsystem. Thus, it is
 	// imperative that only one of the subsystems be activated at one time.
-	private CANTalon m_winch = new CANTalon(RobotMap.CAN_DEVICE_LIFT);
-	private DigitalInput d_trigger = new DigitalInput(RobotMap.DIO_STACKER_TRIGGER);
+	private CANTalon m_winch = new CANTalon(RobotMap.CAN_DEVICE_SMASHER);
+	private DigitalInput d_trigger = new DigitalInput(RobotMap.DIO_SMASHER_WINCH_LIMIT);
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

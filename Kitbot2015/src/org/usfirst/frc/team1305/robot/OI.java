@@ -9,10 +9,6 @@ import org.usfirst.frc.team1305.robot.commands.claw.ClawToggle;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetStackerPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveToggleGear;
-import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorDown;
-import org.usfirst.frc.team1305.robot.commands.elevator.ElevatorUp;
-import org.usfirst.frc.team1305.robot.commands.forks.ForksToggle;
-import org.usfirst.frc.team1305.robot.commands.forks.ForksToggleDeployment;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -103,18 +99,10 @@ public class OI {
 		armPerspective.whileHeld  (new DriveSetArmPerspective());
 		stackPerspective.whileHeld(new DriveSetStackerPerspective());
 		toggleGear.whenPressed    (new DriveToggleGear());
-		//different controls if we're using the smasher instead of the stacker.
-		if(!Robot.USING_EJSMASHER){
-			stackerMoveDown.whileHeld (new ElevatorDown());
-			stackerMoveUp.whileHeld   (new ElevatorUp());
-			forkOpenClose.whenPressed (new ForksToggle());
-			forkDeployment.whenPressed(new ForksToggleDeployment());
-		}
-		else{
-			stackerMoveDown.whileHeld(new SmasherManualDeploy());
-			stackerMoveUp.whileHeld(new SmasherManualRetract());
-			forkDeployment.whenPressed(new SmasherAutoRetract());
-		}
+		stackerMoveDown.whileHeld(new SmasherManualDeploy());
+		stackerMoveUp.whileHeld(new SmasherManualRetract());
+		forkDeployment.whenPressed(new SmasherAutoRetract());
+		
 
 
 	    //arm stick functions

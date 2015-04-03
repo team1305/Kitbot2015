@@ -2,8 +2,6 @@
 package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
@@ -12,8 +10,6 @@ import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.EJSmasher;
-import org.usfirst.frc.team1305.robot.subsystems.Elevator;
-import org.usfirst.frc.team1305.robot.subsystems.Forks;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 
@@ -36,14 +32,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	
-	public static final boolean USING_EJSMASHER = false;
 
 	public static OI oi;
 	public static Drivetrain drivetrain;
 	public static Gyroscope gyroscope;
 	public static Claw claw;
-	public static Forks forks;
-	public static Elevator elevator;
 	public static Dash dash;
 	public static Arm arm;
 	public static EJSmasher ejSmasher;
@@ -60,22 +53,15 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	//instantiating all them subsystems.
-		oi = new OI();
+		
 		drivetrain = new Drivetrain();
 		gyroscope  = new Gyroscope();
 		claw       = new Claw();
 		dash 	   = new Dash();
 		arm        = new Arm();
-		//Only the EJ Smasher or the stacker is connected at once.
-		if(!USING_EJSMASHER){
-			forks    = new Forks();
-			elevator = new Elevator();
-		}
-		else{
-			ejSmasher = new EJSmasher();
-		}
+		ejSmasher = new EJSmasher();
+		oi = new OI();
 		
-		gyroscope.gyroInit();
 		
 		//===Add options for autonomous commands here.===
 		//TODO: gray out autos that rely on the stacker being present.
@@ -83,10 +69,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Dance auto", new AutonomousDance());
 		autoChooser.addObject("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
-		if(!USING_EJSMASHER){
-			autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
-			autoChooser.addObject("Tote Auto", new AutoOneTote());
-		}
 		//send the chooser to the dash to get user input.
 		SmartDashboard.putData("Autochooser", autoChooser);
     }
