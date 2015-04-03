@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.commands.drivetrain;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -62,6 +63,7 @@ public class SmoothDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     	//first get the current time from the FPGA
     	t1 = Utility.getFPGATime();
     	//get move and rotate values from the drive stick

@@ -9,6 +9,8 @@ import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.EncoderDrive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.EncoderTurn;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
@@ -72,6 +74,9 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
 		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
 		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
+		autoChooser.addObject("Drive Forward", new EncoderDrive(10, 0.4));
+		autoChooser.addObject("Drive Backward", new EncoderDrive(-10, 0.4));
+		autoChooser.addObject("Turn", new EncoderTurn(90, 0.3));
 //		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
 //		autoChooser.addObject("Dance auto", new AutonomousDance());
 //		autoChooser.addObject("Tote Auto", new AutoOneTote());

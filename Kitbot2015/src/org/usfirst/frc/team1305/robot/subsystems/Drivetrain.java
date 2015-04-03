@@ -5,6 +5,7 @@ import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +20,9 @@ public class Drivetrain extends Subsystem {
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
 	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
+	
+	private Encoder leftEnc = new Encoder(RobotMap.DIO_LEFT_ENC_A, RobotMap.DIO_LEFT_ENC_B);
+	private Encoder rightEnc = new Encoder(RobotMap.DIO_RIGHT_ENC_B, RobotMap.DIO_RIGHT_ENC_A);
 
 	// Timer handles all drive auto movement.
 	private Timer robotSetTimer = new Timer();
@@ -27,6 +31,7 @@ public class Drivetrain extends Subsystem {
 	private static final double ROBOT_DELAY = 0.25;
 	private static final double ROBOT_TIMEOUT = 5;
     private int currentState = 0;
+    private static final double ENCODER_FT_PER_PULSE = 1/186.0;
 
 
 
@@ -36,7 +41,10 @@ public class Drivetrain extends Subsystem {
 	private boolean armPerspective = false;
 	public boolean isLowGear = false;
 
-
+	public Drivetrain(){
+		leftEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
+		rightEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
+	}
 
     @Override
 	public void initDefaultCommand() {
@@ -44,6 +52,20 @@ public class Drivetrain extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new SmoothDrive());
 //    	setDefaultCommand(new PacmanDrive());
+    }
+    
+    public double getLeftEncDistance(){
+    	SmartDashboard.putNumber("Left Encoder", leftEnc.getDistance());
+    	return leftEnc.getDistance();
+    }
+    
+    public double getRightEncDistance(){
+    	SmartDashboard.putNumber("Right Encoder", rightEnc.getDistance());
+    	return rightEnc.getDistance();
+    }
+    
+    public double getRobotSpeed(){
+    	return (leftEnc.getRate() +rightEnc.getRate())/2.0;
     }
 
     /**
@@ -78,17 +100,20 @@ public class Drivetrain extends Subsystem {
      * @param rightValue Handles right base movement of robot.
      */
     public void tankDrive(double leftValue, double rightValue){
+    	getLeftEncDistance();
+    	getRightEncDistance();
+    	SmartDashboard.putNumber("Robot Speed", getRobotSpeed());
     	if(isLowGear){
     		leftValue /= 1.6;
     		rightValue /= 1.6;
     	}
     	if(armPerspective){
-        	drive.tankDrive(-rightValue/1.3, -leftValue/1.3);
+        	drive.tankDrive(-rightValue*0.55, -leftValue*0.55, false);
         	SmartDashboard.putNumber("RightDrive", rightValue);
         	SmartDashboard.putNumber("LeftDrive", leftValue);
     	}
     	else{
-        	drive.tankDrive(leftValue/1.3, rightValue/1.3);
+        	drive.tankDrive(leftValue*0.55, rightValue*0.55, false);
     	}
     }
     /**

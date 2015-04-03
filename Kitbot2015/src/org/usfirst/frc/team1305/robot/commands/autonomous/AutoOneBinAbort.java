@@ -25,9 +25,9 @@ public class AutoOneBinAbort extends CommandGroup {
 //    	addParallel(new AutonomousMobility(0.5, 0.5, 0.5));
 //    	addSequential(new AutonomousArmTransport(1.8));
 //    	addSequential(new ToggleClaw());
-    	addSequential(new AutonomousMobility(0.5, 0.8, 0.8));
-    	addSequential(new AutonomousMobility(0.55, 0.6, -0.6));
-    	addSequential(new AutonomousMobility(5, -0.6, -0.6));
-    	addSequential(new AutonomousMobility(0.4, -0.6, 0.6));
+    	addSequential(new AutonomousMobility(1, 0.5, 0.5));
+//    	addSequential(new AutonomousMobility(0.55, 0.6, -0.6));
+//    	addSequential(new AutonomousMobility(5, -0.6, -0.6));
+//    	addSequential(new AutonomousMobility(0.4, -0.6, 0.6));
     }
 }
