@@ -35,6 +35,10 @@ public class RobotMap {
 	public static final int DIO_STACKER_TRIGGER = 8;
 	public static final int DIO_CLAW_TRIGGER    = 9;
 	public static final int DIO_SMASHER_TRIGGER = 7;
+	public static final int DIO_LEFT_ENC_A 		= 0;
+	public static final int DIO_LEFT_ENC_B 		= 1;
+	public static final int DIO_RIGHT_ENC_A		= 2;
+	public static final int DIO_RIGHT_ENC_B		= 3;
 
 	//Solenoid ports
 	public static final int SOL_STACKER = 0;
@@ -47,8 +51,8 @@ public class RobotMap {
 	public static final int CAN_DEVICE_SHOULDER = 7;//12;
 	public static final int CAN_DEVICE_ELBOW    = 8;//16;
 
-	public static final int CAN_DEVICE_DRIVE_L1 = 1;//13;
-	public static final int CAN_DEVICE_DRIVE_L2 = 2;//14;
-	public static final int CAN_DEVICE_DRIVE_R1 = 9;//19;
-	public static final int CAN_DEVICE_DRIVE_R2 = 10;//11;
+	public static final int CAN_DEVICE_DRIVE_L1 = 13;//1;
+	public static final int CAN_DEVICE_DRIVE_L2 = 14;//2;
+	public static final int CAN_DEVICE_DRIVE_R1 = 19;//9;
+	public static final int CAN_DEVICE_DRIVE_R2 = 11;//10;
 }
