@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.Utility;
  */
 public class AxisSmoother {
 
-	private static double max_rate = 33.3; // units %/second
+	private static double max_rate; // units %/second
 	//values that will be assigned to the subsystem
 	private double outval = 0;
 	//variables used for actual drive smoothing.
@@ -59,6 +59,7 @@ public class AxisSmoother {
 	 */
 	public double process(double inValue){
 		//first get the current time from the FPGA
+		p1 = inValue;
     	t1 = Utility.getFPGATime();
 
         //compute dt and dp
@@ -80,7 +81,6 @@ public class AxisSmoother {
         	if(dp >= 0.0) outval = p0 + dt * max_rate;
         	else outval = p0 - dt * max_rate;
         }
-
         //now we set up the variables for the next run.
         t0 = t1;
         p0 = outval;

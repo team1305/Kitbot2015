@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot.subsystems;
 import org.usfirst.frc.team1305.robot.AxisSmoother;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveRegular;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -100,11 +101,12 @@ public class Drivetrain extends Subsystem {
     		leftValue /= LOWGEAR_MULTIPLIER;
     		rightValue /= LOWGEAR_MULTIPLIER;
     	}
+    	System.out.println("tankdrive with left = " + leftValue + " right = " + rightValue + "smoothing: " + smoothing);
     	if(armPerspective){
-        	drive.tankDrive(-rightValue, -leftValue);
+        	drive.tankDrive(-rightValue, -leftValue, false);
     	}
     	else{
-        	drive.tankDrive(leftValue, rightValue);
+        	drive.tankDrive(leftValue, rightValue, false);
     	}
     }
     

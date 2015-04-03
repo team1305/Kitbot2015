@@ -53,14 +53,19 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	//instantiating all them subsystems.
-		
+		System.out.println("INFO: Creating subsystems...");
 		drivetrain = new Drivetrain();
 		gyroscope  = new Gyroscope();
 		claw       = new Claw();
 		dash 	   = new Dash();
 		arm        = new Arm();
 		ejSmasher = new EJSmasher();
+		System.out.println("INFO: Creating OI...");
+
 		oi = new OI();
+		
+		System.out.println("INFO: Creating Autonomous Chooser...");
+
 		
 		
 		//===Add options for autonomous commands here.===
@@ -71,6 +76,9 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
 		//send the chooser to the dash to get user input.
 		SmartDashboard.putData("Autochooser", autoChooser);
+		
+		System.out.println("INFO: Robot init complete. Waiting for match to start.");
+
     }
 
 	public void disabledPeriodic() {
