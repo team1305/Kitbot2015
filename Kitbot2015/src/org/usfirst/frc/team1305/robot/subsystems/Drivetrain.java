@@ -1,20 +1,30 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.AxisSmoother;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.SmoothDrive;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveRegular;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+
 
 /**
  * Handles all base movement of the robot.
  */
 public class Drivetrain extends Subsystem {
+	private static final double ENCODER_FT_PER_PULSE = 1/186.0;
+	private final double SMOOTHING_MAX_RATE = 33.3;
+	
+	private final double LOWGEAR_MULTIPLIER = 0.6;
+	private final double DRIVE_MULTIPLIER   = 0.75;
 
 	CANTalon ml1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L1);
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
@@ -24,43 +34,38 @@ public class Drivetrain extends Subsystem {
 	private Encoder leftEnc = new Encoder(RobotMap.DIO_LEFT_ENC_A, RobotMap.DIO_LEFT_ENC_B);
 	private Encoder rightEnc = new Encoder(RobotMap.DIO_RIGHT_ENC_B, RobotMap.DIO_RIGHT_ENC_A);
 
-	// Timer handles all drive auto movement.
-	private Timer robotSetTimer = new Timer();
-	private static final double ROBOT_SET_DURATION = 1;
-	private static final double ROBOT_DANCE_DURATION = 1;
-	private static final double ROBOT_DELAY = 0.25;
-	private static final double ROBOT_TIMEOUT = 5;
-    private int currentState = 0;
-    private static final double ENCODER_FT_PER_PULSE = 1/186.0;
-
-
+	BuiltInAccelerometer accel = new BuiltInAccelerometer();
 
 	private RobotDrive drive = new RobotDrive(ml1, ml2, mr1, mr2);
+	
+	private AxisSmoother leftSmoother = new AxisSmoother(SMOOTHING_MAX_RATE);
+	private AxisSmoother rightSmoother = new AxisSmoother(SMOOTHING_MAX_RATE);
 
 	// true if arm-perspective, false if stacker-perspective
 	private boolean armPerspective = false;
 	public boolean isLowGear = false;
 
-	public Drivetrain(){
+
+	public Drivetrain() {
+		accel.setRange(Range.k2G);
 		leftEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
 		rightEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
 	}
 
+
     @Override
 	public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new SmoothDrive());
+    	setDefaultCommand(new DriveSmooth());
 //    	setDefaultCommand(new PacmanDrive());
+
+    	
     }
     
     public double getLeftEncDistance(){
-    	SmartDashboard.putNumber("Left Encoder", leftEnc.getDistance());
     	return leftEnc.getDistance();
     }
     
     public double getRightEncDistance(){
-    	SmartDashboard.putNumber("Right Encoder", rightEnc.getDistance());
     	return rightEnc.getDistance();
     }
     
@@ -69,52 +74,79 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Handles manual driving when smooth drive is not active.
+     * Handles manual driving from regular drive commands.
      * @param moveValue Y-value of joystick passed to method.
      * @param rotateValue X-value of joystick passed to method.
+     * @param smoothing whether or not to use smoothing on the value.
      */
-    public void arcadeDrive(double moveValue, double rotateValue){
-    	//check for low gear
-    	if(isLowGear){
-    		moveValue /= 2.0;
-    		rotateValue /= 2.0;
-    	}
-    	//check perspective and apply
-    	if(armPerspective){
-    		drive.arcadeDrive(-moveValue/1.7, rotateValue/2);
-    		SmartDashboard.putNumber("RightDrive", moveValue);
-        	SmartDashboard.putNumber("LeftDrive", rotateValue);
-    	}
-    	else{
-    		drive.arcadeDrive(moveValue/1.7, rotateValue/2);
-    	}
+
+    public void arcadeDrive(double moveValue, double rotateValue, boolean smoothing){
+    	double left;
+    	double right;
+    	//Decode the move and rotate values into left- and right- tank drive
+    	//values. This if-else block is taken from WPILib RobotDrive.java
+        if (moveValue > 0.0) {
+            if (rotateValue > 0.0) {
+                left = moveValue - rotateValue;
+                right = Math.max(moveValue, rotateValue);
+            } else {
+                left = Math.max(moveValue, -rotateValue);
+                right = moveValue + rotateValue;
+            }
+        } else {
+            if (rotateValue > 0.0) {
+                left = -Math.max(-moveValue, rotateValue);
+                right = moveValue + rotateValue;
+            } else {
+                left = moveValue - rotateValue;
+                right = -Math.max(-moveValue, -rotateValue);
+            }
+        }
+        //now pass on to tankDrive
+        tankDrive(left, right, smoothing);
     }
 
     /**
-     * Handles all movement on the robot base.
-     *
-     * Takes commands from both smooth driving and normal driving,
-     * if overridden manually.  leftValue and rightValue are passed from
-     * the command Drive.
+     * Handles all regular movement from the robot commands
      * @param leftValue Handles left base movement of robot.
      * @param rightValue Handles right base movement of robot.
+     * @param smoothing whether or not to use smooting on the value.
      */
-    public void tankDrive(double leftValue, double rightValue){
-    	getLeftEncDistance();
-    	getRightEncDistance();
-    	SmartDashboard.putNumber("Robot Speed", getRobotSpeed());
-    	if(isLowGear){
-    		leftValue /= 1.6;
-    		rightValue /= 1.6;
+
+    public void tankDrive(double leftValue, double rightValue, boolean smoothing){
+    	//do smoothing calculations
+    	if(smoothing){
+    		leftValue = leftSmoother.process(leftValue);
+    		rightValue = rightSmoother.process(rightValue);
+
     	}
+    	//constant multiple
+    	leftValue *= DRIVE_MULTIPLIER;
+    	rightValue *= DRIVE_MULTIPLIER;
+    	//computing low gear
+    	if(isLowGear){
+    		leftValue /= LOWGEAR_MULTIPLIER;
+    		rightValue /= LOWGEAR_MULTIPLIER;
+    	}
+    	System.out.println("tankdrive with left = " + leftValue + " right = " + rightValue + "smoothing: " + smoothing);
     	if(armPerspective){
-        	drive.tankDrive(-rightValue*0.55, -leftValue*0.55, false);
-        	SmartDashboard.putNumber("RightDrive", rightValue);
-        	SmartDashboard.putNumber("LeftDrive", leftValue);
+
+        	drive.tankDrive(-rightValue, -leftValue, false);
+
     	}
     	else{
-        	drive.tankDrive(leftValue*0.55, rightValue*0.55, false);
+
+        	drive.tankDrive(leftValue, rightValue, false);
     	}
+    }
+    
+    /**
+     * Drive the robot without any sort of special processing. 
+     * @param leftValue
+     * @param rightValue
+     */
+    public void tankDrive_raw(double leftValue, double rightValue){
+    	drive.tankDrive(leftValue, rightValue, false);
     }
     /**
      * Set whether the driving perspective should be of the stacker or the arm.
@@ -156,171 +188,44 @@ public class Drivetrain extends Subsystem {
     public boolean getLowGear(){
     	return this.isLowGear;
     }
-
+    
     /**
-     * Handles forward movement over bump into auto zone in auto.
-     *
-     * Sets speed using tankDrive method, uses constant ROBOT_SET_DURATION
-     * to determine length of drive.  robotSetTimer causes method to proceed.
-     * @return Returns true when finished, false while running.
+     * stop all robot movement
      */
-    public boolean autonomousMobility(double duration, double leftSpeed, double rightSpeed){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
 
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>= duration)
-            {
-
-                currentState++;
-            }
-            drive.tankDrive(leftSpeed,rightSpeed);
-            break;
-        case 2:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            break;
-    }
-    if(currentState == 2){
-  		return true;
-   	}else{
-   		return false;
-   	}    
-}
-
-    /**
-     * Drives forward until sneezeguard sensor is triggered.
-     * @param leftSpeed Controls speed of left motors
-     * @param rightSpeed Controls speed of right motors
-     * @return Returns true when finished
-     */
-    public boolean autonomousTote(double leftSpeed, double rightSpeed){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
-
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>= ROBOT_TIMEOUT)
-            {
-
-                currentState++;
-            }else if(Robot.forks.trigger.get() == false){
-	    		currentState++;
-            }else{ 
-            	drive.tankDrive(leftSpeed, rightSpeed);
-            }
-            break;
-        case 2:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            break;
-    } 
-    	if(currentState == 2){
-    		return true;
-    	}else{
-    		return false;
-    	}
+    public void stop(){
+    	drive.tankDrive(0.0, 0.0);
+    	leftSmoother.reset();
+    	rightSmoother.reset();
     }
     
     /**
-     * Drives forward until claw sensor is triggered.
-     * @param leftSpeed Controls speed of left motors
-     * @param rightSpeed Controls speed of right motors
-     * @return Returns true when finished
+     * Compute the tilt of the robot, in the forward-backwards orientation.
+     * 
+     * If the robot is tilting so that the arm is down, the returned angle 
+     * @return The tilt of the robot, in degrees from the vertical.
      */
-    public boolean autonomousBin(double leftSpeed, double rightSpeed){
-    	switch (currentState){
-        case 0:
-        	currentState = 0;
-        	robotSetTimer.reset();
-            robotSetTimer.start();
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>= ROBOT_TIMEOUT)
-            {
 
-                currentState++;
-            }else if(Robot.claw.trigger.get() == false){
-	    		currentState++;
-            }else{ 
-            	drive.tankDrive(leftSpeed, rightSpeed);
-            }
-            break;
-        case 2:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            break;
-    } 
-    	if(currentState == 2){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    
+    public double getTilt(){
+    	// z is the unit vector pointing down the vertical axis of the robot
+    	// z = [0, 1]
+    	// u is the vector pointing down the true "down" direction
+    	// u = [accel.getY, accel.getZ]
+    	// the dot product z.u is the value u.getZ
+    	double ZdotU = accel.getZ();
+    	// magnitude of Z is 1, 
+    	// compute the magnitude of U
+    	double u1 = accel.getY();
+    	double u2 = accel.getZ();
+    	double magU = Math.sqrt(u1*u1 + u2*u2);
+    	// now compute theta
+    	if (ZdotU / (magU * 1) == 0) return 0;
+    	double theta = Math.acos(ZdotU / (magU * 1)) * 180.0 / Math.PI;
+    	// now if the y direction is positive, report a positive angle, otherwise negative
+    	return Math.signum(u1) * theta;
     }
-    
 
-    /**
-     * Mainly just to show off in autonomous, honestly.
-     * @return False while running, true when complete.
-     */
-    public boolean autonomousDance(){
-    	switch (currentState){
-        case 0:
-            robotSetTimer.start();
 
-            currentState++;
-            break;
-        case 1:
-            if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(-0.5,0.5);
-            break;
-        case 2:
-        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(0.5,-0.5);
-        	break;
-        case 3:
-        	if (robotSetTimer.get()>=ROBOT_DANCE_DURATION)
-            {
-                currentState++;
-                robotSetTimer.reset();
-                robotSetTimer.start();
-            }
-            drive.tankDrive(-0.3,0.3);
-        	break;
-        case 4:
-            drive.tankDrive(0,0);
-            currentState = 0;
-            robotSetTimer.stop();
-            robotSetTimer.reset();
-            return true;
-    }
-    return false;
-    }
 
 }
 

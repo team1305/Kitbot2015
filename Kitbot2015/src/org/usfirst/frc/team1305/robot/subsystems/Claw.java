@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
-import org.usfirst.frc.team1305.robot.commands.claw.ClawDoNothing;
+import org.usfirst.frc.team1305.robot.commands.claw.ClawAutoGrab;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -17,11 +17,11 @@ public class Claw extends Subsystem {
 
 	private Solenoid ClawAct = new Solenoid(RobotMap.SOL_CLAW);
 
-	public DigitalInput trigger = new DigitalInput(RobotMap.DIO_CLAW_TRIGGER);
+	private DigitalInput trigger = new DigitalInput(RobotMap.DIO_CLAW_TRIGGER);
 
-	// Prevents autotrigger from closing when opened.
+	// Prevents autotrigger from closing immediately  when opened.
 	private Timer triggerTimer = new Timer();
-	private final double TRIGGER_LOCKOUT = 3;
+	private final double TRIGGER_LOCKOUT = 3.0;
 	
 	private boolean isClosed = false;
 
@@ -30,27 +30,38 @@ public class Claw extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	//setDefaultCommand();
-    	setDefaultCommand(new ClawDoNothing());
+    	setDefaultCommand(new ClawAutoGrab());
     }
     
     /**
-     * Handles manually opening and closing claw.
+     * Manually open or close the claw.
      */
     public  void toggleGrab(){
     	if (isClosed == true){
     		triggerTimer.reset();
     		isClosed = false;
-//    		SmartDashboard.putString("Claw Status :", "Open!");
     		ClawAct.set(false);
-
     	} else {
     		isClosed = true;
-//    		SmartDashboard.putString("Claw Status :", "Close!");
     		ClawAct.set(true);
     	}
+    }
+    
+    /**
+     * explicitly close the claw
+     */
+    public void close(){
+    	isClosed = true;
+    	ClawAct.set(true);
+    }
+    
+    /**
+     * explicitly open the claw.
+     */
+    public void open(){
+    	triggerTimer.reset();
+    	isClosed = false;
+    	ClawAct.set(false);
     }
 
     /**
@@ -59,11 +70,28 @@ public class Claw extends Subsystem {
      * If TRIGGER_LOCKOUT is still in effect, this will not activate.
      */
     public void autoGrab(){
-    	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
-    	ClawAct.set(true);
-    	isClosed = true;
+    	if (getTrigger() == true){
+	    	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
+		    	ClawAct.set(true);
+		    	isClosed = true;
+	    	}
     	}
 
+    }
+    /**
+     * Return the state of the claw trigger. 
+     * @return true if the trigger is triggered, false otherwise.
+     */
+    public boolean getTrigger(){
+    	return !trigger.get();
+    }
+    
+    /**
+     * Return the state of the claw	
+     * @return true if the claw is closed, false otherwise.
+     */
+    public boolean getClosed(){
+    	return this.isClosed;
     }
 
 }

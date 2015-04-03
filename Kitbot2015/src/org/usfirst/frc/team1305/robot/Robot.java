@@ -4,19 +4,15 @@ package org.usfirst.frc.team1305.robot;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinAbort;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.EncoderDrive;
-import org.usfirst.frc.team1305.robot.commands.drivetrain.EncoderTurn;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoder;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
+import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.EJSmasher;
-import org.usfirst.frc.team1305.robot.subsystems.Elevator;
-import org.usfirst.frc.team1305.robot.subsystems.Forks;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -37,15 +33,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
 
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Gyroscope gyroscope   = new Gyroscope();
-	public static final Claw claw             = new Claw();
-	public static final Arm arm               = new Arm();
-	public static final Forks forks           = new Forks();
-	public static final Elevator elevator     = new Elevator();
-	public static final EJSmasher ejsmasher     = new EJSmasher();
+
+	public static Drivetrain drivetrain;
+	public static Gyroscope gyroscope;
+	public static Claw claw;
+	public static Dash dash;
+	public static Arm arm;
+	public static EJSmasher ejSmasher;
 
 	//camera server aka camera declaration
 	CameraServer server;
@@ -58,30 +55,40 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	//set oi
+    	//instantiating all them subsystems.
+		System.out.println("INFO: Creating subsystems...");
+		drivetrain = new Drivetrain();
+		gyroscope  = new Gyroscope();
+		claw       = new Claw();
+		dash 	   = new Dash();
+		arm        = new Arm();
+		ejSmasher = new EJSmasher();
+		System.out.println("INFO: Creating OI...");
+
 		oi = new OI();
-		//Gets instances of camera from camera server
-		//server = CameraServer.getInstance();
-		//set quality of video feed
-        //server.setQuality(80);
-        //the camera name (ex "cam0") can be found through the roborio web interface
-        //starts camera feed
-        //TODO: REMEMBER THIS
-        //server.startAutomaticCapture("cam0");
-		gyroscope.gyroInit();
-		//===Add options for autonomous commands here.===
+
+		
+		System.out.println("INFO: Creating Autonomous Chooser...");
+
+		
+		
+
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
 		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
 		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
-		autoChooser.addObject("Drive Forward", new EncoderDrive(10, 0.4));
-		autoChooser.addObject("Drive Backward", new EncoderDrive(-10, 0.4));
-		autoChooser.addObject("Turn", new EncoderTurn(90, 0.3));
+		autoChooser.addObject("Drive Forward", new DriveEncoder(10, 0.4));
+		autoChooser.addObject("Drive Backward", new DriveEncoder(-10, 0.4));
 //		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
 //		autoChooser.addObject("Dance auto", new AutonomousDance());
 //		autoChooser.addObject("Tote Auto", new AutoOneTote());
+
 		autoChooser.addObject("Null auto", new Wait(1));
+		autoChooser.addObject("Dance auto", new AutonomousDance());
 		SmartDashboard.putData("Autochooser", autoChooser);
+		
+		System.out.println("INFO: Robot init complete. Waiting for match to start.");
+
     }
 
 	public void disabledPeriodic() {
@@ -116,9 +123,6 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	//TODO: check if this is correct or just do command.start()
-    	//Scheduler.getInstance().add(new ReInit());
-//    	gyroscope.gyroInit();
     }
 
     /**
@@ -126,7 +130,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-//        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     /**
