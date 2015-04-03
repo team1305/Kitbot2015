@@ -29,6 +29,10 @@ public class RobotMap {
 	public static final int ANALOG_POT_WRIST    = 3;
 
 	//Digital Ports
+	public static final int DIO_LEFT_ENC_A 		= 0;
+	public static final int DIO_LEFT_ENC_B 		= 1;
+	public static final int DIO_RIGHT_ENC_A		= 2;
+	public static final int DIO_RIGHT_ENC_B		= 3;
 	public static final int DIO_SMASHER_WINCH_LIMIT = 8;
 	public static final int DIO_CLAW_TRIGGER    = 9;
 

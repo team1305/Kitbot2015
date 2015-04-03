@@ -5,6 +5,7 @@ import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
+import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoder;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Dash;
@@ -74,6 +75,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Dance auto", new AutonomousDance());
 		autoChooser.addObject("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
+		autoChooser.addObject("Drive Straight", new DriveEncoder(10, 0.4));
 		//send the chooser to the dash to get user input.
 		SmartDashboard.putData("Autochooser", autoChooser);
 		

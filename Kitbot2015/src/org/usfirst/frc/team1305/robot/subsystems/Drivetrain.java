@@ -8,6 +8,7 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSmooth;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
  * Handles all base movement of the robot.
  */
 public class Drivetrain extends Subsystem {
+	private static final double ENCODER_FT_PER_PULSE = 1/186.0;
 	private final double SMOOTHING_MAX_RATE = 33.3;
 	
 	private final double LOWGEAR_MULTIPLIER = 0.6;
@@ -26,6 +28,9 @@ public class Drivetrain extends Subsystem {
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
 	CANTalon mr1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R1);
 	CANTalon mr2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_R2);
+	
+	private Encoder leftEnc = new Encoder(RobotMap.DIO_LEFT_ENC_A, RobotMap.DIO_LEFT_ENC_B);
+	private Encoder rightEnc = new Encoder(RobotMap.DIO_RIGHT_ENC_B, RobotMap.DIO_RIGHT_ENC_A);
 	
 	BuiltInAccelerometer accel = new BuiltInAccelerometer();
 
@@ -40,6 +45,8 @@ public class Drivetrain extends Subsystem {
 
 	public Drivetrain() {
 		accel.setRange(Range.k2G);
+		leftEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
+		rightEnc.setDistancePerPulse(ENCODER_FT_PER_PULSE);
 	}
 
 
@@ -47,6 +54,19 @@ public class Drivetrain extends Subsystem {
 	public void initDefaultCommand() {
     	setDefaultCommand(new DriveSmooth());
 //    	setDefaultCommand(new PacmanDrive());
+    	
+    }
+    
+    public double getLeftEncDistance(){
+    	return leftEnc.getDistance();
+    }
+    
+    public double getRightEncDistance(){
+    	return rightEnc.getDistance();
+    }
+    
+    public double getRobotSpeed(){
+    	return (leftEnc.getRate() +rightEnc.getRate())/2.0;
     }
 
     /**
@@ -116,7 +136,7 @@ public class Drivetrain extends Subsystem {
      * @param rightValue
      */
     public void tankDrive_raw(double leftValue, double rightValue){
-    	drive.tankDrive(leftValue, rightValue);
+    	drive.tankDrive(leftValue, rightValue, false);
     }
     /**
      * Set whether the driving perspective should be of the stacker or the arm.
