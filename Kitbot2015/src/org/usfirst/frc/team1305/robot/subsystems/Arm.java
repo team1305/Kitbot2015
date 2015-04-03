@@ -368,13 +368,13 @@ public class Arm extends Subsystem {
             currentState++;
             break;
         case 1:
-            if(armTimer.get()>=1){
+            if(armTimer.get()>=0.8){
             	currentState++;
             }
             Robot.arm.ArmPresets(ARM_PRESET_MAX_STACK);
             break;
         case 2:
-        	if (armTimer.get()>= duration+1)
+        	if (armTimer.get()>= duration+0.8)
             {
                 currentState++;
             }

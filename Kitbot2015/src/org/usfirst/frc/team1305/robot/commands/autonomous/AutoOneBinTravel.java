@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class AutoOneBinStep extends CommandGroup {
+public class AutoOneBinTravel extends CommandGroup {
     
-    public  AutoOneBinStep() {
+    public  AutoOneBinTravel() {
     	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
     	addSequential(new AutonomousArmExtend(2.7));
     	addSequential(new AutonomousBin(-0.7,-0.7));
@@ -25,9 +25,9 @@ public class AutoOneBinStep extends CommandGroup {
     	addParallel(new AutonomousMobility(0.5, 0.5, 0.5));
     	addSequential(new AutonomousArmTransport(1.8));
     	addSequential(new ToggleClaw());
-    	addSequential(new AutonomousMobility(1, 0.6, 0.6));
-    	addSequential(new AutonomousMobility(0.5, 0.6, -0.6));
-    	addSequential(new AutonomousMobility(1.2, -0.6, -0.6));
+    	addSequential(new AutonomousMobility(1, 0.8, 0.8));
+    	addSequential(new AutonomousMobility(0.55, 0.6, -0.6));
+    	addSequential(new AutonomousMobility(5, -0.6, -0.6));
     	addSequential(new AutonomousMobility(0.4, -0.6, 0.6));
     }
 }

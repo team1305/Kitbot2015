@@ -1,7 +1,9 @@
 
 package org.usfirst.frc.team1305.robot;
 
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinAbort;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneTote;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoThreeBinStaging;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
@@ -10,10 +12,10 @@ import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.subsystems.Arm;
 import org.usfirst.frc.team1305.robot.subsystems.Claw;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1305.robot.subsystems.EJSmasher;
 import org.usfirst.frc.team1305.robot.subsystems.Elevator;
 import org.usfirst.frc.team1305.robot.subsystems.Forks;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
-
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -41,6 +43,7 @@ public class Robot extends IterativeRobot {
 	public static final Arm arm               = new Arm();
 	public static final Forks forks           = new Forks();
 	public static final Elevator elevator     = new Elevator();
+	public static final EJSmasher ejsmasher     = new EJSmasher();
 
 	//camera server aka camera declaration
 	CameraServer server;
@@ -67,9 +70,11 @@ public class Robot extends IterativeRobot {
 		//===Add options for autonomous commands here.===
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
-		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
-		autoChooser.addObject("Dance auto", new AutonomousDance());
-		autoChooser.addObject("Tote Auto", new AutoOneTote());
+		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
+		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
+//		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());
+//		autoChooser.addObject("Dance auto", new AutonomousDance());
+//		autoChooser.addObject("Tote Auto", new AutoOneTote());
 		autoChooser.addObject("Null auto", new Wait(1));
 		SmartDashboard.putData("Autochooser", autoChooser);
     }

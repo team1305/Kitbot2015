@@ -34,6 +34,7 @@ public class RobotMap {
 	//Digital Ports
 	public static final int DIO_STACKER_TRIGGER = 8;
 	public static final int DIO_CLAW_TRIGGER    = 9;
+	public static final int DIO_SMASHER_TRIGGER = 7;
 
 	//Solenoid ports
 	public static final int SOL_STACKER = 0;
