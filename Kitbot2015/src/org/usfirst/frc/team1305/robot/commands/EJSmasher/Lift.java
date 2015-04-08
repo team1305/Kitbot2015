@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Lift extends Command {
 
     public Lift() {
-    	requires(Robot.ejsmasher);
+    	requires(Robot.ejSmasher);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,7 @@ public class Lift extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//sets Claw toggle function from claw subsystem to command
-    	Robot.ejsmasher.lift();
+    	Robot.ejSmasher.winch_stop();
     }
 
     // Make this return true when this Command no longer needs to run execute()

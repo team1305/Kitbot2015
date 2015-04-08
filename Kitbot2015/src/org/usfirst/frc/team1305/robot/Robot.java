@@ -1,10 +1,10 @@
 
 package org.usfirst.frc.team1305.robot;
 
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinAbort;
+//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinAbort;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
-import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
+//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
+//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoder;
@@ -74,9 +74,9 @@ public class Robot extends IterativeRobot {
 		
 
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
-		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
-		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
-		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
+//		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
+//		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
+//		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
 		autoChooser.addObject("Drive Forward", new DriveEncoder(10, 0.4));
 		autoChooser.addObject("Drive Backward", new DriveEncoder(-10, 0.4));
 //		autoChooser.addObject("Three Bin Staging", new AutoThreeBinStaging());

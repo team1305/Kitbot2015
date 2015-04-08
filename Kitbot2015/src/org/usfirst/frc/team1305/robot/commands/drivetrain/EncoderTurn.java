@@ -61,7 +61,7 @@ public class EncoderTurn extends Command {
     	SmartDashboard.putNumber("Right Value Encoder", r);
     	SmartDashboard.putBoolean("IS THIS WORKING", rightDistance <= targetDistance);
 		SmartDashboard.putNumber("Right Distance", rightDistance);
-    	Robot.drivetrain.tankDrive(l, r);
+    	Robot.drivetrain.tankDrive(l, r, false);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -73,13 +73,13 @@ public class EncoderTurn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.drivetrain.tankDrive(0, 0);
+    	Robot.drivetrain.tankDrive(0, 0, false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.drivetrain.tankDrive(0, 0);
+    	Robot.drivetrain.tankDrive(0, 0, false);
     }
 
 }

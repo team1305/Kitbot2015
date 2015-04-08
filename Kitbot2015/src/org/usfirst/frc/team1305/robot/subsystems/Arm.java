@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * New arm class which uses proper PID controllers to control the joints.
@@ -62,12 +63,12 @@ public class Arm extends Subsystem {
 	}
 	
 	//Max and min extents for joints: potientiometer readings.
-	private final double SHOULDER_MIN = 0.107;
-	private final double SHOULDER_MAX = 0.48;
-	private final double ELBOW_MIN    = 0.317;
-	private final double ELBOW_MAX    = 0.637;
-	private final double WRIST_MIN    = 0.169;
-	private final double WRIST_MAX    = 0.39;
+	private final double SHOULDER_MIN = 0.000;
+	private final double SHOULDER_MAX = 0.999;
+	private final double ELBOW_MIN    = 0.000;
+	private final double ELBOW_MAX    = 0.999;
+	private final double WRIST_MIN    = 0.000;
+	private final double WRIST_MAX    = 0.999;
 	//PID Constants
 	private final double P_s = 24.0;
 	private final double I_s = 0.0;
@@ -305,18 +306,27 @@ public class Arm extends Subsystem {
     	switch(mode){  
 		case automaticWrist:
 			motor_s.set(shoulderAxis);
+			SmartDashboard.putNumber("shoulder motor", shoulderAxis);
 			motor_e.set(elbowAxis);
+			SmartDashboard.putNumber("elbow motor", elbowAxis);
 			pid_w.setSetpoint(computeAutoWristPotValue());
+			SmartDashboard.putNumber("wrist motor", pid_w.get());
 			break;
 		case manualWrist:
 			motor_s.set(shoulderAxis);
+			SmartDashboard.putNumber("shoulder motor", shoulderAxis);
 			motor_e.set(elbowAxis);
+			SmartDashboard.putNumber("elbow motor", elbowAxis);
 			motor_w.set(wristAxis);
+			SmartDashboard.putNumber("wrist motor", wristAxis);
 			break;
 		case preset:
 			pid_s.setSetpoint(shoulder_angle2pot(preset.shoulderAngle));
+			SmartDashboard.putNumber("shoulder motor", pid_s.get());
 			pid_e.setSetpoint(elbow_angle2pot(preset.elbowAngle));
+			SmartDashboard.putNumber("elbow motor", pid_e.get());
 			pid_w.setSetpoint(computeAutoWristPotValue());
+			SmartDashboard.putNumber("wrist motor", pid_w.get());
 			break;
     	}
 
