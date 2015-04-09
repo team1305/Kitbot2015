@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Moves the robot forward until the claw is triggered. A timeout is optional.
+ * @deprecated use {@link DriveEncoderUntilClawTrig}
  */
 public class DriveUntilClawTrig extends Command {
 
@@ -22,6 +23,7 @@ public class DriveUntilClawTrig extends Command {
 	 * Automatically closes the claw when finished.
 	 * @param leftSpeed left wheel speed
 	 * @param rightSpeed right wheel speed
+	 * @deprecated use {@link DriveEncoderUntilClawTrig}
 	 */
     public DriveUntilClawTrig(double leftSpeed, double rightSpeed) {
     	requires(Robot.drivetrain);

@@ -39,7 +39,8 @@ public class RobotMap {
 
 
 	//Solenoid ports
-	public static final int SOL_CLAW    = 2;
+	public static final int SOL_SMASHER_TRIGGER = 1;
+	public static final int SOL_CLAW            = 2;
 
 	//CAN Devices Numbers
 	public static final int CAN_DEVICE_SMASHER  = 15;//1;

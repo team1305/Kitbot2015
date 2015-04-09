@@ -12,14 +12,36 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveToggleGear;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-
-	// xbox axis reference
-
-    //Attack 3 axis reference
+	/**
+	 * Class to handle rumbling the joystick for a set time.
+	 */
+	private class Rumbler implements Runnable{
+		private Joystick s;
+		private double duration;
+		public Rumbler(Joystick stick, double duration){
+			s = stick;
+			this.duration = duration;
+		}
+		@Override
+		public void run() {
+			s.setRumble(RumbleType.kLeftRumble,  1.0f);
+			s.setRumble(RumbleType.kRightRumble, 1.0f);
+			//we're allowed to delay here because we're running in a seperate thread.
+			Timer.delay(duration);
+			s.setRumble(RumbleType.kLeftRumble,  0.0f);
+			s.setRumble(RumbleType.kRightRumble, 0.0f);
+		}
+	}
+	
+	/**
+	 * Button abstraction for attack3 joysticks
+	 */
     public static class ATTACK3{
     	private ATTACK3(){
     		return; // prevent instances with private constructor
@@ -28,7 +50,10 @@ public class OI {
 		public static final int AXIS_X = 0;
 		public static final int AXIS_Y = 1;
     }
-    //F310 Button reference
+    
+    /**
+     * Button abstraction for F310 or similar joysticks (x-mode).
+     */
 	public static class F310{
 		private F310(){
 			return; // prevent instances with private contstructor
@@ -68,9 +93,9 @@ public class OI {
     Button armPerspective;
     Button stackPerspective;
     Button toggleGear;
-    Button forkDeployment;
-    Button stackerMoveUp;
-    Button stackerMoveDown;
+    Button smasherAutoRetract;
+    Button smasherMoveUp;
+    Button smasherMoveDown;
 
     //arm stick functions
     Button clawOpenClose;
@@ -88,20 +113,19 @@ public class OI {
      * same throughout.
      */
 	public OI(){
-	    armPerspective   = new JoystickButton(driveStick, 7);
-	    stackPerspective = new JoystickButton(driveStick, 6);
-	    toggleGear       = new JoystickButton(driveStick, 5);
-	    forkDeployment   = new JoystickButton(driveStick, 4);
-	    stackerMoveDown  = new JoystickButton(driveStick, 3);
-	    stackerMoveUp    = new JoystickButton(driveStick, 2);
-	    forkOpenClose    = new JoystickButton(driveStick, 1);
+	    armPerspective     = new JoystickButton(driveStick, 7);
+	    stackPerspective   = new JoystickButton(driveStick, 6);
+	    toggleGear         = new JoystickButton(driveStick, 5);
+	    smasherAutoRetract = new JoystickButton(driveStick, 4);
+	    smasherMoveDown    = new JoystickButton(driveStick, 3);
+	    smasherMoveUp      = new JoystickButton(driveStick, 2);
 
-		armPerspective.whileHeld  (new DriveSetArmPerspective());
-		stackPerspective.whileHeld(new DriveSetStackerPerspective());
-		toggleGear.whenPressed    (new DriveToggleGear());
-		stackerMoveDown.whileHeld(new SmasherManualDeploy());
-		stackerMoveUp.whileHeld(new SmasherManualRetract());
-		forkDeployment.whenPressed(new SmasherAutoRetract());
+		armPerspective.whileHeld      (new DriveSetArmPerspective());
+		stackPerspective.whileHeld    (new DriveSetStackerPerspective());
+		toggleGear.whenPressed        (new DriveToggleGear());
+		smasherAutoRetract.whenPressed(new SmasherAutoRetract());
+		smasherMoveDown.whileHeld     (new SmasherManualDeploy());
+		smasherMoveUp.whileHeld       (new SmasherManualRetract());
 		
 
 
@@ -147,6 +171,15 @@ public class OI {
     }
     public double getArmAxis(int axis){
     	return armStick.getRawAxis(axis);
+    }
+    
+    /**
+     * Rumble the arm controller for the specified number of seconds
+     * @param seconds how long to rumble for.
+     */
+    public void armRumble(double seconds){
+    	Thread t = new Thread(new Rumbler(armStick, seconds));
+    	t.start();
     }
 
 }

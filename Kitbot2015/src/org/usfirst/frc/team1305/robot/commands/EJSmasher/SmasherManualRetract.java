@@ -15,16 +15,16 @@ public class SmasherManualRetract extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(!Robot.ejSmasher.getTrigger()) Robot.ejSmasher.winch_up();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ejSmasher.winch_up();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.ejSmasher.getTrigger();
+        return false;
     }
 
     // Called once after isFinished returns true

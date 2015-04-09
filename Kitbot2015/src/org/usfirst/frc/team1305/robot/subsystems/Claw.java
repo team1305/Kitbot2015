@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
+import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.RobotMap;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawAutoGrab;
 
@@ -22,6 +23,7 @@ public class Claw extends Subsystem {
 	// Prevents autotrigger from closing immediately  when opened.
 	private Timer triggerTimer = new Timer();
 	private final double TRIGGER_LOCKOUT = 3.0;
+	private final double RUMBLE_DURATION = 0.1;
 	
 	private boolean isClosed = false;
 
@@ -53,6 +55,7 @@ public class Claw extends Subsystem {
     public void close(){
     	isClosed = true;
     	ClawAct.set(true);
+		Robot.oi.armRumble(RUMBLE_DURATION);
     }
     
     /**
@@ -62,6 +65,7 @@ public class Claw extends Subsystem {
     	triggerTimer.reset();
     	isClosed = false;
     	ClawAct.set(false);
+		Robot.oi.armRumble(RUMBLE_DURATION);
     }
 
     /**
@@ -74,6 +78,7 @@ public class Claw extends Subsystem {
 	    	if(triggerTimer.get() >= TRIGGER_LOCKOUT){
 		    	ClawAct.set(true);
 		    	isClosed = true;
+	    		Robot.oi.armRumble(RUMBLE_DURATION);
 	    	}
     	}
 

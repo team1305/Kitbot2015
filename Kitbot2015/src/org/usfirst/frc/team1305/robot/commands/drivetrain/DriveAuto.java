@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Moves robot forward in autonomous, calls Drivetrain subsystem.
+ * 
+ * @deprecated use DriveEncoder command
  */
 public class DriveAuto extends Command {
 
@@ -16,6 +18,12 @@ public class DriveAuto extends Command {
 	
 	Timer t = new Timer();
 	
+	/**
+	 * @deprecated use DriveEncoder command
+	 * @param time
+	 * @param leftSpeed
+	 * @param rightSpeed
+	 */
     public DriveAuto(double time, double leftSpeed, double rightSpeed) {
     	requires(Robot.drivetrain);
     	duration = time;
