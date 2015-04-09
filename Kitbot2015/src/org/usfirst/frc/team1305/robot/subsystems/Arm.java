@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1305.robot.subsystems;
 
 import org.usfirst.frc.team1305.robot.RobotMap;
+import org.usfirst.frc.team1305.robot.commands.arm.ArmManualControl;
 
 import com.sun.javafx.css.CalculatedValue;
 
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,7 +58,7 @@ public class Arm extends Subsystem {
 		 * The elbow angle is the bottom angle, measured between the first and 
 		 * second beams.
 		 */
-		public static final Preset PRESET_TRANSPORT = new Preset(0, 0, "Transport");
+		public static final Preset PRESET_TRANSPORT = new Preset(93, 92, "Transport");
 		public static final Preset PRESET_EXTENDED  = new Preset(0, 0, "Extended");
 		public static final Preset PRESET_MAXSTACK  = new Preset(0, 0, "Max Stack");
 		//=====================================================================
@@ -107,9 +109,9 @@ public class Arm extends Subsystem {
 	//=========================================================================
 	
 	//Motor directions. 1 if +motor => +pot, false if +mot => -pot
-	private final int WRIST_MOTORDIR    = 1;
-	private final int ELBOW_MOTORDIR    = 1;
-	private final int SHOULDER_MOTORDIR = 1;
+	private final int WRIST_MOTORDIR    = -1;
+	private final int ELBOW_MOTORDIR    = -1;
+	private final int SHOULDER_MOTORDIR = -1;
 	
 	//Arm geometry constants
 	//lengths of the arm segments
@@ -130,6 +132,10 @@ public class Arm extends Subsystem {
 	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
 	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
 	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	
+//	private Talon motor_s  = new Talon(0);
+//	private Talon motor_e  = new Talon(1);
+//	private Talon motor_w  = new Talon(2);
 	
 	private PIDController pid_s = new PIDController(P_s, I_s, D_s, pot_s, motor_s);
 	private PIDController pid_e = new PIDController(P_e, I_e, D_e, pot_e, motor_e);
@@ -184,7 +190,7 @@ public class Arm extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-
+    	setDefaultCommand(new ArmManualControl());
 
     }
     
@@ -306,27 +312,18 @@ public class Arm extends Subsystem {
     	switch(mode){  
 		case automaticWrist:
 			motor_s.set(shoulderAxis);
-			SmartDashboard.putNumber("shoulder motor", shoulderAxis);
 			motor_e.set(elbowAxis);
-			SmartDashboard.putNumber("elbow motor", elbowAxis);
 			pid_w.setSetpoint(computeAutoWristPotValue());
-			SmartDashboard.putNumber("wrist motor", pid_w.get());
 			break;
 		case manualWrist:
 			motor_s.set(shoulderAxis);
-			SmartDashboard.putNumber("shoulder motor", shoulderAxis);
 			motor_e.set(elbowAxis);
-			SmartDashboard.putNumber("elbow motor", elbowAxis);
 			motor_w.set(wristAxis);
-			SmartDashboard.putNumber("wrist motor", wristAxis);
 			break;
 		case preset:
 			pid_s.setSetpoint(shoulder_angle2pot(preset.shoulderAngle));
-			SmartDashboard.putNumber("shoulder motor", pid_s.get());
 			pid_e.setSetpoint(elbow_angle2pot(preset.elbowAngle));
-			SmartDashboard.putNumber("elbow motor", pid_e.get());
 			pid_w.setSetpoint(computeAutoWristPotValue());
-			SmartDashboard.putNumber("wrist motor", pid_w.get());
 			break;
     	}
 
@@ -446,6 +443,26 @@ public class Arm extends Subsystem {
 			return pot_w.get();
 		default:
 			return Double.NaN;
+    	}
+    }
+    
+    /**
+     * Get the motor value for the specified joint.
+     * 
+     * The CalculatedWrist argument will return 0.
+     */
+    public double getMotor(Joint j){
+    	switch(j){
+    	case calculatedWrist:
+    		return 0.0;
+    	case elbow:
+    		return motor_e.get();
+    	case shoulder:
+    		return motor_s.get();
+    	case wrist:
+    		return motor_w.get();
+    	default:
+    		return 0.0;
     	}
     }
 }

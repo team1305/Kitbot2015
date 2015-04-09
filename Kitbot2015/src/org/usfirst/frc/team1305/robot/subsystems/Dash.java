@@ -15,60 +15,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * order to find required data.
  */
 public class Dash extends Subsystem {
-	
-	//=========================================================================
-	//=========== Subsystem Variables =========================================
-	//=========================================================================
-	
-	//**NewArm**
-	Preset arm_preset;
-	ArmMode arm_mode;
-	
-	double arm_shoulderAngle;
-	double arm_shoulderReading;
-	double arm_elbowAngle;
-	double arm_elbowReading;
-	double arm_wristAngle;
-	double arm_wristReading;
-	double arm_calculatedWristAngle;
-	double arm_calculatedWristReading;
-	
-	//**Claw**
-	boolean claw_isOpen;
-	boolean claw_limitState;
-	
-	//**Drivetrain**
-	boolean drive_isarmPerspective;
-	boolean drive_isLowGear;
-	double  drive_tiltAngle;
-	
-	//**Elevator**
-	
-	
-	//**Forks**
-	boolean forks_isOpen;
-	boolean forks_LimitState;
-	boolean forks_isDeployed;
-	
-	//**Gyroscope**
-	double gyro_rawAngle;
-	double gyro_constrainedAngle;
 
     public void initDefaultCommand() {
         setDefaultCommand(new DashUpdate());
     }
     
     private void update_arm(){
-    	arm_preset 				   = Robot.arm.getPreset();
-    	arm_mode				   = Robot.arm.getMode();
-    	arm_calculatedWristAngle   = Robot.arm.getAngle(Joint.calculatedWrist);
-    	arm_calculatedWristReading = Robot.arm.getRaw(Joint.calculatedWrist);
-    	arm_elbowAngle             = Robot.arm.getAngle(Joint.elbow);
-    	arm_elbowReading           = Robot.arm.getRaw(Joint.elbow);
-    	arm_shoulderAngle          = Robot.arm.getAngle(Joint.shoulder);
-    	arm_shoulderReading        = Robot.arm.getRaw(Joint.shoulder);
-    	arm_wristAngle			   = Robot.arm.getAngle(Joint.wrist);
-    	arm_wristReading		   = Robot.arm.getRaw(Joint.wrist);
+    	Preset arm_preset 				   = Robot.arm.getPreset();
+    	ArmMode arm_mode				   = Robot.arm.getMode();
+    	double arm_calculatedWristAngle   = Robot.arm.getAngle(Joint.calculatedWrist);
+    	double arm_calculatedWristReading = Robot.arm.getRaw(Joint.calculatedWrist);
+    	double arm_elbowAngle             = Robot.arm.getAngle(Joint.elbow);
+    	double arm_elbowReading           = Robot.arm.getRaw(Joint.elbow);
+    	double arm_shoulderAngle          = Robot.arm.getAngle(Joint.shoulder);
+    	double arm_shoulderReading        = Robot.arm.getRaw(Joint.shoulder);
+    	double arm_wristAngle			   = Robot.arm.getAngle(Joint.wrist);
+    	double arm_wristReading		   = Robot.arm.getRaw(Joint.wrist);
+    	
     	
     	//arm preset
     	if(arm_preset != null){
@@ -105,11 +68,15 @@ public class Dash extends Subsystem {
     	
     	SmartDashboard.putNumber("Arm Calculated Wrist Angle", arm_calculatedWristAngle);
     	SmartDashboard.putNumber("Arm Calculated Wrist Reading", arm_calculatedWristReading);
+    	
+    	SmartDashboard.putNumber("Arm shoulder motor", Robot.arm.getMotor(Joint.shoulder));
+    	SmartDashboard.putNumber("Arm elbow motor", Robot.arm.getMotor(Joint.elbow));
+    	SmartDashboard.putNumber("Arm wrist motor", Robot.arm.getMotor(Joint.wrist));
     }
     
     private void update_claw(){
-    	claw_isOpen = !Robot.claw.getClosed();
-    	claw_limitState = Robot.claw.getTrigger();
+    	boolean claw_isOpen = !Robot.claw.getClosed();
+    	boolean claw_limitState = Robot.claw.getTrigger();
     	
     	if(claw_isOpen) SmartDashboard.putString("Claw State", "Open");
     	else            SmartDashboard.putString("Claw State", "Closed");
@@ -119,9 +86,9 @@ public class Dash extends Subsystem {
     }
     
     private void update_drivetrain(){
-    	drive_isarmPerspective = Robot.drivetrain.getArmPerspective();
-    	drive_isLowGear = Robot.drivetrain.getLowGear();
-    	drive_tiltAngle = Robot.drivetrain.getTilt();
+    	boolean drive_isarmPerspective = Robot.drivetrain.getArmPerspective();
+    	boolean drive_isLowGear = Robot.drivetrain.getLowGear();
+    	double drive_tiltAngle = Robot.drivetrain.getTilt();
     	
     	if(drive_isarmPerspective) SmartDashboard.putString("Drive Perspective", "Arm");
     	else					   SmartDashboard.putString("Drive Perspective", "Stacker");
@@ -136,13 +103,14 @@ public class Dash extends Subsystem {
     
     
     private void update_gyroscope(){
-    	gyro_rawAngle = Robot.gyroscope.getRawAngle();
-    	gyro_constrainedAngle = Robot.gyroscope.getAngle();
+    	double gyro_rawAngle = Robot.gyroscope.getRawAngle();
+    	double gyro_constrainedAngle = Robot.gyroscope.getAngle();
     	
     	SmartDashboard.putNumber("Gyroscope Raw Angle", gyro_rawAngle);
     	SmartDashboard.putNumber("Gyroscope Angle", gyro_constrainedAngle);
 
     }
+    
     public void update(){
     	update_arm();
     	update_claw();

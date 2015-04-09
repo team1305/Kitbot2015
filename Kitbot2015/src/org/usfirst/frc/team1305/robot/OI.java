@@ -44,8 +44,8 @@ public class OI {
 	    
 		public static final int AXIS_XL = 0;
 		public static final int AXIS_YL = 1;
-		public static final int AXIS_XR = 2;
-	    public static final int AXIS_YR = 3;
+		public static final int AXIS_XR = 4;
+	    public static final int AXIS_YR = 5;
 	}
 
     //axis definitions for the arm 
