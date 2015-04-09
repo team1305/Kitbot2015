@@ -23,7 +23,7 @@ public class Claw extends Subsystem {
 	// Prevents autotrigger from closing immediately  when opened.
 	private Timer triggerTimer = new Timer();
 	private final double TRIGGER_LOCKOUT = 3.0;
-	private final double RUMBLE_DURATION = 0.1;
+	private final double RUMBLE_DURATION = 0.25;
 	
 	private boolean isClosed = false;
 
@@ -43,9 +43,13 @@ public class Claw extends Subsystem {
     		triggerTimer.reset();
     		isClosed = false;
     		ClawAct.set(false);
+    		Robot.oi.armRumble(RUMBLE_DURATION);
+
     	} else {
     		isClosed = true;
     		ClawAct.set(true);
+    		Robot.oi.armRumble(RUMBLE_DURATION);
+
     	}
     }
     

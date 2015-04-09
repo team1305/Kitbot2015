@@ -38,7 +38,7 @@ public class OI {
 			s.setRumble(RumbleType.kRightRumble, 0.0f);
 		}
 	}
-	
+	Thread rumbleThread;
 	/**
 	 * Button abstraction for attack3 joysticks
 	 */
@@ -178,8 +178,8 @@ public class OI {
      * @param seconds how long to rumble for.
      */
     public void armRumble(double seconds){
-    	Thread t = new Thread(new Rumbler(armStick, seconds));
-    	t.start();
+    	rumbleThread = new Thread(new Rumbler(armStick, seconds));
+    	rumbleThread.start();
     }
 
 }

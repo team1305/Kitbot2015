@@ -1,10 +1,7 @@
 
 package org.usfirst.frc.team1305.robot;
 
-//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinAbort;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
-//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
-//import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoder;
@@ -20,7 +17,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -63,15 +59,16 @@ public class Robot extends IterativeRobot {
 		dash 	   = new Dash();
 		arm        = new Arm();
 		ejSmasher = new EJSmasher();
+		
 		System.out.println("INFO: Creating OI...");
-
 		oi = new OI();
-
 		
 		System.out.println("INFO: Creating Autonomous Chooser...");
 
-		
-		
+		/* ===============================================
+		 * =====ADD Autonomous Routines here!=============
+		 * ===============================================
+		 */
 
 		autoChooser.addDefault("One Bin step auto", new AutoOneBinStep());
 //		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
@@ -85,10 +82,11 @@ public class Robot extends IterativeRobot {
 
 		autoChooser.addObject("Null auto", new Wait(1));
 		autoChooser.addObject("Dance auto", new AutonomousDance());
-		SmartDashboard.putData("Autochooser", autoChooser);
 		
+		//================================================
+		
+		SmartDashboard.putData("Autochooser", autoChooser);
 		System.out.println("INFO: Robot init complete. Waiting for match to start.");
-
     }
 
 	public void disabledPeriodic() {
@@ -97,7 +95,6 @@ public class Robot extends IterativeRobot {
 	}
 
     public void autonomousInit() {
-        // schedule the autonomous command (example)
     	autonomousCommand = (Command) autoChooser.getSelected();
     	
         if (autonomousCommand != null) autonomousCommand.start();
