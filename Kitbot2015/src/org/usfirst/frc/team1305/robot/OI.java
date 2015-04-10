@@ -28,7 +28,6 @@ public class OI {
 			s = stick;
 			this.duration = duration;
 		}
-		@Override
 		public void run() {
 			s.setRumble(RumbleType.kLeftRumble,  1.0f);
 			s.setRumble(RumbleType.kRightRumble, 1.0f);
