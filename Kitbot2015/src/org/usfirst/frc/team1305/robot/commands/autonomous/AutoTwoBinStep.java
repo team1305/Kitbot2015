@@ -23,27 +23,15 @@ public class AutoTwoBinStep extends CommandGroup {
     	
     	addSequential(new AutoOneBinStep());
     	
-    	addSequential(new DriveGyroRotate(-45, 1));
+    	addSequential(new DriveGyroRotate(-48, 3));
 
     	addParallel(new ArmGoPreset(Preset.PRESET_EXTENDED, 2.8));
     	
-    	addSequential(new DriveEncoder(8.07, 0.5, 5));
+    	addSequential(new DriveEncoder(-8.07, 0.5, 5));
     	
-    	addSequential(new DriveGyroRotate(45, 1));
+    	addSequential(new DriveGyroRotate(48, 3));
     	//drive (backwards!) until the claw trigger gets triggered by a bin
-    	addSequential(new DriveEncoderUntilClawTrig(-10.0, 0.4, 10.0));
-    	//close the claw around the bin
-    	addSequential(new ClawClose());
-    	//lift the bin up a bit
-    	addSequential(new ArmGoPreset(Preset.PRESET_MAXSTACK, 0.4));
-    	//Begins to drive backwards
-    	addSequential(new DriveEncoder(2, 0.4));
-    	// Lowers arm to prepare for drop
-    	addParallel(new ArmGoPreset(Preset.PRESET_TRANSPORT, 2));
-    	// Continues driving backwards while driving arm
-    	addSequential(new DriveEncoder(5.5, 0.4));
-    	addSequential(new ClawOpen());
-    	addSequential(new DriveEncoder(0.5,0.4));
+
 //    	addSequential(new AutonomousMobility(0.3, 0.5, 0.5));
 //    	addSequential(new AutonomousArmExtend(2.7));
 //    	addSequential(new AutonomousBin(-0.7,-0.7));

@@ -21,14 +21,13 @@ public class RobotMap {
 	public static final int DIO_RIGHT_ENC_B		    = 3;
 	public static final int DIO_SMASHER_WINCH_LIMIT = 8;
 	public static final int DIO_CLAW_TRIGGER        = 9;
-	public static final int DIO_SMASHER_TRIGGER     = 7;
 
 	//Solenoid ports
-	public static final int SOL_SMASHER_TRIGGER = 1;
+	public static final int SOL_SMASHER_TRIGGER = 0;
 	public static final int SOL_CLAW            = 2;
 
 	//CAN Devices Numbers
-	public static final int CAN_DEVICE_SMASHER  = 15;//1;
+	public static final int CAN_DEVICE_SMASHER  = 12;//1;
 	public static final int CAN_DEVICE_WRIST    = 6;//17;
 	public static final int CAN_DEVICE_SHOULDER = 7;//12;
 	public static final int CAN_DEVICE_ELBOW    = 8;//16;

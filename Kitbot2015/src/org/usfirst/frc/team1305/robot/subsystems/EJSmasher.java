@@ -43,8 +43,8 @@ public class EJSmasher extends Subsystem {
      * Also opens up the piston trigger while winching up.
      */
     public void winch_up(){
-    	if(!d_limit.get()){
-        	m_winch.set(1);
+    	if(d_limit.get()){
+        	m_winch.set(-1);
         	s_trigger.set(true);
 
     	}
@@ -59,7 +59,7 @@ public class EJSmasher extends Subsystem {
      */
     public void winch_down(){
     	s_trigger.set(true);
-    	m_winch.set(-1);
+    	m_winch.set(1);
     }
     
     /**

@@ -111,11 +111,20 @@ public class Dash extends Subsystem {
 
     }
     
+    private void update_smasher(){
+    	if(Robot.ejSmasher.getTrigger())
+    		SmartDashboard.putString("Smasher limit", "Triggered");
+    	else
+    		SmartDashboard.putString("Smasher limit", "Not Triggered");
+
+    }
+    
     public void update(){
     	update_arm();
     	update_claw();
     	update_drivetrain();
     	update_gyroscope();
+    	update_smasher();
     }
     
 }
