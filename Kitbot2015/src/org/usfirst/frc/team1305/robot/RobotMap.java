@@ -7,20 +7,6 @@ package org.usfirst.frc.team1305.robot;
  * floating around.
  */
 public class RobotMap {
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
-
-
-
-	//Motor PWM
-	public static final int PWM_CAMERA_SERVO = 0;
 
 	//Analog Ports
 	public static final int ANALOG_GYRO 		= 0;
@@ -29,14 +15,13 @@ public class RobotMap {
 	public static final int ANALOG_POT_WRIST    = 3;
 
 	//Digital Ports
-	public static final int DIO_LEFT_ENC_A 		= 0;
-	public static final int DIO_LEFT_ENC_B 		= 1;
-	public static final int DIO_RIGHT_ENC_A		= 2;
-	public static final int DIO_RIGHT_ENC_B		= 3;
+	public static final int DIO_LEFT_ENC_A 		    = 0;
+	public static final int DIO_LEFT_ENC_B 		    = 1;
+	public static final int DIO_RIGHT_ENC_A		    = 2;
+	public static final int DIO_RIGHT_ENC_B		    = 3;
 	public static final int DIO_SMASHER_WINCH_LIMIT = 8;
-	public static final int DIO_CLAW_TRIGGER    = 9;
-	public static final int DIO_SMASHER_TRIGGER = 7;
-
+	public static final int DIO_CLAW_TRIGGER        = 9;
+	public static final int DIO_SMASHER_TRIGGER     = 7;
 
 	//Solenoid ports
 	public static final int SOL_SMASHER_TRIGGER = 1;
