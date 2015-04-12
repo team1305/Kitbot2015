@@ -4,6 +4,7 @@ package org.usfirst.frc.team1305.robot.commands.autonomous;
 import org.usfirst.frc.team1305.robot.Robot;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmGoPreset;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawClose;
+import org.usfirst.frc.team1305.robot.commands.claw.ClawOpen;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoder;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveEncoderUntilClawTrig;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveUntilClawTrig;
@@ -23,16 +24,23 @@ public class AutoOneBinStep extends CommandGroup {
     	//back up a bit so that we have room to move. Also remember that the arm is technically the back of the robot
     	addSequential(new DriveEncoder(0.5, 0.3));
     	// go to max stack preset for a fraction of a second to clear the front totes
-    	addSequential(new ArmGoPreset(Preset.PRESET_MAXSTACK, 0.5));
+    	addSequential(new ArmGoPreset(Preset.PRESET_EXTENDED_BUMP, 0.4));
     	//now go to max extension
-    	addSequential(new ArmGoPreset(Preset.PRESET_EXTENDED, 3.0));
+    	addSequential(new ArmGoPreset(Preset.PRESET_EXTENDED, 2.8));
     	//drive (backwards!) until the claw trigger gets triggered by a bin
-    	addSequential(new DriveEncoderUntilClawTrig(-10.0, 0.3, 10.0));
+    	addSequential(new DriveEncoderUntilClawTrig(-10.0, 0.4, 10.0));
     	//close the claw around the bin
     	addSequential(new ClawClose());
     	//lift the bin up a bit
-    	addSequential(new ArmGoPreset(Preset.PRESET_MAXSTACK, 0.6));
-    	//TODO finish this
-
+    	addSequential(new ArmGoPreset(Preset.PRESET_MAXSTACK, 0.4));
+    	//Begins to drive backwards
+    	addSequential(new DriveEncoder(2, 0.4));
+    	// Lowers arm to prepare for drop
+    	addParallel(new ArmGoPreset(Preset.PRESET_TRANSPORT, 2));
+    	// Continues driving backwards while driving arm
+    	addSequential(new DriveEncoder(5.5, 0.4));
+    	addSequential(new ClawOpen());
+    	addSequential(new DriveEncoder(0.5,0.4));
+    	
     }
 }

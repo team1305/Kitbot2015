@@ -58,19 +58,20 @@ public class Arm extends Subsystem {
 		 * The elbow angle is the bottom angle, measured between the first and 
 		 * second beams.
 		 */
-		public static final Preset PRESET_TRANSPORT = new Preset(93, 92, "Transport");
-		public static final Preset PRESET_EXTENDED  = new Preset(0, 0, "Extended");
-		public static final Preset PRESET_MAXSTACK  = new Preset(0, 0, "Max Stack");
+		public static final Preset PRESET_TRANSPORT     = new Preset(94, 38, "Transport");
+		public static final Preset PRESET_EXTENDED      = new Preset(29, 133, "Extended");
+		public static final Preset PRESET_MAXSTACK      = new Preset(90, 158, "Max Stack");
+		public static final Preset PRESET_EXTENDED_BUMP = new Preset(40, 133, "Extended Bump");
 		//=====================================================================
 	}
 	
 	//Max and min extents for joints: potientiometer readings.
-	private final double SHOULDER_MIN = 0.000;
-	private final double SHOULDER_MAX = 0.999;
-	private final double ELBOW_MIN    = 0.000;
-	private final double ELBOW_MAX    = 0.999;
-	private final double WRIST_MIN    = 0.000;
-	private final double WRIST_MAX    = 0.999;
+	private final double SHOULDER_MIN = 0.107;
+	private final double SHOULDER_MAX = 0.48;
+	private final double ELBOW_MIN    = 0.33;
+	private final double ELBOW_MAX    = 0.637;
+	private final double WRIST_MIN    = 0.169;
+	private final double WRIST_MAX    = 0.39;
 	//PID Constants
 	private final double P_s = 24.0;
 	private final double I_s = 0.0;
@@ -129,13 +130,13 @@ public class Arm extends Subsystem {
 	private AnalogPotentiometer pot_e = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
 	private AnalogPotentiometer pot_w = new AnalogPotentiometer(RobotMap.ANALOG_POT_WRIST);
 	
-	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
-	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
-	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+//	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
+//	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
+//	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
 	
-//	private Talon motor_s  = new Talon(0);
-//	private Talon motor_e  = new Talon(1);
-//	private Talon motor_w  = new Talon(2);
+	private Talon motor_s  = new Talon(0);
+	private Talon motor_e  = new Talon(1);
+	private Talon motor_w  = new Talon(2);
 	
 	private PIDController pid_s = new PIDController(P_s, I_s, D_s, pot_s, motor_s);
 	private PIDController pid_e = new PIDController(P_e, I_e, D_e, pot_e, motor_e);
