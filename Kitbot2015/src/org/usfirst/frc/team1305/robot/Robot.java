@@ -3,6 +3,7 @@ package org.usfirst.frc.team1305.robot;
 
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoOneBinTravel;
+import org.usfirst.frc.team1305.robot.commands.autonomous.AutoSmasher;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutoTwoBinStep;
 import org.usfirst.frc.team1305.robot.commands.autonomous.AutonomousDance;
 import org.usfirst.frc.team1305.robot.commands.autonomous.Wait;
@@ -78,7 +79,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
 		autoChooser.addObject("Drive Forward", new DriveEncoder(10, 0.4));
 		autoChooser.addObject("Drive Backward", new DriveEncoder(-10, 0.4));
-
+		autoChooser.addObject("Can Burgler", new AutoSmasher());
 		autoChooser.addObject("Null auto", new Wait(1));
 		autoChooser.addObject("Dance auto", new AutonomousDance());
 		
