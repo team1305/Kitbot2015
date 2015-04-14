@@ -22,7 +22,7 @@ public class AutoOneBinStep extends CommandGroup {
     
     public  AutoOneBinStep() {
     	//back up a bit so that we have room to move. Also remember that the arm is technically the back of the robot
-    	addSequential(new DriveEncoder(0.5, 0.3));
+    	addParallel(new DriveEncoder(0.4, 0.4));
     	// go to max stack preset for a fraction of a second to clear the front totes
     	addSequential(new ArmGoPreset(Preset.PRESET_EXTENDED_BUMP, 0.4));
     	//now go to max extension
@@ -38,8 +38,9 @@ public class AutoOneBinStep extends CommandGroup {
     	// Lowers arm to prepare for drop
     	addParallel(new ArmGoPreset(Preset.PRESET_TRANSPORT, 2));
     	// Continues driving backwards while driving arm
-    	addSequential(new DriveEncoder(5.5, 0.4));
+    	addSequential(new DriveEncoder(4.8, 0.4));
     	addSequential(new ClawOpen());
+    	addSequential(new Wait(0.1));
     	addSequential(new DriveEncoder(0.5,0.4));
     	
     }

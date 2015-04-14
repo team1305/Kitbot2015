@@ -128,7 +128,6 @@ public class Drivetrain extends Subsystem {
     		leftValue /= LOWGEAR_MULTIPLIER;
     		rightValue /= LOWGEAR_MULTIPLIER;
     	}
-    	System.out.println("tankdrive with left = " + leftValue + " right = " + rightValue + "smoothing: " + smoothing);
     	if(armPerspective){
 
         	drive.tankDrive(-rightValue, -leftValue, false);

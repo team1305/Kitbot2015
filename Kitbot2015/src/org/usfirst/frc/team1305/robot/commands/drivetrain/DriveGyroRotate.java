@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * rotate the robot a specified number of degrees. An optional timeout may be 
@@ -23,9 +24,9 @@ public class DriveGyroRotate extends Command {
 	}
 	//PID constants
 	//TODO: figure out constants.
-	private final double P = 0.08; //0.03 //0.055
-	private final double I = 0.0068; //0.00045;
-	private final double D = 0.18; //0.09  //0.15
+	private final double P = 0.028;
+	private final double I = 0.000;
+	private final double D = 0.085;
 
 	private final double AUTO_TIMEOUT_PERIOD = 0.4; //seconds
 	private final double TOLERANCE           = 2.5; //degrees
@@ -58,6 +59,11 @@ public class DriveGyroRotate extends Command {
     							Robot.gyroscope, 
     							new DrivetrainPIDOutput());
     	pid.setOutputRange(-0.4,  0.4);
+    	SmartDashboard.putData("pid", pid);
+    }
+    
+    public PIDController getPIDController(){
+    	return pid;
     }
     
 	/**

@@ -116,8 +116,8 @@ public class OI {
 	    stackPerspective   = new JoystickButton(driveStick, 6);
 	    toggleGear         = new JoystickButton(driveStick, 5);
 	    smasherAutoRetract = new JoystickButton(driveStick, 4);
-	    smasherMoveDown    = new JoystickButton(driveStick, 3);
-	    smasherMoveUp      = new JoystickButton(driveStick, 2);
+	    smasherMoveDown    = new JoystickButton(driveStick, 2);
+	    smasherMoveUp      = new JoystickButton(driveStick, 3);
 
 		armPerspective.whileHeld      (new DriveSetArmPerspective());
 		stackPerspective.whileHeld    (new DriveSetStackerPerspective());
