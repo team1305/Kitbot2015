@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoSmasher extends CommandGroup {
     
     public  AutoSmasher() {
+    	addSequential(new DriveEncoder(0, 0));
         addSequential(new SmasherAutoRelease());
-        addSequential(new DriveEncoder(-6, 0.5));
+        addSequential(new DriveEncoder(-9, 0.4));
     }
 }

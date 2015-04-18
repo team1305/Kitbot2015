@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SmasherAutoRelease extends Command {
 	
-	private final double RELEASE_FALLING_TIME = 3.0;
+	private final double RELEASE_FALLING_TIME = 1.1;
 	
 	private Timer t = new Timer();
 

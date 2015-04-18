@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Two bin step auto", new AutoTwoBinStep());
 //		autoChooser.addObject("One bin step ABORT", new AutoOneBinAbort());
 		autoChooser.addObject("One bin step Travel", new AutoOneBinTravel());
-		autoChooser.addObject("Can Burgler", new AutoSmasher());
+		autoChooser.addObject("Canburglar", new AutoSmasher());
 		autoChooser.addObject("Drive Forward", new DriveEncoder(10, 0.3));
 		autoChooser.addObject("Drive Backward", new DriveEncoder(-10, 0.3));
 		autoChooser.addObject("Turn 90", new DriveGyroRotate(90));
