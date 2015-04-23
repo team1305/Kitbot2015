@@ -110,7 +110,7 @@ public class Arm extends Subsystem {
 	//=========================================================================
 	
 	//Motor directions. 1 if +motor => +pot, false if +mot => -pot
-	private final int WRIST_MOTORDIR    = -1;
+	private final int WRIST_MOTORDIR    = 1;
 	private final int ELBOW_MOTORDIR    = -1;
 	private final int SHOULDER_MOTORDIR = -1;
 	
@@ -130,13 +130,13 @@ public class Arm extends Subsystem {
 	private AnalogPotentiometer pot_e = new AnalogPotentiometer(RobotMap.ANALOG_POT_ELBOW);
 	private AnalogPotentiometer pot_w = new AnalogPotentiometer(RobotMap.ANALOG_POT_WRIST);
 	
-//	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
-//	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
-//	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
+	private CANTalon motor_s  = new CANTalon(RobotMap.CAN_DEVICE_SHOULDER);
+	private CANTalon motor_e  = new CANTalon(RobotMap.CAN_DEVICE_ELBOW);
+	private CANTalon motor_w  = new CANTalon(RobotMap.CAN_DEVICE_WRIST);
 	
-	private Talon motor_s  = new Talon(0);
-	private Talon motor_e  = new Talon(1);
-	private Talon motor_w  = new Talon(2);
+//	private Talon motor_s  = new Talon(0);
+//	private Talon motor_e  = new Talon(1);
+//	private Talon motor_w  = new Talon(2);
 	
 	private PIDController pid_s = new PIDController(P_s, I_s, D_s, pot_s, motor_s);
 	private PIDController pid_e = new PIDController(P_e, I_e, D_e, pot_e, motor_e);
@@ -302,12 +302,12 @@ public class Arm extends Subsystem {
     	
     	//second, we must handle the cases where the joints are at the end of 
     	//their travels. 
-    	if(shoulderAxis < 0 && pot_s.pidGet() < SHOULDER_MIN ) shoulderAxis = 0;
-    	if(shoulderAxis > 0 && pot_s.pidGet() > SHOULDER_MAX ) shoulderAxis = 0;
-    	if(elbowAxis    < 0 && pot_e.pidGet() < ELBOW_MIN)     elbowAxis    = 0;
-    	if(elbowAxis    > 0 && pot_e.pidGet() > ELBOW_MAX)     elbowAxis    = 0;
-    	if(wristAxis    < 0 && pot_w.pidGet() < ELBOW_MIN)     wristAxis    = 0;
-    	if(wristAxis    > 0 && pot_w.pidGet() > ELBOW_MAX)     wristAxis    = 0;
+    	if(shoulderAxis > 0 && pot_s.pidGet() < SHOULDER_MIN ) shoulderAxis = 0;
+    	if(shoulderAxis < 0 && pot_s.pidGet() > SHOULDER_MAX ) shoulderAxis = 0;
+    	if(elbowAxis    > 0 && pot_e.pidGet() < ELBOW_MIN)     elbowAxis    = 0;
+    	if(elbowAxis    < 0 && pot_e.pidGet() > ELBOW_MAX)     elbowAxis    = 0;
+    	if(wristAxis    < 0 && pot_w.pidGet() < WRIST_MIN)     wristAxis    = 0;
+    	if(wristAxis    > 0 && pot_w.pidGet() > WRIST_MAX)     wristAxis    = 0;
     	
     	//now dispatch based on current mode.
     	switch(mode){  

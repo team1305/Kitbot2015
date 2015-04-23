@@ -11,6 +11,7 @@ import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetStackerPerspec
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveToggleGear;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
@@ -177,8 +178,10 @@ public class OI {
      * @param seconds how long to rumble for.
      */
     public void armRumble(double seconds){
-    	rumbleThread = new Thread(new Rumbler(armStick, seconds));
-    	rumbleThread.start();
+    	if(DriverStation.getInstance().isOperatorControl()){
+	    	rumbleThread = new Thread(new Rumbler(armStick, seconds));
+	    	rumbleThread.start();
+    	}
     }
 
 }

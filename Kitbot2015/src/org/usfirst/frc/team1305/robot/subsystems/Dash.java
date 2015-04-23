@@ -95,7 +95,8 @@ public class Dash extends Subsystem {
     	
     	if(drive_isLowGear) SmartDashboard.putString("Drive gear", "Low Gear");
     	else				SmartDashboard.putString("Drive gear", "High gear");
-    	
+    	SmartDashboard.putNumber("Drive Encoder Left", Robot.drivetrain.getLeftEncDistance());
+    	SmartDashboard.putNumber("Drive Encoder Right", Robot.drivetrain.getRightEncDistance());
     	SmartDashboard.putNumber("Drive tilt", drive_tiltAngle);
 
     }

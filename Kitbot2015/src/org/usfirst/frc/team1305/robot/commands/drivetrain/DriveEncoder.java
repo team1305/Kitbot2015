@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveEncoder extends Command {
 
-	private static final double ERROR_SCALING_CONSTANT = 4;
-	
+	private static final double ERROR_SCALING_CONSTANT = 2;	
 	Timer t = new Timer();
 	private boolean using_timeout = false;
 	private double timeout;
