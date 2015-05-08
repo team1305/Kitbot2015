@@ -145,7 +145,7 @@ public class OI {
 	
 	//axis functions for the arm
 	public double getShoulderAxis(){
-		return armStick.getRawAxis(ARM_SHOULDER_AXIS);
+		return -armStick.getRawAxis(ARM_SHOULDER_AXIS);
 	}
 	
 	public double getElbowAxis(){

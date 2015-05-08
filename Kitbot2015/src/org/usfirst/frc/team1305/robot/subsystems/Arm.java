@@ -59,7 +59,7 @@ public class Arm extends Subsystem {
 		 * second beams.
 		 */
 		public static final Preset PRESET_TRANSPORT     = new Preset(94, 38, "Transport");
-		public static final Preset PRESET_EXTENDED      = new Preset(29, 133, "Extended");
+		public static final Preset PRESET_EXTENDED      = new Preset(38, 133, "Extended");
 		public static final Preset PRESET_MAXSTACK      = new Preset(90, 158, "Max Stack");
 		public static final Preset PRESET_EXTENDED_BUMP = new Preset(40, 133, "Extended Bump");
 		//=====================================================================
@@ -67,8 +67,8 @@ public class Arm extends Subsystem {
 	
 	//Max and min extents for joints: potientiometer readings.
 	private final double SHOULDER_MIN = 0.107;
-	private final double SHOULDER_MAX = 0.48;
-	private final double ELBOW_MIN    = 0.33;
+	private final double SHOULDER_MAX = 0.484;
+	private final double ELBOW_MIN    = 0.30;
 	private final double ELBOW_MAX    = 0.637;
 	private final double WRIST_MIN    = 0.169;
 	private final double WRIST_MAX    = 0.39;
