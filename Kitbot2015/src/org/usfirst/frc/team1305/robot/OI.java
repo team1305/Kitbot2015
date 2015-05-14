@@ -1,14 +1,17 @@
 package org.usfirst.frc.team1305.robot;
 
-import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherAutoRetract;
-import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherManualDeploy;
-import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherManualRetract;
+//import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherAutoRetract;
+//import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherManualDeploy;
+//import org.usfirst.frc.team1305.robot.commands.EJSmasher.SmasherManualRetract;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmGoPreset;
 import org.usfirst.frc.team1305.robot.commands.arm.ArmToggleAutoWrist;
 import org.usfirst.frc.team1305.robot.commands.claw.ClawToggle;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetArmPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveSetStackerPerspective;
 import org.usfirst.frc.team1305.robot.commands.drivetrain.DriveToggleGear;
+import org.usfirst.frc.team1305.robot.commands.stacker.StackerMoveDown;
+import org.usfirst.frc.team1305.robot.commands.stacker.StackerMoveUp;
+import org.usfirst.frc.team1305.robot.commands.stacker.StackerToggleForks;
 import org.usfirst.frc.team1305.robot.subsystems.Arm.Preset;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -116,16 +119,16 @@ public class OI {
 	    armPerspective     = new JoystickButton(driveStick, 7);
 	    stackPerspective   = new JoystickButton(driveStick, 6);
 	    toggleGear         = new JoystickButton(driveStick, 5);
-	    smasherAutoRetract = new JoystickButton(driveStick, 4);
+	    smasherAutoRetract = new JoystickButton(driveStick, 1);
 	    smasherMoveDown    = new JoystickButton(driveStick, 2);
 	    smasherMoveUp      = new JoystickButton(driveStick, 3);
 
 		armPerspective.whileHeld      (new DriveSetArmPerspective());
 		stackPerspective.whileHeld    (new DriveSetStackerPerspective());
 		toggleGear.whenPressed        (new DriveToggleGear());
-		smasherAutoRetract.whenPressed(new SmasherAutoRetract());
-		smasherMoveDown.whileHeld     (new SmasherManualDeploy());
-		smasherMoveUp.whileHeld       (new SmasherManualRetract());
+		smasherAutoRetract.whenPressed(new StackerToggleForks());
+		smasherMoveDown.whileHeld     (new StackerMoveDown());
+		smasherMoveUp.whileHeld       (new StackerMoveUp());
 		
 
 

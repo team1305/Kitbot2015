@@ -69,6 +69,9 @@ public class Dash extends Subsystem {
     	SmartDashboard.putNumber("Arm Calculated Wrist Angle", arm_calculatedWristAngle);
     	SmartDashboard.putNumber("Arm Calculated Wrist Reading", arm_calculatedWristReading);
     	
+    	SmartDashboard.putNumber("Claw Tip Height", Robot.arm.computeArmHeight());
+    	SmartDashboard.putNumber("Claw Joint Height", Robot.arm.computeJointHeight());
+    	
     	SmartDashboard.putNumber("Arm shoulder motor", Robot.arm.getMotor(Joint.shoulder));
     	SmartDashboard.putNumber("Arm elbow motor", Robot.arm.getMotor(Joint.elbow));
     	SmartDashboard.putNumber("Arm wrist motor", Robot.arm.getMotor(Joint.wrist));
@@ -112,20 +115,20 @@ public class Dash extends Subsystem {
 
     }
     
-    private void update_smasher(){
-    	if(Robot.ejSmasher.getTrigger())
-    		SmartDashboard.putString("Smasher limit", "Triggered");
-    	else
-    		SmartDashboard.putString("Smasher limit", "Not Triggered");
-
-    }
+//    private void update_smasher(){
+//    	if(Robot.ejSmasher.getTrigger())
+//    		SmartDashboard.putString("Smasher limit", "Triggered");
+//    	else
+//    		SmartDashboard.putString("Smasher limit", "Not Triggered");
+//
+//    }
     
     public void update(){
     	update_arm();
     	update_claw();
     	update_drivetrain();
     	update_gyroscope();
-    	update_smasher();
+//    	update_smasher();
     }
     
 }

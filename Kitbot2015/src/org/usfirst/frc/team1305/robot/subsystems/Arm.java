@@ -72,6 +72,11 @@ public class Arm extends Subsystem {
 	private final double ELBOW_MAX    = 0.637;
 	private final double WRIST_MIN    = 0.169;
 	private final double WRIST_MAX    = 0.39;
+	//Lengths of Joints
+	private final double SHOULDER_LENGTH = 37;
+	private final double ELBOW_LENGTH = 34.75;
+	private final double WRIST_LENGTH = 20;
+	private final double BASE_HEIGHT = 7.5;
 	//PID Constants
 	private final double P_s = 24.0;
 	private final double I_s = 0.0;
@@ -81,7 +86,7 @@ public class Arm extends Subsystem {
 	private final double I_e = 0.0;
 	private final double D_e = 0.0;
 	
-	private final double P_w = 24.0;
+	private final double P_w = 40.0;
 	private final double I_w = 0.0;
 	private final double D_w = 0.0;
 	
@@ -93,15 +98,15 @@ public class Arm extends Subsystem {
 	 * If they aren't, then you're gonna have a bad time.
 	 * The Pot readings should be the values obtained with pot.pidGet().
 	 */
-	private final double SHOULDER_ANGLE1   = 34;
+	private final double SHOULDER_ANGLE1   = 32.5;
 	private final double SHOULDER_READING1 = 0.107;
-	private final double SHOULDER_ANGLE2   = 98;
-	private final double SHOULDER_READING2 = 0.496;
+	private final double SHOULDER_ANGLE2   = 94;
+	private final double SHOULDER_READING2 = 0.485;
 
-	private final double ELBOW_ANGLE1  	   = 135;
-	private final double ELBOW_READING1	   = 0.317;
-	private final double ELBOW_ANGLE2  	   = 23;
-	private final double ELBOW_READING2	   = 0.637;
+	private final double ELBOW_ANGLE1  	   = 145;
+	private final double ELBOW_READING1	   = 0.296;
+	private final double ELBOW_ANGLE2  	   = 47;
+	private final double ELBOW_READING2	   = 0.594;
 
 	private final double WRIST_ANGLE1 	   = 116;
 	private final double WRIST_READING1	   = 0.169;
@@ -156,7 +161,7 @@ public class Arm extends Subsystem {
 	private Preset preset = new Preset(shoulder_pot2angle(pot_s.pidGet()),
 			                           elbow_pot2angle(pot_e.pidGet()),
 			                           "Null");
-		
+	
 	public Arm(){
 		//compute the m's and b's
 		m_s = (SHOULDER_ANGLE2 - SHOULDER_ANGLE1) / (SHOULDER_READING2 - SHOULDER_READING1);
@@ -268,6 +273,29 @@ public class Arm extends Subsystem {
     	double theta_s = shoulder_pot2angle(pot_s.pidGet());
     	double theta_e = elbow_pot2angle(pot_e.pidGet());
     	return wrist_angle2pot(theta_s + theta_e);
+    }
+    /**
+     * Computes how high the claw is, and whether it will contact the ground.
+     * TODO: Find out how angle readings work on Phelix.
+     * 
+     * @return Returns height above ground.
+     */
+    public double computeArmHeight(){
+    	double shoulder_y = SHOULDER_LENGTH * Math.sin((shoulder_pot2angle(pot_s.pidGet())-5.0)*(Math.PI/180.0));
+    	double elbow_y = -ELBOW_LENGTH * Math.sin(elbow_pot2angle(pot_e.pidGet())*(Math.PI/180.0)
+    											  +shoulder_pot2angle(pot_s.pidGet())*(Math.PI/180.0));
+    	double wrist_y = -WRIST_LENGTH * Math.sin(wrist_pot2angle(pot_w.pidGet())*(Math.PI/180.0)
+    											 -shoulder_pot2angle(pot_s.pidGet())*(Math.PI/180.0)
+    											 -elbow_pot2angle(pot_e.pidGet())*(Math.PI/180.0));
+    											
+    	return shoulder_y + elbow_y + wrist_y + BASE_HEIGHT -7;
+    }
+    
+    public double computeJointHeight(){
+    	double shoulder_y = SHOULDER_LENGTH * Math.sin((shoulder_pot2angle(pot_s.pidGet())-5.0)*(Math.PI/180.0));
+    	double elbow_y = -ELBOW_LENGTH * Math.sin(elbow_pot2angle(pot_e.pidGet())*(Math.PI/180.0)
+    											  +shoulder_pot2angle(pot_s.pidGet())*(Math.PI/180.0));
+    	return shoulder_y + elbow_y + BASE_HEIGHT -7;
     }
     
     /**

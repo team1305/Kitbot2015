@@ -16,6 +16,7 @@ import org.usfirst.frc.team1305.robot.subsystems.Dash;
 import org.usfirst.frc.team1305.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1305.robot.subsystems.EJSmasher;
 import org.usfirst.frc.team1305.robot.subsystems.Gyroscope;
+import org.usfirst.frc.team1305.robot.subsystems.Stacker;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -43,7 +44,8 @@ public class Robot extends IterativeRobot {
 	public static Claw claw;
 	public static Dash dash;
 	public static Arm arm;
-	public static EJSmasher ejSmasher;
+	public static Stacker stacker;
+//	public static EJSmasher ejSmasher;
 
 	//camera server aka camera declaration
 	CameraServer server;
@@ -63,7 +65,7 @@ public class Robot extends IterativeRobot {
 		claw       = new Claw();
 		dash 	   = new Dash();
 		arm        = new Arm();
-		ejSmasher = new EJSmasher();
+		stacker 	= new Stacker();
 		
 		System.out.println("INFO: Creating OI...");
 		oi = new OI();
