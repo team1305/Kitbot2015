@@ -21,10 +21,10 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
  */
 public class Drivetrain extends Subsystem {
 	private static final double ENCODER_FT_PER_PULSE = 1/186.0;
-	private final double SMOOTHING_MAX_RATE = 33.3;
+	private final double SMOOTHING_MAX_RATE = 45;
 	
-	private final double LOWGEAR_MULTIPLIER = 0.6;
-	private final double DRIVE_MULTIPLIER   = 0.75;
+	private final double LOWGEAR_MULTIPLIER = 0.5;
+	private final double DRIVE_MULTIPLIER   = 0.5; //was 0.75
 
 	CANTalon ml1 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L1);
 	CANTalon ml2 = new CANTalon(RobotMap.CAN_DEVICE_DRIVE_L2);
@@ -43,7 +43,7 @@ public class Drivetrain extends Subsystem {
 
 	// true if arm-perspective, false if stacker-perspective
 	private boolean armPerspective = false;
-	public boolean isLowGear = false;
+	public boolean isLowGear = true;
 
 
 	public Drivetrain() {
@@ -125,8 +125,8 @@ public class Drivetrain extends Subsystem {
     	rightValue *= DRIVE_MULTIPLIER;
     	//computing low gear
     	if(isLowGear){
-    		leftValue /= LOWGEAR_MULTIPLIER;
-    		rightValue /= LOWGEAR_MULTIPLIER;
+    		leftValue *= LOWGEAR_MULTIPLIER;
+    		rightValue *= LOWGEAR_MULTIPLIER;
     	}
     	if(armPerspective){
 

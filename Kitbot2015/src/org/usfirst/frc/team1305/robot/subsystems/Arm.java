@@ -72,17 +72,18 @@ public class Arm extends Subsystem {
 	private final double ELBOW_MAX    = 0.637;
 	private final double WRIST_MIN    = 0.169;
 	private final double WRIST_MAX    = 0.39;
+	private final double ARM_MIN = 1;
 	//Lengths of Joints
 	private final double SHOULDER_LENGTH = 37;
 	private final double ELBOW_LENGTH = 34.75;
 	private final double WRIST_LENGTH = 20;
 	private final double BASE_HEIGHT = 7.5;
 	//PID Constants
-	private final double P_s = 24.0;
+	private final double P_s = 20.0; //TODO: was 24
 	private final double I_s = 0.0;
 	private final double D_s = 0.0;
 	
-	private final double P_e = 24.0;
+	private final double P_e = 20.0; //TODO: was 24
 	private final double I_e = 0.0;
 	private final double D_e = 0.0;
 	
@@ -332,10 +333,15 @@ public class Arm extends Subsystem {
     	//their travels. 
     	if(shoulderAxis > 0 && pot_s.pidGet() < SHOULDER_MIN ) shoulderAxis = 0;
     	if(shoulderAxis < 0 && pot_s.pidGet() > SHOULDER_MAX ) shoulderAxis = 0;
+    	if(shoulderAxis > 0 && computeArmHeight() < ARM_MIN)   shoulderAxis = 0;
+    	if(shoulderAxis > 0 && computeJointHeight() < ARM_MIN) shoulderAxis = 0;
     	if(elbowAxis    > 0 && pot_e.pidGet() < ELBOW_MIN)     elbowAxis    = 0;
     	if(elbowAxis    < 0 && pot_e.pidGet() > ELBOW_MAX)     elbowAxis    = 0;
+    	if(elbowAxis    < 0 && computeArmHeight() < ARM_MIN)   elbowAxis    = 0;
+    	if(elbowAxis    < 0 && computeJointHeight() < ARM_MIN) elbowAxis    = 0;
     	if(wristAxis    < 0 && pot_w.pidGet() < WRIST_MIN)     wristAxis    = 0;
     	if(wristAxis    > 0 && pot_w.pidGet() > WRIST_MAX)     wristAxis    = 0;
+    	if(wristAxis    > 0 && computeArmHeight() < ARM_MIN)   wristAxis    = 0;
     	
     	//now dispatch based on current mode.
     	switch(mode){  
